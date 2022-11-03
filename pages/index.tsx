@@ -20,10 +20,10 @@ const IndexPage: NextPage<PostDataListProps> = ({
   return (
     <main>
       <Head>
-        <title>Home page</title>
+        <title>Stellar HEX</title>
       </Head>
 
-      <h1>List of posts</h1>
+      <h1>Stellar Help Exchange</h1>
 
       <section>
         {postDataList.map((post: PostData) => (
