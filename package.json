@@ -10,10 +10,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@stellar/freighter-api": "latest",
     "next": "latest",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "serve": "^14.0.1"
+    "serve": "^14.0.1",
+    "soroban-client": "latest"
   },
   "devDependencies": {
     "@types/node": "^18.0.0",

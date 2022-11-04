@@ -1,37 +1,37 @@
+import React from 'react'
+import type { NextPage } from 'next'
 import Head from 'next/head'
-import { GetStaticProps, NextPage } from 'next'
-import Post from '../components/post'
-import { PostData, PostDataListProps } from '../types/postdata'
-import { GetPosts } from '../lib/postdata_api'
+import styles from '../styles/Home.module.css'
+/*
+import { Campaign, Pledge } from '../components/organisms'
+          <Campaign />
+          <Pledge />
+*/
+import { WalletData } from '../components/molecules'
 
-export const getStaticProps: GetStaticProps = async (_context) => {
-  // fetch list of posts
-  const posts: PostData[] = await GetPosts()
-  return {
-    props: {
-      postDataList: posts,
-    },
-  }
-}
-
-const IndexPage: NextPage<PostDataListProps> = ({
-  postDataList,
-}: PostDataListProps) => {
+const Home: NextPage = _ => {
   return (
-    <main>
+    <>
       <Head>
         <title>Stellar HEX</title>
+        <meta
+          name="description"
+          content="An introduction to Stellar Help Exchange"
+        />
+        <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <h1>Stellar Help Exchange</h1>
-
-      <section>
-        {postDataList.map((post: PostData) => (
-          <Post {...post} key={post.id} />
-        ))}
-      </section>
-    </main>
+      <header className={styles.header}>
+        <h3>Stellar Help Exchange</h3>
+        <WalletData />
+      </header>
+      <main className={styles.main}>
+        <div className={styles.content}>
+          XA
+        </div>
+      </main>
+    </>
   )
 }
 
-export default IndexPage
+export default Home
