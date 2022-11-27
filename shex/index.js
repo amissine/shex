@@ -16,7 +16,7 @@ async function setup (state, setState) { // {{{1
     window.StellarNetwork = network
     hexAssets(network.hex)
     let user = await new Account({ keypair }).load()
-    if (user.trusts(network.hex.assets)) {
+    if (user.trusts(network.hex)) {
       return;
     }
     for (let asset of network.hex.assets) {
