@@ -21,7 +21,8 @@ async function setup (state, setState) { // {{{1
     }
     for (let asset of network.hex.assets) {
       await user.trust(asset).sign(window.freighterApi)
-        .then(xdr => user.submit({ xdr })).catch(e => console.error(e))
+        .then(xdr => user.submit({ xdr }))
+        .catch(e => console.error('UNEXPECTED', e))
     }
     console.log('user', user)
     setState(p => Object.assign({}, p, { user, }))

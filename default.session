@@ -1351,12 +1351,12 @@ normal! zo
 normal! zo
 9
 normal! zo
-let s:l = 19 - ((18 * winheight(0) + 23) / 46)
+let s:l = 25 - ((24 * winheight(0) + 23) / 46)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 19
-normal! 032|
+keepjumps 25
+normal! 048|
 wincmd w
 argglobal
 if bufexists(fnamemodify("pages/shex-join.js", ":p")) | buffer pages/shex-join.js | else | edit pages/shex-join.js | endif
@@ -1624,18 +1624,18 @@ setlocal wrap
 setlocal wrapmargin=0
 3
 normal! zo
-28
+104
 normal! zo
-62
+130
 normal! zo
 153
 normal! zo
-let s:l = 153 - ((125 * winheight(0) + 23) / 47)
+let s:l = 130 - ((102 * winheight(0) + 23) / 47)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 153
-normal! 012|
+keepjumps 130
+normal! 03|
 tabnext 3
 set stal=1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0
