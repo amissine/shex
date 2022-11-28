@@ -5,4 +5,5 @@ export default function App({ Component, pageProps }) {
 }
 /*
 
+    "@stellar/freighter-api": "latest",
 */

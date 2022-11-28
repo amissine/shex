@@ -41,7 +41,7 @@ export default function Join() { // {{{1
       <link rel="icon" href="/favicon.ico" />
     </Head>
 
-    {/* Script stellar-freighter-api/1.3.1 {{{3 
+    {/* Script stellar-freighter-api/1.3.1 {{{3 */}
     <Script
       onError={e => setQ(p => Object.assign({}, p, { error: e }))}
       onLoad={_ => window.freighterApi && !q.connected && setQ(p => 
@@ -57,7 +57,6 @@ export default function Join() { // {{{1
       src="https://cdnjs.cloudflare.com/ajax/libs/stellar-freighter-api/1.3.1/index.min.js"
       strategy="lazyOnload"
     />
-    */}
 
     {/* Script stellar-sdk/10.4.0 {{{3 */}
     <Script
