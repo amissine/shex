@@ -7,20 +7,18 @@ async function setup (state, setState) { // {{{1
     return;
   } // }}}2
   const fapi = window.freighterApi // {{{2
-  let keypair, account
+  let keypair
   return await fapi.getPublicKey().then(pk => {
-    account = pk
     keypair = window.StellarSdk.Keypair.fromPublicKey(pk) 
     return fapi.getNetwork();
   }).then(async name => {
     let network = stellarNetworks().filter(v => v.name == name)[0]
     window.StellarNetwork = network
     hexAssets(network.hex)
-    //let user = await (new Account({ keypair }).load())
-    let server = new window.StellarSdk.Server(network.url)
-    let loaded = await server.loadAccount(account)
-    let user = new Account({ loaded })
+    let user = await new Account({ keypair }).load()
     if (user.trusts(network.hex)) {
+      console.log('user', user)
+
       return;
     }
     for (let asset of network.hex.assets) {
@@ -29,6 +27,7 @@ async function setup (state, setState) { // {{{1
         .catch(e => console.error(e))
     }
     console.log('user', user)
+
     setState(p => Object.assign({}, p, { user, }))
   }); // }}}2
 }

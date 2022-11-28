@@ -81,7 +81,7 @@ export default function Join() { // {{{1
               q.user.loaded ? 
                 <code>{JSON.stringify(q.user.loaded.balances.length)}</code>
               : walletAdded(window.StellarNetwork.id, q.user.keypair.publicKey()) 
-            : 'OK'
+            : 'Buy HEXA now!'
           : addWallet
         }
       </div>
