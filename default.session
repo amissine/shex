@@ -251,11 +251,11 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-let s:l = 1 - ((0 * winheight(0) + 11) / 22)
+let s:l = 8 - ((7 * winheight(0) + 11) / 22)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 1
+keepjumps 8
 normal! 0
 wincmd w
 argglobal
@@ -381,12 +381,12 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-let s:l = 12 - ((11 * winheight(0) + 11) / 22)
+let s:l = 9 - ((8 * winheight(0) + 11) / 22)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 12
-normal! 03|
+keepjumps 9
+normal! 05|
 wincmd w
 argglobal
 if bufexists(fnamemodify(".gitignore", ":p")) | buffer .gitignore | else | edit .gitignore | endif
@@ -1345,18 +1345,18 @@ setlocal wrap
 setlocal wrapmargin=0
 1
 normal! zo
-5
-normal! zo
 6
 normal! zo
-9
+7
 normal! zo
-let s:l = 25 - ((24 * winheight(0) + 23) / 46)
+12
+normal! zo
+let s:l = 8 - ((7 * winheight(0) + 23) / 46)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 25
-normal! 048|
+keepjumps 8
+normal! 06|
 wincmd w
 argglobal
 if bufexists(fnamemodify("pages/shex-join.js", ":p")) | buffer pages/shex-join.js | else | edit pages/shex-join.js | endif
@@ -1487,14 +1487,12 @@ normal! zo
 normal! zo
 36
 normal! zo
-74
-normal! zo
-let s:l = 1 - ((0 * winheight(0) + 23) / 46)
+let s:l = 25 - ((24 * winheight(0) + 23) / 46)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 1
-normal! 0
+keepjumps 25
+normal! 040|
 wincmd w
 exe 'vert 1resize ' . ((&columns * 89 + 89) / 179)
 exe 'vert 2resize ' . ((&columns * 89 + 89) / 179)
@@ -1624,18 +1622,16 @@ setlocal wrap
 setlocal wrapmargin=0
 3
 normal! zo
+62
+normal! zo
 104
 normal! zo
-130
-normal! zo
-153
-normal! zo
-let s:l = 130 - ((102 * winheight(0) + 23) / 47)
+let s:l = 68 - ((40 * winheight(0) + 23) / 47)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 130
-normal! 03|
+keepjumps 68
+normal! 065|
 tabnext 3
 set stal=1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0

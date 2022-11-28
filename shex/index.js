@@ -1,9 +1,12 @@
 import { stellarNetworks, } from '../foss/stellar-networks.mjs' // {{{1
 import { Account, } from '../foss/stellar-account.mjs'
 import { hexAssets, } from '../foss/hex.mjs'
+import freighterApi from "@stellar/freighter-api";
 
 async function setup (state, setState) { // {{{1
   if (!state.connected || !window.StellarSdk) { // {{{2
+    //console.log('state.connected', state.connected)
+    window.freighterApi = freighterApi
     return;
   } // }}}2
   const fapi = window.freighterApi // {{{2
