@@ -1,5 +1,7 @@
 # Stellar Help Exchange Demo
 
+## How It Works
+
 ## Submodules
 
 ```bash
