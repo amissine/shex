@@ -18,16 +18,22 @@ export default function Home() {
           An equitable distributed marketplace
         </p>
         <div className={styles.grid}>
-          <a href="https://github.com/amissine/aim" className={styles.card}>
+          <a 
+            href="https://github.com/amissine/shex/blob/main/README.md" 
+            className={styles.card}
+          >
             <h3>What Is It? &rarr;</h3>
             <p>
     Stellar Help Exchange (HEX) runs on Stellar Network.
     It is a place where Stellar users exchange all kinds of help
     for rewards. If a user does not get the help she paid for,
-    she is guaranteed to get her payment back. 
+    they are guaranteed to get their payment back. 
             </p>
           </a>
-          <a href="https://nextjs.org/learn" className={styles.card}>
+          <a 
+            href="https://github.com/amissine/shex/blob/main/README.md#how-it-works" 
+            className={styles.card}
+          >
             <h3>How Does It Work? &rarr;</h3>
             <p>
     Users make help offers and help requests, other users take them.
@@ -38,7 +44,7 @@ export default function Home() {
             </p>
           </a>
           <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
+            href="https://github.com/amissine/shex/blob/main/README.md#work-in-progress"
             className={styles.card}
           >
             <h3>Why Should I Care? &rarr;</h3>

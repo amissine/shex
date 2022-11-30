@@ -16,15 +16,11 @@ async function setup (state, setState) { // {{{1
     window.StellarNetwork = network
     hexAssets(network.hex)
     let user = await new Account({ keypair }).load()
-    if (user.trusts(network.hex)) {
-      console.log('user', user)
-
-      return;
-    }
-    for (let asset of network.hex.assets) {
-      await user.trust(asset).sign(window.freighterApi)
-        .then(xdr => user.submit({ xdr }))
-        .catch(e => console.error(e))
+    if (!user.trusts(network.hex)) {
+      for (let asset of network.hex.assets) {
+        await user.trust(asset).sign(window.freighterApi)
+          .then(xdr => user.submit({ xdr })).catch(e => console.error(e))
+      }
     }
     console.log('user', user)
 

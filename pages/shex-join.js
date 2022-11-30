@@ -2,14 +2,33 @@ import Head from 'next/head' // {{{1
 import Link from 'next/link';
 import Script from 'next/script'
 import { useEffect, useState } from 'react'
-import styles from './index.module.css'
+import styles from './shex-join.module.css'
 import { setup, teardown } from '../shex'
 
-const addWallet = // {{{1
-<div>
-  Add{' '}<a href="https://www.freighter.app/" target="_blank">Freighter</a>{' '}
-  to your browser, set it up and add an account. Then come back and reload this page.
-</div>
+const addWallet = opts => // {{{1
+<>
+  <p>
+Hi there, I'm {opts.greeting}. Welcome to Stellar Help Exchange! To join it, 
+add Stellar wallet (called Freighter) to your browser, connect it to a 
+Stellar network (TESTNET or PUBLIC) and add your account. Then come back and 
+reload this page.
+  </p>
+  <p>
+    <a href="https://www.freighter.app/" target="_blank">More Info on Freighter</a>
+  </p>
+</>
+
+const mobileDevice = opts => // {{{1
+<>
+  <p>
+Hi there, I'm {opts.greeting}. To join Stellar Help Exchange, one would need to add
+a wallet to their browser. I honestly tried to help mobile device users do so, but
+as of 2022-12-01 you would need a computer to join us. Maybe later...
+  </p>
+  <p>
+    <a href="https://www.freighter.app/" target="_blank">More Info on wallets</a>
+  </p>
+</>
 
 function walletAdded (network, account) { // {{{1
   return (
@@ -32,6 +51,8 @@ export default function Join() { // {{{1
     setup(q, setQ)
     /* return _ => teardown(q, setQ); */
   }, [q.connected, q.event])
+
+  let greeting = 'Дід Alik'
   
   return ( // {{{2
   <>
@@ -40,7 +61,14 @@ export default function Join() { // {{{1
       <title>Join Stellar HEX</title>
       <link rel="icon" href="/favicon.ico" />
     </Head>
-
+    {/* Script typed.js@2.0.12 {{{3 */}
+    <Script
+      onError={e => setQ(p => Object.assign({}, p, { error: e }))}
+      onLoad={_ => setQ(p => Object.assign({}, p, { event: 'typed-load', }))}
+      onReady={_ => setQ(p => Object.assign({}, p, {  event: 'typed-ready', }))}
+      src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"
+      strategy="beforeInteractive"
+    />
     {/* Script stellar-freighter-api/1.3.1 {{{3 */}
     <Script
       onError={e => setQ(p => Object.assign({}, p, { error: e }))}
@@ -55,7 +83,7 @@ export default function Join() { // {{{1
         }))
       }
       src="https://cdnjs.cloudflare.com/ajax/libs/stellar-freighter-api/1.3.1/index.min.js"
-      strategy="lazyOnload"
+      strategy="afterInteractive"
     />
 
     {/* Script stellar-sdk/10.4.0 {{{3 */}
@@ -72,17 +100,19 @@ export default function Join() { // {{{1
     />
 
     <div className={styles.container}> {/* {{{3 */}
-      <div className={styles.title}>
+      <div>
         {
           q.error ? <code>{JSON.stringify(q)}</code>
-          : q.userAgent?.includes('Mobile') ? 'Unsupported mobile device' // TODO 1: support
+          : q.userAgent?.includes('Mobile') ? mobileDevice({
+             greeting,
+          }) // TODO 1: support mobile devices
           : q.connected ?
             q.user ? 
               q.user.loaded ? 
                 <code>{JSON.stringify(q.user.loaded.balances.length)}</code>
               : walletAdded(window.StellarNetwork.id, q.user.keypair.publicKey()) 
             : 'Buy HEXA now!'
-          : addWallet
+          : addWallet({ greeting, })
         }
       </div>
     </div> {/* }}}3 */}
