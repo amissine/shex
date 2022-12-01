@@ -1,31 +1,49 @@
 import Head from 'next/head' // {{{1
 import Link from 'next/link';
 import Script from 'next/script'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import styles from './shex-join.module.css'
 import { setup, teardown } from '../shex'
 
+let greeting = 'Дід Alik' // {{{1
+  
 const addWallet = opts => // {{{1
 <>
-  <p>
-Hi there, I'm {opts.greeting}. Welcome to Stellar Help Exchange! To join it, 
-add Stellar wallet (called Freighter) to your browser, connect it to a 
-Stellar network (TESTNET or PUBLIC) and add your account. Then come back and 
+  <div id="typed-string">
+    <p>
+Hi there, I'm {greeting}.
+    </p>
+  </div>
+  <div>
+    <span style={{ whiteSpace: 'pre' }} ref={opts.el} />
+  </div>
+  <p id='welcome-to-stellar-hex' style={{ display: 'none' }}>
+Welcome to Stellar Help Exchange! To join it, 
+add Stellar wallet (called <b>Freighter</b>) to your browser, connect it to a 
+Stellar network (TESTNET or PUBLIC) and add your account to it. Then come back and 
 reload this page.
   </p>
-  <p>
+  <p id='more-info-on-frighter' style={{ display: 'none' }}>
     <a href="https://www.freighter.app/" target="_blank">More Info on Freighter</a>
   </p>
 </>
 
 const mobileDevice = opts => // {{{1
 <>
-  <p>
-Hi there, I'm {opts.greeting}. To join Stellar Help Exchange, one would need to add
+  <div id="typed-string">
+    <p>
+Hi there, I'm {greeting}.
+    </p>
+  </div>
+  <div>
+    <span style={{ whiteSpace: 'pre' }} ref={opts.el} />
+  </div>
+  <p id='you-need-a-computer-to-join' style={{ display: 'none' }}>
+To join Stellar Help Exchange, one would need to add
 a wallet to their browser. I honestly tried to help mobile device users do so, but
 as of 2022-12-01 you would need a computer to join us. Maybe later...
   </p>
-  <p>
+  <p id='more-info-on-wallets' style={{ display: 'none' }}>
     <a href="https://www.freighter.app/" target="_blank">More Info on wallets</a>
   </p>
 </>
@@ -51,9 +69,32 @@ export default function Join() { // {{{1
     setup(q, setQ)
     /* return _ => teardown(q, setQ); */
   }, [q.connected, q.event])
+  const typed = useRef(null) // {{{2
+  const el = useRef(null)
+  useEffect(_ => {
+    const options = {
+      stringsElement: '#typed-string',
+      typeSpeed: 50,
+      onComplete: typed => {
+        if (q.userAgent?.includes('Mobile')) {
+          let welcome = document.getElementById('you-need-a-computer-to-join')
+          setTimeout(_ => { welcome.style.display = 'block' }, 1000)
 
-  let greeting = 'Дід Alik'
-  
+          let more = document.getElementById('more-info-on-wallets')
+          setTimeout(_ => { more.style.display = 'block' }, 3000)
+          return;
+        }
+        let welcome = document.getElementById('welcome-to-stellar-hex')
+        setTimeout(_ => { welcome.style.display = 'block' }, 1000)
+
+        let more = document.getElementById('more-info-on-frighter')
+        setTimeout(_ => { more.style.display = 'block' }, 3000)
+      },
+    };
+    typed.current = new window.Typed(el.current, options)
+    return _ => typed.current.destroy();
+  })
+
   return ( // {{{2
   <>
     {/* Head {{{3 */}
@@ -104,7 +145,7 @@ export default function Join() { // {{{1
         {
           q.error ? <code>{JSON.stringify(q)}</code>
           : q.userAgent?.includes('Mobile') ? mobileDevice({
-             greeting,
+            el,
           }) // TODO 1: support mobile devices
           : q.connected ?
             q.user ? 
@@ -112,7 +153,7 @@ export default function Join() { // {{{1
                 <code>{JSON.stringify(q.user.loaded.balances.length)}</code>
               : walletAdded(window.StellarNetwork.id, q.user.keypair.publicKey()) 
             : 'Buy HEXA now!'
-          : addWallet({ greeting, })
+          : addWallet({ el, })
         }
       </div>
     </div> {/* }}}3 */}

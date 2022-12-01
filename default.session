@@ -79,8 +79,8 @@ badd +1 pages/shex-join.js
 badd +1 shex/index.js
 badd +1 foss/stellar-account.mjs
 badd +19 ~/product/next/nextjs-blog/shex/index.js
-badd +0 pages/shex-join.module.css
-badd +0 ~/product/typed.js-sandbox/react-hooks-demo/pages/index.js
+badd +1 pages/shex-join.module.css
+badd +1 ~/product/typed.js-sandbox/react-hooks-demo/pages/index.js
 argglobal
 %argdel
 $argadd package.json
@@ -1072,11 +1072,11 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-let s:l = 1 - ((0 * winheight(0) + 11) / 23)
+let s:l = 109 - ((3 * winheight(0) + 11) / 23)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 1
+keepjumps 109
 normal! 0
 wincmd w
 argglobal
@@ -1332,12 +1332,12 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-let s:l = 77 - ((43 * winheight(0) + 23) / 46)
+let s:l = 30 - ((29 * winheight(0) + 23) / 46)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 77
-normal! 0
+keepjumps 30
+normal! 011|
 wincmd w
 exe '1resize ' . ((&lines * 23 + 24) / 49)
 exe 'vert 1resize ' . ((&columns * 80 + 89) / 179)
@@ -1495,12 +1495,12 @@ setlocal wrap
 setlocal wrapmargin=0
 15
 normal! zo
-let s:l = 15 - ((0 * winheight(0) + 20) / 41)
+let s:l = 60 - ((40 * winheight(0) + 20) / 41)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 15
-normal! 0
+keepjumps 60
+normal! 09|
 wincmd w
 argglobal
 if bufexists(fnamemodify("shex/index.js", ":p")) | buffer shex/index.js | else | edit shex/index.js | endif
@@ -1761,24 +1761,20 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-8
+61
 normal! zo
-43
+72
 normal! zo
-44
+98
 normal! zo
-57
+143
 normal! zo
-64
-normal! zo
-102
-normal! zo
-let s:l = 45 - ((44 * winheight(0) + 23) / 46)
+let s:l = 72 - ((0 * winheight(0) + 23) / 46)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 45
-normal! 02|
+keepjumps 72
+normal! 0
 wincmd w
 3wincmd w
 exe '1resize ' . ((&lines * 41 + 24) / 49)
@@ -1935,6 +1931,7 @@ if filereadable(s:sx)
   exe "source " . fnameescape(s:sx)
 endif
 let &g:so = s:so_save | let &g:siso = s:siso_save
+nohlsearch
 doautoall SessionLoadPost
 unlet SessionLoad
 " vim: set ft=vim :

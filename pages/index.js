@@ -27,7 +27,7 @@ export default function Home() {
     Stellar Help Exchange (HEX) runs on Stellar Network.
     It is a place where Stellar users exchange all kinds of help
     for rewards. If a user does not get the help she paid for,
-    they are guaranteed to get their payment back. 
+    she is guaranteed to get their payment back. 
             </p>
           </a>
           <a 
