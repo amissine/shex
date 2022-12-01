@@ -93,7 +93,7 @@ export default function Join() { // {{{1
     };
     typed.current = new window.Typed(el.current, options)
     return _ => typed.current.destroy();
-  })
+  }, [q.event])
 
   return ( // {{{2
   <>
