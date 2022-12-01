@@ -72,6 +72,9 @@ export default function Join() { // {{{1
   const typed = useRef(null) // {{{2
   const el = useRef(null)
   useEffect(_ => {
+    if (!window.Typed) {
+      return;
+    }
     const options = {
       stringsElement: '#typed-string',
       typeSpeed: 50,
