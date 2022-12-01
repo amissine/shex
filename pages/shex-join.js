@@ -79,7 +79,7 @@ export default function Join() { // {{{1
       stringsElement: '#typed-string',
       typeSpeed: 50,
       onComplete: typed => {
-        if (q.userAgent?.includes('Mobile')) {
+        if (q.userAgent?.includes('Mobile')) { // {{{3
           let welcome = document.getElementById('you-need-a-computer-to-join')
           setTimeout(_ => { welcome.style.display = 'block' }, 1000)
 
@@ -87,11 +87,11 @@ export default function Join() { // {{{1
           setTimeout(_ => { more.style.display = 'block' }, 3000)
           return;
         }
-        let welcome = document.getElementById('welcome-to-stellar-hex')
+        let welcome = document.getElementById('welcome-to-stellar-hex') // {{{3
         setTimeout(_ => { welcome.style.display = 'block' }, 1000)
 
         let more = document.getElementById('more-info-on-frighter')
-        setTimeout(_ => { more.style.display = 'block' }, 3000)
+        setTimeout(_ => { more.style.display = 'block' }, 3000) // }}}3
       },
     };
     typed.current = new window.Typed(el.current, options)
@@ -144,23 +144,19 @@ export default function Join() { // {{{1
     />
 
     <div className={styles.container}> {/* {{{3 */}
-      <div>
-        {
-          q.error ? <code>{JSON.stringify(q)}</code>
-          : q.userAgent?.includes('Mobile') ? mobileDevice({
-            el,
-          }) // TODO 1: support mobile devices
-          : q.connected ?
-            q.user ? 
-              q.user.loaded ? 
-                <code>{JSON.stringify(q.user.loaded.balances.length)}</code>
-              : walletAdded(window.StellarNetwork.id, q.user.keypair.publicKey()) 
-            : 'Buy HEXA now!'
-          : addWallet({ el, })
-        }
-      </div>
+      {
+        q.error ? <code>{JSON.stringify(q)}</code>
+        : q.userAgent?.includes('Mobile') ? mobileDevice({ el, }) // TODO 1: support mobile devices
+        : q.connected ?
+          q.user ? 
+            q.user.loaded ? 
+              <code>{JSON.stringify(q.user.loaded.balances.length)}</code>
+            : walletAdded(window.StellarNetwork.id, q.user.keypair.publicKey()) 
+          : 'Buy HEXA now!'
+        : addWallet({ el, })
+      }
     </div> {/* }}}3 */}
   </>
-  ) // }}}2
+  ); // }}}2
 }
 // TODO 1 hint: use https://www.npmjs.com/package/stellar-hd-wallet

@@ -644,12 +644,12 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-let s:l = 25 - ((10 * winheight(0) + 12) / 25)
+let s:l = 29 - ((7 * winheight(0) + 12) / 25)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 25
-normal! 05|
+keepjumps 29
+normal! 0
 wincmd w
 argglobal
 if bufexists(fnamemodify("README.md", ":p")) | buffer README.md | else | edit README.md | endif
@@ -945,9 +945,9 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe '1resize ' . ((&lines * 23 + 24) / 49)
+exe '1resize ' . ((&lines * 14 + 24) / 49)
 exe 'vert 1resize ' . ((&columns * 80 + 89) / 179)
-exe '2resize ' . ((&lines * 22 + 24) / 49)
+exe '2resize ' . ((&lines * 31 + 24) / 49)
 exe 'vert 2resize ' . ((&columns * 80 + 89) / 179)
 exe 'vert 3resize ' . ((&columns * 98 + 89) / 179)
 argglobal
@@ -1072,12 +1072,12 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-let s:l = 109 - ((3 * winheight(0) + 11) / 23)
+let s:l = 4 - ((3 * winheight(0) + 7) / 14)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 109
-normal! 0
+keepjumps 4
+normal! 015|
 wincmd w
 argglobal
 if bufexists(fnamemodify("pages/index.module.css", ":p")) | buffer pages/index.module.css | else | edit pages/index.module.css | endif
@@ -1202,7 +1202,7 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-let s:l = 1 - ((0 * winheight(0) + 11) / 22)
+let s:l = 1 - ((0 * winheight(0) + 15) / 31)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
@@ -1337,11 +1337,11 @@ if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
 keepjumps 30
-normal! 011|
+normal! 032|
 wincmd w
-exe '1resize ' . ((&lines * 23 + 24) / 49)
+exe '1resize ' . ((&lines * 14 + 24) / 49)
 exe 'vert 1resize ' . ((&columns * 80 + 89) / 179)
-exe '2resize ' . ((&lines * 22 + 24) / 49)
+exe '2resize ' . ((&lines * 31 + 24) / 49)
 exe 'vert 2resize ' . ((&columns * 80 + 89) / 179)
 exe 'vert 3resize ' . ((&columns * 98 + 89) / 179)
 tabnext
@@ -1622,9 +1622,9 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-61
+10
 normal! zo
-62
+61
 normal! zo
 72
 normal! zo
@@ -1632,12 +1632,12 @@ normal! zo
 normal! zo
 146
 normal! zo
-let s:l = 77 - ((76 * winheight(0) + 23) / 46)
+let s:l = 146 - ((115 * winheight(0) + 23) / 46)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 77
-normal! 05|
+keepjumps 146
+normal! 039|
 wincmd w
 2wincmd w
 exe 'vert 1resize ' . ((&columns * 89 + 89) / 179)
