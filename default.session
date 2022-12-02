@@ -1072,12 +1072,12 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-let s:l = 4 - ((3 * winheight(0) + 7) / 14)
+let s:l = 7 - ((6 * winheight(0) + 7) / 14)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 4
-normal! 015|
+keepjumps 7
+normal! 030|
 wincmd w
 argglobal
 if bufexists(fnamemodify("pages/index.module.css", ":p")) | buffer pages/index.module.css | else | edit pages/index.module.css | endif
@@ -1622,22 +1622,20 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-10
+59
 normal! zo
-61
+77
 normal! zo
-72
+114
 normal! zo
-101
+159
 normal! zo
-146
-normal! zo
-let s:l = 146 - ((115 * winheight(0) + 23) / 46)
+let s:l = 73 - ((72 * winheight(0) + 23) / 46)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 146
-normal! 039|
+keepjumps 73
+normal! 041|
 wincmd w
 2wincmd w
 exe 'vert 1resize ' . ((&columns * 89 + 89) / 179)
@@ -1791,7 +1789,6 @@ if filereadable(s:sx)
   exe "source " . fnameescape(s:sx)
 endif
 let &g:so = s:so_save | let &g:siso = s:siso_save
-nohlsearch
 doautoall SessionLoadPost
 unlet SessionLoad
 " vim: set ft=vim :

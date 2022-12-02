@@ -11,34 +11,32 @@ const addWallet = opts => // {{{1
 <>
   <div id="typed-string">
     <p>
-Hi there, I'm {greeting}.
+Hi there, I'm {greeting}. I am here to help you join Stellar HEX.
     </p>
   </div>
-  <div>
+  <div className={styles.typedwrap}>
     <span style={{ whiteSpace: 'pre' }} ref={opts.el} />
   </div>
-  <p id='welcome-to-stellar-hex' style={{ display: 'none' }}>
+  <p id='contextual-prompt' style={{ display: 'none' }}>
 Welcome to Stellar Help Exchange! To join it, 
-add Stellar wallet (called <b>Freighter</b>) to your browser, connect it to a 
-Stellar network (TESTNET or PUBLIC) and add your account to it. Then come back and 
+add Stellar wallet (called {' '}
+  <a href="https://www.freighter.app/" target="_blank">Freighter</a>
+) to your browser, connect it to a 
+Stellar network (TESTNET or PUBLIC) and add your account to it. To start with,
+create a new account on TESTNET and fund it with Friendbot. Then come back and 
 reload this page.
-  </p>
-  <p id='more-info-on-frighter' style={{ display: 'none' }}>
-    <a href="https://www.freighter.app/" target="_blank">More Info on Freighter</a>
   </p>
 </>
 
 const mobileDevice = opts => // {{{1
 <>
   <div id="typed-string">
-    <p>
-Hi there, I'm {greeting}.
-    </p>
+    <p>Hi there, I'm {greeting}. Bad news, sorry.</p>
   </div>
-  <div>
+  <div className={styles.typedwrap}>
     <span style={{ whiteSpace: 'pre' }} ref={opts.el} />
   </div>
-  <p id='you-need-a-computer-to-join' style={{ display: 'none' }}>
+  <p id='contextual-prompt' style={{ display: 'none' }}>
 To join Stellar Help Exchange, one would need to add
 a wallet to their browser. I honestly tried to help mobile device users do so, but
 as of 2022-12-01 you would need a computer to join us. Maybe later...
@@ -57,6 +55,24 @@ function walletAdded (network, account) { // {{{1
 </div>
   );
 }
+
+const walletConnected = opts => // {{{1
+<>
+  <div id="typed-string">
+    <p>
+Great, your wallet is now connected to this demo!
+    </p>
+  </div>
+  <div className={styles.typedwrap}>
+    <span style={{ whiteSpace: 'pre' }} ref={opts.el} />
+  </div>
+  <p id='contextual-prompt' style={{ display: 'none' }}>
+The wallet is now asking for your approval to share the public key of your Stellar
+account with this demo. Go ahead and click the <b>Share</b> button. Then, since you
+are OK with trusting Stellar HEX assets - ClawableHexa and HEXA - approve the two 
+transactions that will create that trust.
+  </p>
+</>
 
 export default function Join() { // {{{1
   const [q, setQ] = useState({}) // {{{2
@@ -80,18 +96,15 @@ export default function Join() { // {{{1
       typeSpeed: 50,
       onComplete: typed => {
         if (q.userAgent?.includes('Mobile')) { // {{{3
-          let welcome = document.getElementById('you-need-a-computer-to-join')
-          setTimeout(_ => { welcome.style.display = 'block' }, 1000)
+          let prompt = document.getElementById('contextual-prompt')
+          setTimeout(_ => { prompt.style.display = 'block' }, 1000)
 
           let more = document.getElementById('more-info-on-wallets')
           setTimeout(_ => { more.style.display = 'block' }, 3000)
           return;
         }
-        let welcome = document.getElementById('welcome-to-stellar-hex') // {{{3
-        setTimeout(_ => { welcome.style.display = 'block' }, 1000)
-
-        let more = document.getElementById('more-info-on-frighter')
-        setTimeout(_ => { more.style.display = 'block' }, 3000) // }}}3
+        let prompt = document.getElementById('contextual-prompt') // {{{3
+        setTimeout(_ => { prompt.style.display = 'block' }, 500)
       },
     };
     typed.current = new window.Typed(el.current, options)
@@ -152,7 +165,7 @@ export default function Join() { // {{{1
             q.user.loaded ? 
               <code>{JSON.stringify(q.user.loaded.balances.length)}</code>
             : walletAdded(window.StellarNetwork.id, q.user.keypair.publicKey()) 
-          : 'Buy HEXA now!'
+          : walletConnected({ el, })
         : addWallet({ el, })
       }
     </div> {/* }}}3 */}
