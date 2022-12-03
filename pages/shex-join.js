@@ -46,15 +46,25 @@ as of 2022-12-01 you would need a computer to join us. Maybe later...
   </p>
 </>
 
-function walletAdded (network, account) { // {{{1
-  return (
-<div>
-  <code>
-    Connected to {network} account {account}.
-  </code>
-</div>
-  );
-}
+const userLoaded = opts => // {{{1
+<>
+  <div id="typed-string">
+    <p>
+Your account is now loaded. You can make / take Stellar HEX offers / requests!
+    </p>
+  </div>
+  <div className={styles.typedwrap}>
+    <span style={{ whiteSpace: 'pre' }} ref={opts.el} />
+  </div>
+  <p id='contextual-prompt' style={{ display: 'none' }}>
+You need HEXA to make / take Stellar HEX offers / requests. Would you like to buy
+some now? {' '} <button onClick={_ => buyHEXA(opts)}>Buy HEXA</button>
+{' '} Or instead, you can start watching open makes to get a better idea of what this
+marketplace is about.
+{' '} <button onClick={_ => watchMakes(opts)}>Watch Open Makes</button>
+{' '} Please click one of these buttons. And welcome to the Stellar Help Exchange!
+  </p>
+</>
 
 const walletConnected = opts => // {{{1
 <>
@@ -74,6 +84,14 @@ transactions that will create that trust.
   </p>
 </>
 
+function watchMakes (opts) { // {{{1
+  console.log('watchMakes', opts)
+}
+
+function buyHEXA (opts) { // {{{1
+  console.log('buyHEXA', opts)
+}
+
 export default function Join() { // {{{1
   const [q, setQ] = useState({}) // {{{2
   useEffect(_ => setQ(p => Object.assign({}, p, {
@@ -81,13 +99,13 @@ export default function Join() { // {{{1
     userAgent: window.navigator.userAgent,
   })), [q.connected, q.userAgent])
   useEffect(_ => {
-    console.log(q)
     setup(q, setQ)
     /* return _ => teardown(q, setQ); */
   }, [q.connected, q.event])
   const typed = useRef(null) // {{{2
   const el = useRef(null)
   useEffect(_ => {
+    console.log(q)
     if (!window.Typed) {
       return;
     }
@@ -104,7 +122,12 @@ export default function Join() { // {{{1
           return;
         }
         let prompt = document.getElementById('contextual-prompt') // {{{3
-        setTimeout(_ => { prompt.style.display = 'block' }, 500)
+        setTimeout(_ => { 
+          if (q.connected && !q.user || q.user?.loaded.balances > 2) {
+            return;
+          }
+          prompt.style.display = 'block' 
+        }, 500) // }}}3
       },
     };
     typed.current = new window.Typed(el.current, options)
@@ -161,10 +184,7 @@ export default function Join() { // {{{1
         q.error ? <code>{JSON.stringify(q)}</code>
         : q.userAgent?.includes('Mobile') ? mobileDevice({ el, }) // TODO 1: support mobile devices
         : q.connected ?
-          q.user ? 
-            q.user.loaded ? 
-              <code>{JSON.stringify(q.user.loaded.balances.length)}</code>
-            : walletAdded(window.StellarNetwork.id, q.user.keypair.publicKey()) 
+          q.user ? userLoaded({ el, })
           : walletConnected({ el, })
         : addWallet({ el, })
       }

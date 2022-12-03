@@ -3,7 +3,7 @@ import { Account, } from '../foss/stellar-account.mjs'
 import { hexAssets, } from '../foss/hex.mjs'
 
 async function setup (state, setState) { // {{{1
-  if (!state.connected || !window.StellarSdk) { // {{{2
+  if (state.user || !state.connected || !window.StellarSdk) { // {{{2
     return;
   } // }}}2
   const fapi = window.freighterApi // {{{2
@@ -24,7 +24,7 @@ async function setup (state, setState) { // {{{1
     }
     console.log('user', user)
 
-    setState(p => Object.assign({}, p, { user, }))
+    setState(p => Object.assign({}, p, { event: 'user-loaded', user, }))
   }); // }}}2
 }
 
