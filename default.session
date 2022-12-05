@@ -1488,16 +1488,18 @@ setlocal wrap
 setlocal wrapmargin=0
 5
 normal! zo
-6
+10
 normal! zo
-9
+14
 normal! zo
-let s:l = 6 - ((5 * winheight(0) + 23) / 46)
+40
+normal! zo
+let s:l = 42 - ((41 * winheight(0) + 23) / 46)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 6
-normal! 011|
+keepjumps 42
+normal! 058|
 wincmd w
 argglobal
 if bufexists(fnamemodify("pages/shex-join.js", ":p")) | buffer pages/shex-join.js | else | edit pages/shex-join.js | endif
@@ -1622,16 +1624,24 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-95
+31
 normal! zo
-105
+102
 normal! zo
-let s:l = 108 - ((107 * winheight(0) + 23) / 46)
+112
+normal! zo
+130
+normal! zo
+144
+normal! zo
+189
+normal! zo
+let s:l = 135 - ((21 * winheight(0) + 23) / 46)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 108
-normal! 05|
+keepjumps 135
+normal! 06|
 wincmd w
 2wincmd w
 exe 'vert 1resize ' . ((&columns * 89 + 89) / 179)

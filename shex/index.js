@@ -2,6 +2,11 @@ import { stellarNetworks, } from '../foss/stellar-networks.mjs' // {{{1
 import { Account, } from '../foss/stellar-account.mjs'
 import { hexAssets, } from '../foss/hex.mjs'
 
+function buyHEXA (opts) { // {{{1
+  console.log('buyHEXA', opts)
+  opts.setQ(p => Object.assign({}, p, { event: 'buyHEXA-started', }))
+}
+
 async function setup (state, setState) { // {{{1
   if (state.user || !state.connected || !window.StellarSdk) { // {{{2
     return;
@@ -32,5 +37,10 @@ function teardown (state, setState) { // {{{1
   console.log('teardown start', state)
 }
 
-export { setup, teardown, } // {{{1
+function watchMakes (opts) { // {{{1
+  console.log('watchMakes', opts)
+  opts.setQ(p => Object.assign({}, p, { event: 'watchMakes-started', }))
+}
+
+export { buyHEXA, setup, teardown, watchMakes, } // {{{1
 

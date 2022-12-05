@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Script from 'next/script'
 import { useEffect, useRef, useState } from 'react'
 import styles from './shex-join.module.css'
-import { setup, teardown } from '../shex'
+import { buyHEXA, setup, teardown, watchMakes, } from '../shex'
 
 let greeting = 'Дід Alik' // {{{1
   
@@ -25,6 +25,21 @@ add Stellar wallet (called {' '}
 Stellar network (TESTNET or PUBLIC) and add your account to it. To start with,
 create a new account on TESTNET and fund it with Friendbot. Then come back and 
 reload this page.
+  </p>
+</>
+
+const dispatch = opts => // {{{1
+<>
+  <div id="typed-string">
+    <p>
+Work In Progress...
+    </p>
+  </div>
+  <div className={styles.typedwrap}>
+    <span style={{ whiteSpace: 'pre' }} ref={opts.el} />
+  </div>
+  <p id='contextual-prompt' style={{ display: 'none' }}>
+Stay tuned!
   </p>
 </>
 
@@ -84,14 +99,6 @@ transactions that will create that trust.
   </p>
 </>
 
-function watchMakes (opts) { // {{{1
-  console.log('watchMakes', opts)
-}
-
-function buyHEXA (opts) { // {{{1
-  console.log('buyHEXA', opts)
-}
-
 export default function Join() { // {{{1
   const [q, setQ] = useState({}) // {{{2
   useEffect(_ => setQ(p => Object.assign({}, p, {
@@ -105,7 +112,6 @@ export default function Join() { // {{{1
   const typed = useRef(null) // {{{2
   const el = useRef(null)
   useEffect(_ => {
-    console.log(q)
     if (!window.Typed) {
       return;
     }
@@ -126,6 +132,7 @@ export default function Join() { // {{{1
           if (q.connected && !q.user || q.user?.loaded.balances > 2) {
             return;
           }
+    //console.log(q)
           prompt.style.display = 'block' 
         }, 500) // }}}3
       },
@@ -184,7 +191,9 @@ export default function Join() { // {{{1
         q.error ? <code>{JSON.stringify(q)}</code>
         : q.userAgent?.includes('Mobile') ? mobileDevice({ el, }) // TODO 1: support mobile devices
         : q.connected ?
-          q.user ? userLoaded({ el, })
+          q.user ? 
+            q.event == 'user-loaded' ? userLoaded({ el, q, setQ, }) 
+            : dispatch({ el, q, setQ, })
           : walletConnected({ el, })
         : addWallet({ el, })
       }
