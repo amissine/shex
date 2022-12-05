@@ -28,7 +28,11 @@ reload this page.
   </p>
 </>
 
-const dispatch = opts => // {{{1
+const dispatch = opts => { // {{{1
+  //console.log(opts.q)
+
+  document.getElementById('contextual-prompt').style.display = 'none'
+  return (
 <>
   <div id="typed-string">
     <p>
@@ -42,6 +46,8 @@ Work In Progress...
 Stay tuned!
   </p>
 </>
+  );
+}
 
 const mobileDevice = opts => // {{{1
 <>
@@ -61,7 +67,10 @@ as of 2022-12-01 you would need a computer to join us. Maybe later...
   </p>
 </>
 
-const userLoaded = opts => // {{{1
+const userLoaded = opts => {// {{{1
+  //console.log(opts.q)
+
+  return (
 <>
   <div id="typed-string">
     <p>
@@ -80,6 +89,8 @@ marketplace is about.
 {' '} Please click one of these buttons. And welcome to the Stellar Help Exchange!
   </p>
 </>
+  );
+}
 
 const walletConnected = opts => // {{{1
 <>
@@ -129,15 +140,18 @@ export default function Join() { // {{{1
         }
         let prompt = document.getElementById('contextual-prompt') // {{{3
         setTimeout(_ => { 
+    //console.log(q)
+
           if (q.connected && !q.user || q.user?.loaded.balances > 2) {
             return;
           }
-    //console.log(q)
           prompt.style.display = 'block' 
         }, 500) // }}}3
       },
     };
     typed.current = new window.Typed(el.current, options)
+    //console.log(q)
+
     return _ => typed.current.destroy();
   }, [q.event])
 
