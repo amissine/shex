@@ -35,7 +35,10 @@ const dispatch = opts => { // {{{1
       document.getElementById('contextual-prompt').style.display = 'none'
       return typedPrompt('Work In Progress...', opts.el, 'Stay tuned!');
   }
-  return typedPrompt('UNEXPECTED EVENT', opts.el, `UNEXPECTED EVENT: ${opts.q.event}`);
+  document.getElementById('contextual-prompt').style.display = 'block'
+  return typedPrompt(
+    '*** UNEXPECTED EVENT ***', opts.el, `UNEXPECTED EVENT: ${opts.q.event}`
+  );
 }
 
 const mobileDevice = opts => // {{{1

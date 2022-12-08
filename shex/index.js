@@ -1,10 +1,17 @@
 import { stellarNetworks, } from '../foss/stellar-networks.mjs' // {{{1
 import { Account, } from '../foss/stellar-account.mjs'
 import { hexAssets, } from '../foss/hex.mjs'
+import { pGET, } from '../foss/utils.mjs'
 
 function buyHEXA (opts) { // {{{1
   console.log('buyHEXA opts', opts)
   opts.setQ(p => Object.assign({}, p, { event: 'buyHEXA-started', }))
+  pGET('/request-service', '?name=buyHEXA')
+    .then(result => {
+      console.log(result)
+      opts.setQ(p => Object.assign({}, p, { event: 'buyHEXA-stopped', }))
+    })
+    .catch(e => console.error(e))
 }
 
 async function setup (state, setState) { // {{{1
@@ -40,6 +47,12 @@ function teardown (state, setState) { // {{{1
 function watchMakes (opts) { // {{{1
   console.log('watchMakes opts', opts)
   opts.setQ(p => Object.assign({}, p, { event: 'watchMakes-started', }))
+  pGET('/request-service', '?name=watchMakes')
+    .then(result => {
+      console.log(result)
+      opts.setQ(p => Object.assign({}, p, { event: 'watchMakes-stopped', }))
+    })
+    .catch(e => console.error(e))
 }
 
 export { buyHEXA, setup, teardown, watchMakes, } // {{{1
