@@ -29,24 +29,13 @@ reload this page.
 </>
 
 const dispatch = opts => { // {{{1
-  //console.log(opts.q)
-
-  document.getElementById('contextual-prompt').style.display = 'none'
-  return (
-<>
-  <div id="typed-string">
-    <p>
-Work In Progress...
-    </p>
-  </div>
-  <div className={styles.typedwrap}>
-    <span style={{ whiteSpace: 'pre' }} ref={opts.el} />
-  </div>
-  <p id='contextual-prompt' style={{ display: 'none' }}>
-Stay tuned!
-  </p>
-</>
-  );
+  switch (opts.q.event) {
+    case 'buyHEXA-started':
+    case 'watchMakes-started':
+      document.getElementById('contextual-prompt').style.display = 'none'
+      return typedPrompt('Work In Progress...', opts.el, 'Stay tuned!');
+  }
+  return typedPrompt('UNEXPECTED EVENT', opts.el, `UNEXPECTED EVENT: ${opts.q.event}`);
 }
 
 const mobileDevice = opts => // {{{1
@@ -68,8 +57,6 @@ as of 2022-12-01 you would need a computer to join us. Maybe later...
 </>
 
 const userLoaded = opts => {// {{{1
-  //console.log(opts.q)
-
   return (
 <>
   <div id="typed-string">
@@ -109,6 +96,20 @@ are OK with trusting Stellar HEX assets - ClawableHexa and HEXA - approve the tw
 transactions that will create that trust.
   </p>
 </>
+
+function typedPrompt (typed, el, prompt) { // {{{1
+  return (
+<>
+  <div id="typed-string">
+    <p>{typed}</p>
+  </div>
+  <div className={styles.typedwrap}>
+    <span style={{ whiteSpace: 'pre' }} ref={el} />
+  </div>
+  <p id='contextual-prompt' style={{ display: 'none' }}>{prompt}</p>
+</>
+  );
+}
 
 export default function Join() { // {{{1
   const [q, setQ] = useState({}) // {{{2

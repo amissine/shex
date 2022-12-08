@@ -3,7 +3,7 @@ import { Account, } from '../foss/stellar-account.mjs'
 import { hexAssets, } from '../foss/hex.mjs'
 
 function buyHEXA (opts) { // {{{1
-  console.log('buyHEXA', opts)
+  console.log('buyHEXA opts', opts)
   opts.setQ(p => Object.assign({}, p, { event: 'buyHEXA-started', }))
 }
 
@@ -27,7 +27,7 @@ async function setup (state, setState) { // {{{1
           .then(xdr => user.submit({ xdr })).catch(e => console.error(e))
       }
     }
-    console.log('user', user)
+    console.log('setup user', user)
 
     setState(p => Object.assign({}, p, { event: 'user-loaded', user, }))
   }); // }}}2
@@ -38,7 +38,7 @@ function teardown (state, setState) { // {{{1
 }
 
 function watchMakes (opts) { // {{{1
-  console.log('watchMakes', opts)
+  console.log('watchMakes opts', opts)
   opts.setQ(p => Object.assign({}, p, { event: 'watchMakes-started', }))
 }
 

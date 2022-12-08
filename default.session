@@ -1494,12 +1494,12 @@ normal! zo
 normal! zo
 40
 normal! zo
-let s:l = 42 - ((0 * winheight(0) + 23) / 46)
+let s:l = 6 - ((5 * winheight(0) + 23) / 46)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 42
-normal! 058|
+keepjumps 6
+normal! 027|
 wincmd w
 argglobal
 if bufexists(fnamemodify("pages/shex-join.js", ":p")) | buffer pages/shex-join.js | else | edit pages/shex-join.js | endif
@@ -1626,24 +1626,20 @@ setlocal wrap
 setlocal wrapmargin=0
 31
 normal! zo
-70
+59
 normal! zo
-113
+114
 normal! zo
-123
+159
 normal! zo
-141
-normal! zo
-158
-normal! zo
-203
-normal! zo
-let s:l = 34 - ((33 * winheight(0) + 23) / 46)
+159
+normal! zc
+let s:l = 59 - ((28 * winheight(0) + 23) / 46)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 34
-normal! 0
+keepjumps 59
+normal! 015|
 wincmd w
 2wincmd w
 exe 'vert 1resize ' . ((&columns * 89 + 89) / 179)
@@ -1797,7 +1793,6 @@ if filereadable(s:sx)
   exe "source " . fnameescape(s:sx)
 endif
 let &g:so = s:so_save | let &g:siso = s:siso_save
-nohlsearch
 doautoall SessionLoadPost
 unlet SessionLoad
 " vim: set ft=vim :
