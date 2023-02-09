@@ -6,7 +6,7 @@ import { pGET, } from '../foss/utils.mjs'
 function buyHEXA (opts) { // {{{1
   console.log('buyHEXA opts', opts)
   opts.setQ(p => Object.assign({}, p, { event: 'buyHEXA-started', }))
-  pGET('/request-service', '?name=buyHEXA')
+  pGET('/request-service/bin/buyHEXA.mjs')
     .then(result => {
       console.log(result)
       opts.setQ(p => Object.assign({}, p, { event: 'buyHEXA-stopped', }))
@@ -47,7 +47,7 @@ function teardown (state, setState) { // {{{1
 function watchMakes (opts) { // {{{1
   console.log('watchMakes opts', opts)
   opts.setQ(p => Object.assign({}, p, { event: 'watchMakes-started', }))
-  pGET('/request-service', '?name=watchMakes')
+  pGET('/request-service/bin/watchMakes.mjs')
     .then(result => {
       console.log(result)
       opts.setQ(p => Object.assign({}, p, { event: 'watchMakes-stopped', }))
