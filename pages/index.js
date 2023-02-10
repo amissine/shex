@@ -54,7 +54,7 @@ export default function Home() {
           <Link href={'/shex-join'} className={styles.card}>
             <h3>Ok, How Do I Join? &rarr;</h3>
             <p>
-    You can first try it for free on Stellar test network.
+    You can first try it for free on Stellar TESTNET.
     Add Stellar wallet to your browser, get the assets - and you're in! 
     Click here to join Stellar HEX...
             </p>
