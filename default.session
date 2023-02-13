@@ -82,6 +82,7 @@ badd +19 ~/product/next/nextjs-blog/shex/index.js
 badd +1 pages/shex-join.module.css
 badd +60 ~/product/typed.js-sandbox/react-hooks-demo/pages/index.js
 badd +1 foss/utils.mjs
+badd +202 ~/people/didalik/aim/shex/shared-services-support/bin/run.mjs
 argglobal
 %argdel
 $argadd package.json
@@ -1340,7 +1341,6 @@ normal! zt
 keepjumps 51
 normal! 016|
 wincmd w
-3wincmd w
 exe '1resize ' . ((&lines * 14 + 24) / 49)
 exe 'vert 1resize ' . ((&columns * 80 + 89) / 179)
 exe '2resize ' . ((&lines * 31 + 24) / 49)
@@ -1367,7 +1367,7 @@ set winwidth=1
 exe 'vert 1resize ' . ((&columns * 89 + 89) / 179)
 exe 'vert 2resize ' . ((&columns * 89 + 89) / 179)
 argglobal
-balt ~/product/typed.js-sandbox/react-hooks-demo/pages/index.js
+balt ~/people/didalik/aim/shex/shared-services-support/bin/run.mjs
 setlocal autoindent
 setlocal backupcopy=
 setlocal nobinary
@@ -1492,22 +1492,22 @@ setlocal wrapmargin=0
 normal! zo
 6
 normal! zo
-17
+27
 normal! zo
-21
+31
 normal! zo
-17
+27
 normal! zc
-47
+57
 normal! zo
-58
+68
 normal! zo
-let s:l = 6 - ((5 * winheight(0) + 23) / 46)
+let s:l = 17 - ((0 * winheight(0) + 23) / 46)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 6
-normal! 010|
+keepjumps 17
+normal! 028|
 wincmd w
 argglobal
 if bufexists(fnamemodify("pages/shex-join.js", ":p")) | buffer pages/shex-join.js | else | edit pages/shex-join.js | endif
@@ -1638,13 +1638,20 @@ normal! zo
 normal! zo
 62
 normal! zo
-let s:l = 6 - ((0 * winheight(0) + 23) / 46)
+117
+normal! zo
+162
+normal! zo
+207
+normal! zo
+let s:l = 77 - ((46 * winheight(0) + 23) / 46)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 6
-normal! 010|
+keepjumps 77
+normal! 034|
 wincmd w
+2wincmd w
 exe 'vert 1resize ' . ((&columns * 89 + 89) / 179)
 exe 'vert 2resize ' . ((&columns * 89 + 89) / 179)
 tabnext
@@ -1791,12 +1798,16 @@ setlocal wrap
 setlocal wrapmargin=0
 3
 normal! zo
-let s:l = 30 - ((29 * winheight(0) + 23) / 46)
+3
+normal! zc
+200
+normal! zo
+let s:l = 217 - ((216 * winheight(0) + 23) / 46)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 30
-normal! 0
+keepjumps 217
+normal! 03|
 wincmd w
 argglobal
 if bufexists(fnamemodify("foss/stellar-account.mjs", ":p")) | buffer foss/stellar-account.mjs | else | edit foss/stellar-account.mjs | endif
@@ -1936,7 +1947,7 @@ normal! 025|
 wincmd w
 exe 'vert 1resize ' . ((&columns * 89 + 89) / 179)
 exe 'vert 2resize ' . ((&columns * 89 + 89) / 179)
-tabnext 2
+tabnext 3
 set stal=1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0
   silent exe 'bwipe ' . s:wipebuf

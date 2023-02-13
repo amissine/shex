@@ -73,8 +73,8 @@ Your account is now loaded. You can make / take Stellar HEX offers / requests!
   <p id='contextual-prompt' style={{ display: 'none' }}>
 You need HEXA to make / take Stellar HEX offers / requests. Would you like to buy
 some now? {' '} <button onClick={_ => buyHEXA(opts)}>Buy HEXA</button>
-{' '} Or instead, you can start watching open makes to get a better idea of what this
-marketplace is about.
+{' '} Or instead, you can start watching open offers and requests (makes) 
+to get a better idea of what this marketplace is about.
 {' '} <button onClick={_ => watchMakes(opts)}>Watch Open Makes</button>
 {' '} Please click one of these buttons. And welcome to the Stellar Help Exchange!
   </p>

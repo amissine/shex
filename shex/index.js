@@ -6,12 +6,22 @@ import { pGET, } from '../foss/utils.mjs'
 function buyHEXA (opts) { // {{{1
   console.log('buyHEXA opts', opts)
   opts.setQ(p => Object.assign({}, p, { event: 'buyHEXA-started', }))
-  pGET('/request-service/bin/buyHEXA.mjs')
+
+  let servicePath = 'bin/buyHEXA.mjs'
+  let servicePK = 'GDRPCVMDO3DXYGYR4KTN57PI3AX2PKKDY2I7ZVMSTFLEDBMCBFYSD5QE'
+  let serviceConsumerSK = window.StellarSdk.Keypair.random().secret()
+
+  let url = pGET(
+    `/request-service/${servicePK}/${servicePath}`, '', serviceConsumerSK, true
+  )
+  window.open(url, '_blank')
+  /*
     .then(result => {
       console.log(result)
       opts.setQ(p => Object.assign({}, p, { event: 'buyHEXA-stopped', }))
     })
     .catch(e => console.error(e))
+  */
 }
 
 async function setup (state, setState) { // {{{1
