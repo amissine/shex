@@ -22,6 +22,7 @@ function buyHEXA (opts) { // {{{1
     })
     .catch(e => console.error(e))
   */
+  location.replace('https://shex.pages.dev')
 }
 
 async function setup (state, setState) { // {{{1
