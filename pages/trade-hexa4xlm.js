@@ -1,35 +1,95 @@
-import Head from 'next/head'
+import Head from 'next/head' // {{{1
 import Link from 'next/link';
+import Script from 'next/script'
 import styles from './index.module.css'
+import { useEffect, useRef, useState } from 'react'
+import { stellarNetworks, } from '../foss/stellar-networks.mjs'
+import { hexAssets, } from '../foss/hex.mjs'
 
-export default function Home() {
-  const title = 'Trade HEXA@XLM'
+const flag = (fRef, f) => { // {{{1
+  fRef.current |= f
+  return true;
+}
+const FAPI_READY = 1
+const SDK_READY = 2
+const NO_WALLET = 4
+
+const setupNetwork = name => { // {{{1
+  let network = stellarNetworks().filter(v => v.name == name)[0]
+  window.StellarNetwork = network
+  hexAssets(network.hex)
+  return network;
+}
+
+export default function TradeHEXAforXLM() { // {{{1
+  const title = 'Trade HEXA@XLM', rows = 4, cols = 100 // {{{2
   const onSubmit = event => {
     event.preventDefault()
     alert(event.target.order.value)
   }
-  return (
+
+  // Hooks {{{2
+  const flags = useRef(0)
+  const [sXLM_bHEXA, setOb] = useState({})
+  useEffect(_ => {
+    let network
+    console.log('sXLM_bHEXA', sXLM_bHEXA, 'flags', flags)
+    switch (flags.current) {
+      case FAPI_READY | SDK_READY:
+        network = sXLM_bHEXA.network ?? 'TESTNET'
+        sXLM_bHEXA.network || flag(flags, NO_WALLET) && setOb(p => Object.assign({}, p, { network }))
+      default:
+        let nw = network ? setupNetwork(network) : null
+        console.log('nw', nw)
+        return _ => sXLM_bHEXA.close && sXLM_bHEXA.close();
+    }
+  }, [sXLM_bHEXA])
+
+  return ( // {{{2
   <>
-    <Head>
+    <Head> {/* {{{3 */}
       <title>{title}</title>
       <link rel="icon" href="/favicon.ico" />
     </Head>
-    <div className={styles.container}>
-      <h1 className={styles.description}>{title}</h1>
+
+    {/* Script stellar-freighter-api/1.3.1 {{{3 */}
+    <Script
+      onError={e => console.error(e)}
+      onReady={_ => flag(flags, FAPI_READY) && window.freighterApi?.isConnected() &&
+        window.freighterApi.getNetwork().then(network => setOb(p =>
+          Object.assign({}, p, { network })
+        )) || setOb(p => Object.assign({}, p, { event: 'fapi-ready', }))
+      }
+      src="https://cdnjs.cloudflare.com/ajax/libs/stellar-freighter-api/1.3.1/index.min.js"
+      strategy="afterInteractive"
+    />
+
+    {/* Script stellar-sdk/10.4.0 {{{3 */}
+    <Script
+      onError={e => console.error(e)}
+      onReady={_ => flag(flags, SDK_READY) && window.StellarSdk &&
+        setOb(p => Object.assign({}, p, { event: 'sdk-ready', }))
+      }
+      src="https://cdnjs.cloudflare.com/ajax/libs/stellar-sdk/10.4.0/stellar-sdk.js"
+      strategy="lazyOnload"
+    />
+
+    <div className={styles.container}> {/* {{{3 */}
+      <h1 className={styles.description}>{`${title} on Stellar ${sXLM_bHEXA.network}`}</h1>
       <label>Orderbook</label>
-      <textarea rows={4} cols={80}/>
+      <textarea id='orderbook' rows={rows} cols={cols}/>
       <form onSubmit={onSubmit}>
-      <label>Place order: </label>
-      <input 
+        <label>Place order: </label>
+        <input 
     type='text' id='order' required 
     pattern='^[bs]\d{1,3}(\.\d{1,6})?@\d{1,3}(\.\d{1,6})?$' 
       title='^[bs]\d{1,3}(\.\d{1,6})?@\d{1,3}(\.\d{1,6})?$'
-      />
-      <button type="submit"> Place</button>
+        />
+        <button type="submit"> Place</button>
       </form>
       <label>Your order(s)</label>
-      <textarea rows={4} cols={80}/>
-    </div>
+      <textarea id='orders' rows={rows} cols={cols}/>
+    </div> {/* }}}3 */}
   </>
-  )
+  ) // }}}2
 }
