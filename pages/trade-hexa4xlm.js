@@ -21,7 +21,7 @@ const setupNetwork = name => { // {{{1
   window.StellarNetwork = network
   hexAssets(network.hex) // producing hex.assets: [ClawableHexa, HEXA]
 
-  window.stellarHorizonServer =
+  window.StellarHorizonServer =
     new window.StellarSdk.Server(window.StellarNetwork.url)
 
   return network;
@@ -29,7 +29,8 @@ const setupNetwork = name => { // {{{1
 
 function readOrderbook (orderbook) { // {{{1
   let ob = new Orderbook(orderbook)
-  console.log(ob.line())
+  let lines = ob.line() + '\n' + document.getElementById('orderbook').value
+  document.getElementById('orderbook').value = lines
 }
 
 export default function TradeHEXAforXLM() { // {{{1
@@ -40,15 +41,14 @@ export default function TradeHEXAforXLM() { // {{{1
   }
   const setupOb = set => {
     console.log('setupOb')
-    let server = window.stellarHorizonServer
+    let server = window.StellarHorizonServer
     let HEXA = window.StellarNetwork.hex.assets[1]
     let native = new window.StellarSdk.Asset('XLM', null)
-    set(p => Object.assign({}, p, {
-      close: server.orderbook(HEXA, native).stream({
-        onerror:   e => console.error(e),
-        onmessage: b => readOrderbook(b) // the entry point
-      }),
-    }))
+    let close = server.orderbook(HEXA, native).stream({
+      onerror:   e => console.error(e),
+      onmessage: b => readOrderbook(b) // the entry point
+    })
+    set(p => Object.assign({}, p, { close }))
   }
 
   // Hooks {{{2
@@ -99,6 +99,7 @@ export default function TradeHEXAforXLM() { // {{{1
       <h1 className={styles.description}>{`${title} on Stellar ${sXLM_bHEXA.network}`}</h1>
       <label>Orderbook</label>
       <textarea id='orderbook' rows={rows} cols={cols}/>
+      <button onClick={_ => sXLM_bHEXA.close()}>Stop</button>
       <form onSubmit={onSubmit}>
         <label>Place order: </label>
         <input 
