@@ -3,6 +3,25 @@ import { Account, } from '../foss/stellar-account.mjs'
 import { hexAssets, } from '../foss/hex.mjs'
 import { pGET, } from '../foss/utils.mjs'
 
+const flag = (fRef, f) => { // {{{1
+  fRef.current |= f
+  return true;
+}
+const FAPI_READY = 1
+const SDK_READY = 2
+const NO_WALLET = 4
+
+const setupNetwork = name => { // {{{1
+  let network = stellarNetworks().filter(v => v.name == name)[0]
+  window.StellarNetwork = network
+  hexAssets(network.hex) // producing hex.assets: [ClawableHexa, HEXA]
+
+  window.StellarHorizonServer =
+    new window.StellarSdk.Server(window.StellarNetwork.url)
+
+  return network;
+}
+
 function buyHEXA (opts) { // {{{1
   console.log('buyHEXA opts', opts)
   opts.setQ(p => Object.assign({}, p, { event: 'buyHEXA-started', }))
@@ -66,5 +85,7 @@ function watchMakes (opts) { // {{{1
     .catch(e => console.error(e))
 }
 
-export { buyHEXA, setup, teardown, watchMakes, } // {{{1
-
+export { // {{{1
+  FAPI_READY, NO_WALLET, SDK_READY, flag, setupNetwork,
+  buyHEXA, setup, teardown, watchMakes, 
+}

@@ -3,29 +3,8 @@ import Link from 'next/link';
 import Script from 'next/script'
 import styles from './index.module.css'
 import { useEffect, useRef, useState } from 'react'
-import { stellarNetworks, } from '../foss/stellar-networks.mjs'
-import { 
-  Orderbook, hexAssets, hexaValue, offerCreated, offerDeleted, 
-} from '../foss/hex.mjs'
-
-const flag = (fRef, f) => { // {{{1
-  fRef.current |= f
-  return true;
-}
-const FAPI_READY = 1
-const SDK_READY = 2
-const NO_WALLET = 4
-
-const setupNetwork = name => { // {{{1
-  let network = stellarNetworks().filter(v => v.name == name)[0]
-  window.StellarNetwork = network
-  hexAssets(network.hex) // producing hex.assets: [ClawableHexa, HEXA]
-
-  window.StellarHorizonServer =
-    new window.StellarSdk.Server(window.StellarNetwork.url)
-
-  return network;
-}
+import { Orderbook, } from '../foss/hex.mjs'
+import { FAPI_READY, NO_WALLET, SDK_READY, flag, setupNetwork, } from '../shex'
 
 function readOrderbook (orderbook) { // {{{1
   let ob = new Orderbook(orderbook)

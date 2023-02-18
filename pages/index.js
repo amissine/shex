@@ -51,12 +51,12 @@ export default function Home() {
     Take some, then see if you like it. Click here to join the discussion on Discord...
             </p>
           </a>
-          <Link href={'/shex-join'} className={styles.card}>
+          <Link href={'/join-test'} className={styles.card}>
             <h3>Ok, How Do I Join? &rarr;</h3>
             <p>
-    You can first try it for free on Stellar TESTNET.
-    Add Stellar wallet to your browser, get the assets - and you're in! 
-    Click here to join Stellar HEX...
+    You can try it for free on Stellar TESTNET.
+    Then add Stellar wallet to your browser, get the assets - and you're in! 
+    Click here to join us...
             </p>
           </Link>
         </div>
