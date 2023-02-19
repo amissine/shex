@@ -98,7 +98,7 @@ When you press the <i>Store</i> button, we store your Secret Key <b>on this devi
 Stellar account to make it trust our assets.
     </p>
     <p id='buttonStorePressed' style={{ display: 'none' }}>
-Your first transaction on Stellar TESTNET has just started. It usually takes 2 - 5 seconds to complete.
+Your first transaction on Stellar TESTNET has just started! It usually takes 2 - 5 seconds to complete.
 Please now wait until the button below reads <i>Continue</i>, then press it.
     </p>
     <button id='buttonContinue' style={{display:'none'}} onClick={_ => q.close()}>Tx in progress...</button>
