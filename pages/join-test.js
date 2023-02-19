@@ -39,6 +39,7 @@ export default function JoinTest() { // {{{1
       console.log(txBody)
       document.getElementById('buttonContinue').innerText = 'Continue'
       document.getElementById('buttonContinue').disabled = false
+      document.getElementById('buttonContinue').focus()
     })
   }
 
