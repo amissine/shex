@@ -11,12 +11,12 @@ export default function JoinTest() { // {{{1
   const flags = useRef(0) // {{{2
   const [q, setQ] = useState({})
   useEffect(_ => {
-    let network, close = _ => alert('work in progress')
+    let network
     console.log('q', q, 'flags', flags)
     switch (flags.current) {
       case FAPI_READY | SDK_READY:
         network = q.network ?? 'TESTNET'
-        q.network || flag(flags, NO_WALLET) && setQ(_ => ({ network, close }))
+        q.network || flag(flags, NO_WALLET) && setQ(_ => ({ network }))
       default:
         network && !window.StellarNetwork && setupNetwork(network)
         return _ => q.close && q.close();
@@ -101,7 +101,7 @@ Stellar account to make it trust our assets.
 Your first transaction on Stellar TESTNET has just started! It usually takes 2 - 5 seconds to complete.
 Please now wait until the button below reads <i>Continue</i>, then press it.
     </p>
-    <button id='buttonContinue' style={{display:'none'}} onClick={_ => q.close()}>Tx in progress...</button>
+    <button id='buttonContinue' style={{display:'none'}} onClick={_ => alert('work in progress')}>Tx in progress...</button>
   </div> {/* }}}3 */}
   </>
   ) // }}}2
