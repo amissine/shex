@@ -41,6 +41,11 @@
 }
 
 .container a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.container p a {
   color: #0070f3; /*inherit;*/
   text-decoration: none;
 }

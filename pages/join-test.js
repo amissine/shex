@@ -64,7 +64,7 @@ And this will be the thing to do should you decide to join us on Stellar public
 network.
     </p>
     <p>
-In the meantime you can create and fund your account on Stellar TESTNET. You can use
+You don't need a wallet to create and fund your account on Stellar TESTNET. You can use
 <a href="https://laboratory.stellar.org/#account-creator?network=test" target="_blank"> Stellar Laboratory</a> to do so.
 Create and fund your Stellar TESTNET account, then copy your <b>Secret Key</b> and paste it here:
     </p>
