@@ -23,25 +23,44 @@ export default function JoinTest() { // {{{1
     }
   }, [q])
   const title = 'Join us'
+  const txStartedTxt = 'Your first transaction on Stellar TESTNET has just started! It usually takes 2 - 5 seconds to complete.'
+  let txCompletedTxt = ''
   const buttonStorePressed = async event => {
     event.preventDefault()
     let key = event.target.secretKey.value
     storeItem('mysec', key)
-    document.getElementById('buttonStore').disabled = true
-    document.getElementById('buttonStorePressed').style.display = 'block'
-    document.getElementById('buttonContinue').style.display = 'block'
-    document.getElementById('buttonContinue').focus()
-    document.getElementById('buttonContinue').disabled = true
+  
+    const txStartedMs = Date.now()
     let keypair = window.StellarSdk.Keypair.fromSecret(key)
+    const endpoint = `https://horizon-testnet.stellar.org/accounts/${keypair.publicKey()}`
+    document.getElementById('buttonStore').disabled = true
+    document.getElementById('txStarted').style.display = 'block'
+    document.getElementById('buttonContinue').style.display = 'block'
+    document.getElementById('buttonContinue').focus({ preventScroll: false })
+    document.getElementById('buttonContinue').disabled = true
     let a = window.StellarNetwork.hex.assets
     let user = await new Account({ keypair }).load()
     user.trust(a[0]).trust(a[1]).submit().then(txBody => {
       console.log(txBody)
+      document.getElementById('txStarted').style.display = 'none'
+  
+      txCompletedTxt = `${txStartedTxt} This time it took ${Date.now() - txStartedMs} ms. Your account now ` +
+        `<a href="${endpoint}" target="_blank">trusts our assets</a>.`
+      document.getElementById('txCompleted').innerHTML = txCompletedTxt
+      document.getElementById('txCompleted').style.display = 'block'
       document.getElementById('buttonContinue').innerText = 'Continue'
       document.getElementById('buttonContinue').disabled = false
-      document.getElementById('buttonContinue').focus()
+      document.getElementById('buttonContinue').focus({ preventScroll: false })
     })
   }
+  const buttonContinuePressed = _ => {
+    document.getElementById('pContinue').style.display = 'block'
+    document.getElementById('buttonContinue').focus({ preventScroll: false })
+    document.getElementById('buttonContinue').scrollIntoView()
+    document.getElementById('buttonContinue').disabled = true
+  }
+  const buyHEXA= _ => alert('work in progress')
+  const watch = _ => alert('work in progress')
 
   return ( // {{{2
   <>
@@ -98,11 +117,14 @@ Create and fund your Stellar TESTNET account, then copy your <b>Secret Key</b> a
 When you press the <i>Store</i> button, we store your Secret Key <b>on this device ONLY</b>. And we update your
 Stellar account to make it trust our assets.
     </p>
-    <p id='buttonStorePressed' style={{ display: 'none' }}>
-Your first transaction on Stellar TESTNET has just started! It usually takes 2 - 5 seconds to complete.
-Please now wait until the button below reads <i>Continue</i>, then press it.
+    <p id='txStarted' style={{display:'none'}}>{txStartedTxt}..</p>
+    <p id='txCompleted' style={{display:'none'}}>{txCompletedTxt}</p>
+    <p id='pContinue' style={{display:'none'}}>
+Now that you trust our assets you may want to buy some HEXA. <button onClick={buyHEXA}>Buy HEXA</button>{' '}
+Or you can watch others making and taking help offers and help requests. <button onClick={watch}>Watch</button>{' '}
+And welcome to Stellar Help Exchange!
     </p>
-    <button id='buttonContinue' style={{display:'none'}} onClick={_ => alert('work in progress')}>Tx in progress...</button>
+    <button id='buttonContinue' style={{display:'none'}} onClick={buttonContinuePressed}>Tx in progress...</button>
   </div> {/* }}}3 */}
   </>
   ) // }}}2
