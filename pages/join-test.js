@@ -8,7 +8,7 @@ import { retrieveItem, storeItem, } from '../foss/utils.mjs'
 import { Account, } from '../foss/stellar-account.mjs'
 
 export default function JoinTest() { // {{{1
-  const flags = useRef(0) // {{{2
+  const flags = useRef(0) // HOOKS {{{2
   const [q, setQ] = useState({})
   useEffect(_ => {
     let network
@@ -22,44 +22,44 @@ export default function JoinTest() { // {{{1
         return _ => q.close && q.close();
     }
   }, [q])
-  const title = 'Join us'
+  const title = 'Join us' // {{{2
   const txStartedTxt = 'Your first transaction on Stellar TESTNET has just started! It usually takes 2 - 5 seconds to complete.'
   let txCompletedTxt = ''
-  const buttonStorePressed = async event => {
+  const buttonStorePressed = async event => { // {{{3
     event.preventDefault()
     let key = event.target.secretKey.value
     storeItem('mysec', key)
-  
     const txStartedMs = Date.now()
     let keypair = window.StellarSdk.Keypair.fromSecret(key)
     const endpoint = `https://horizon-testnet.stellar.org/accounts/${keypair.publicKey()}`
     document.getElementById('buttonStore').disabled = true
     document.getElementById('txStarted').style.display = 'block'
     document.getElementById('buttonContinue').style.display = 'block'
-    document.getElementById('buttonContinue').focus({ preventScroll: false })
+    document.getElementById('buttonContinue').focus()
+    document.getElementById('buttonContinue').scrollIntoView()
     document.getElementById('buttonContinue').disabled = true
     let a = window.StellarNetwork.hex.assets
     let user = await new Account({ keypair }).load()
-    user.trust(a[0]).trust(a[1]).submit().then(txBody => {
+    user.trust(a[0]).trust(a[1]).submit().then(txBody => { // {{{4
       console.log(txBody)
       document.getElementById('txStarted').style.display = 'none'
-  
       txCompletedTxt = `${txStartedTxt} This time it took ${Date.now() - txStartedMs} ms. Your account now ` +
         `<a href="${endpoint}" target="_blank">trusts our assets</a>.`
       document.getElementById('txCompleted').innerHTML = txCompletedTxt
       document.getElementById('txCompleted').style.display = 'block'
       document.getElementById('buttonContinue').innerText = 'Continue'
       document.getElementById('buttonContinue').disabled = false
-      document.getElementById('buttonContinue').focus({ preventScroll: false })
-    })
+      document.getElementById('buttonContinue').focus()
+      document.getElementById('buttonContinue').scrollIntoView()
+    }) // }}}4
   }
-  const buttonContinuePressed = _ => {
+  const buttonContinuePressed = _ => { // {{{3
     document.getElementById('pContinue').style.display = 'block'
-    document.getElementById('buttonContinue').focus({ preventScroll: false })
+    document.getElementById('buttonContinue').focus()
     document.getElementById('buttonContinue').scrollIntoView()
     document.getElementById('buttonContinue').disabled = true
-  }
-  const buyHEXA= _ => alert('work in progress')
+  } // }}}3
+  const buyHEXA = _ => alert('work in progress')
   const watch = _ => alert('work in progress')
 
   return ( // {{{2
