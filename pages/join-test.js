@@ -40,8 +40,8 @@ export default function JoinTest() { // {{{1
     document.getElementById('buttonContinue').disabled = true
     let a = window.StellarNetwork.hex.assets
     let user = await new Account({ keypair }).load()
-    user.trust(a[0]).trust(a[1]).submit().then(txBody => { // {{{4
-      console.log(txBody)
+    user.trust(a[0]).trust(a[1]).submit().then(txResultBody => { // {{{4
+      console.log(txResultBody)
       document.getElementById('txStarted').style.display = 'none'
       txCompletedTxt = `${txStartedTxt} This time it took ${Date.now() - txStartedMs} ms. Your account now ` +
         `<a href="${endpoint}" target="_blank">trusts our assets</a>.`

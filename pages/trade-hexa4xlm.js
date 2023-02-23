@@ -3,8 +3,12 @@ import Link from 'next/link';
 import Script from 'next/script'
 import styles from './index.module.css'
 import { useEffect, useRef, useState } from 'react'
-import { Orderbook, } from '../foss/hex.mjs'
+import { Orderbook, offerCreated, offerDeleted, } from '../foss/hex.mjs'
 import { FAPI_READY, NO_WALLET, SDK_READY, flag, setupNetwork, } from '../shex'
+import { Semaphore, retrieveItem, storeItem, timestamp, } from '../foss/utils.mjs'
+import { Account, } from '../foss/stellar-account.mjs'
+
+let timeoutMs = 20000, lock = new Semaphore(1) // {{{1
 
 function readOrderbook (orderbook) { // {{{1
   let ob = new Orderbook(orderbook)
@@ -13,12 +17,58 @@ function readOrderbook (orderbook) { // {{{1
 }
 
 export default function TradeHEXAforXLM() { // {{{1
-  const title = 'Trade HEXA@XLM', rows = 4, cols = 100 // {{{2
-  const onSubmit = event => {
-    event.preventDefault()
-    alert(event.target.order.value)
+  const title = 'Trade HEXA@XLM', rows = 4, cols = 100, mysec = useRef({}) // {{{2
+  const timeoutFn = _ => lock.acquire().then(_ => { // {{{2
+    let ov = document.getElementById('orderbook').value
+    document.getElementById('orderbook').value = 'timeout' + '\n' + ov
+    document.getElementById('buttonStop').click()
+    //stop()
+    lock.release()
+  })
+  const timeoutId = useRef({})
+  const [sXLM_bHEXA, setOb] = useState({}) // {{{2
+  const stop = _ => { // {{{2
+    sXLM_bHEXA.close()
+    let ov = document.getElementById('orderbook').value
+    document.getElementById('orderbook').value = 'stop' + '\n' + ov
+    document.getElementById('buttonPlace').disabled = true
+    document.getElementById('buttonStop').disabled = true
+    clearTimeout(timeoutId.current)
   }
-  const setupOb = set => {
+  const buttonPlacePressed = async event => { // {{{2
+    event.preventDefault()
+    let order = event.target.order.value
+    clearTimeout(timeoutId.current)
+    timeoutId.current = setTimeout(timeoutFn, timeoutMs)
+    let ov = document.getElementById('orders').value
+    document.getElementById('orders').value = order + '\n' + ov
+    mysec.current = retrieveItem('mysec') // FIXME, use wallet
+    let keypair = window.StellarSdk.Keypair.fromSecret(mysec.current)
+    let user = await new Account({ keypair }).load()
+    let buy = order.startsWith('b')
+    let [amount, price] = order.slice(1).split('@')
+    let server = window.StellarHorizonServer
+    let HEXA = window.StellarNetwork.hex.assets[1]
+    let native = new window.StellarSdk.Asset('XLM', null)
+    let opts = buy ? { selling: native, buying: HEXA, buyAmount: amount, price }
+    : { selling: HEXA, buying: native, amount, price }
+    document.getElementById('buttonPlace').disabled = true
+    lock.acquire().then(_ => user.manageOffer(opts).submit())
+    .then(txResultBody => {
+      order += ' created id ' + offerCreated(
+        txResultBody.result_xdr, 
+        buy ? 'manageBuyOfferResult' : 'manageSellOfferResult'
+      ).offer.id
+    }).catch(e => {
+      order += ' ERROR: check console for details'
+    })
+    .finally(_ => {
+      document.getElementById('orders').value = order + '\n' + ov
+      document.getElementById('buttonPlace').disabled = false
+      lock.release()
+    })
+  }
+  const setupOb = set => { // {{{2
     console.log('setupOb')
     let server = window.StellarHorizonServer
     let HEXA = window.StellarNetwork.hex.assets[1]
@@ -28,12 +78,11 @@ export default function TradeHEXAforXLM() { // {{{1
       onmessage: b => readOrderbook(b) // the entry point
     })
     set(p => Object.assign({}, p, { close }))
+    timeoutId.current = setTimeout(timeoutFn, timeoutMs)
   }
 
-  // Hooks {{{2
-  const flags = useRef(0)
-  const [sXLM_bHEXA, setOb] = useState({})
-  useEffect(_ => {
+  const flags = useRef({}) // {{{2
+  useEffect(_ => { // {{{2
     let network
     console.log('sXLM_bHEXA', sXLM_bHEXA, 'flags', flags)
     switch (flags.current) {
@@ -45,7 +94,6 @@ export default function TradeHEXAforXLM() { // {{{1
         return _ => sXLM_bHEXA.close && sXLM_bHEXA.close();
     }
   }, [sXLM_bHEXA])
-
   return ( // {{{2
   <>
     <Head> {/* {{{3 */}
@@ -77,19 +125,19 @@ export default function TradeHEXAforXLM() { // {{{1
     <div className={styles.container}> {/* {{{3 */}
       <h1 className={styles.description}>{`${title} on Stellar ${sXLM_bHEXA.network}`}</h1>
       <label>Orderbook</label>
-      <textarea id='orderbook' rows={rows} cols={cols}/>
-      <button onClick={_ => sXLM_bHEXA.close()}>Stop</button>
-      <form onSubmit={onSubmit}>
+      <textarea readOnly={true} id='orderbook' rows={rows} cols={cols}/>
+      <button id='buttonStop' onClick={stop}>Stop</button>
+      <form onSubmit={buttonPlacePressed}>
         <label>Place order: </label>
         <input 
     type='text' id='order' required 
     pattern='^[bs]\d{1,3}(\.\d{1,6})?@\d{1,3}(\.\d{1,6})?$' 
       title='^[bs]\d{1,3}(\.\d{1,6})?@\d{1,3}(\.\d{1,6})?$'
         />
-        <button type="submit"> Place</button>
+        <button id='buttonPlace' type="submit"> Place</button>
       </form>
       <label>Your order(s)</label>
-      <textarea id='orders' rows={rows} cols={cols}/>
+      <textarea readOnly={true} id='orders' rows={rows} cols={cols}/>
     </div> {/* }}}3 */}
   </>
   ) // }}}2
