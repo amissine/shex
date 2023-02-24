@@ -76,20 +76,20 @@ badd +1 pages/_app.js
 badd +1 styles/global.css
 badd +1 pages/index.module.css
 badd +1 pages/shex-join.js
-badd +14 shex/index.js
-badd +128 foss/stellar-account.mjs
+badd +1 shex/index.js
+badd +1 foss/stellar-account.mjs
 badd +19 ~/product/next/nextjs-blog/shex/index.js
 badd +1 pages/shex-join.module.css
 badd +60 ~/product/typed.js-sandbox/react-hooks-demo/pages/index.js
-badd +271 foss/utils.mjs
+badd +1 foss/utils.mjs
 badd +202 ~/people/didalik/aim/shex/shared-services-support/bin/run.mjs
 badd +35 pages/buy-hexa.js
 badd +9 pages/js-form.js
-badd +7 pages/trade-hexa4xlm.js
-badd +0 foss/hex.mjs
-badd +0 ~/people/didalik/aim/shex/bin/buyHEXA.mjs
-badd +0 test.log
-badd +0 pages/join-test.js
+badd +1 pages/trade-hexa4xlm.js
+badd +1 foss/hex.mjs
+badd +2 ~/people/didalik/aim/shex/bin/buyHEXA.mjs
+badd +1 test.log
+badd +1 pages/join-test.js
 badd +134 ~/process/tmp/shed/cli/model/impl/aim/storage.js
 badd +353 ~/process/tmp/shed/cli/model/impl/aim/utils.mjs
 argglobal
@@ -658,12 +658,12 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-let s:l = 29 - ((7 * winheight(0) + 12) / 25)
+let s:l = 3 - ((2 * winheight(0) + 12) / 25)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 29
-normal! 0
+keepjumps 3
+normal! 051|
 wincmd w
 argglobal
 if bufexists(fnamemodify("README.md", ":p")) | buffer README.md | else | edit README.md | endif
@@ -1482,20 +1482,26 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
+1
+normal! zo
 10
 normal! zo
-11
+25
 normal! zo
-50
+28
 normal! zo
-78
+43
 normal! zo
-let s:l = 48 - ((7 * winheight(0) + 23) / 47)
+65
+normal! zo
+83
+normal! zo
+let s:l = 35 - ((34 * winheight(0) + 23) / 47)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 48
-normal! 027|
+keepjumps 35
+normal! 05|
 tabnext
 edit shex/index.js
 let s:save_splitbelow = &splitbelow
@@ -1640,16 +1646,20 @@ setlocal wrap
 setlocal wrapmargin=0
 1
 normal! zo
+25
+normal! zo
 47
 normal! zo
 51
 normal! zo
-let s:l = 2 - ((1 * winheight(0) + 23) / 46)
+77
+normal! zo
+let s:l = 25 - ((0 * winheight(0) + 23) / 46)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 2
-normal! 0
+keepjumps 25
+normal! 019|
 wincmd w
 argglobal
 if bufexists(fnamemodify("pages/shex-join.js", ":p")) | buffer pages/shex-join.js | else | edit pages/shex-join.js | endif
@@ -1774,170 +1784,26 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
+1
+normal! zo
 10
+normal! zo
+31
 normal! zo
 62
 normal! zo
-let s:l = 10 - ((9 * winheight(0) + 23) / 46)
+let s:l = 75 - ((62 * winheight(0) + 23) / 46)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 10
-normal! 0
+keepjumps 75
+normal! 039|
 wincmd w
 exe 'vert 1resize ' . ((&columns * 89 + 89) / 179)
 exe 'vert 2resize ' . ((&columns * 89 + 89) / 179)
 tabnext
-edit ~/people/didalik/aim/shex/bin/buyHEXA.mjs
-let s:save_splitbelow = &splitbelow
-let s:save_splitright = &splitright
-set splitbelow splitright
-wincmd _ | wincmd |
-vsplit
-1wincmd h
-wincmd w
-let &splitbelow = s:save_splitbelow
-let &splitright = s:save_splitright
-wincmd t
-let s:save_winminheight = &winminheight
-let s:save_winminwidth = &winminwidth
-set winminheight=0
-set winheight=1
-set winminwidth=0
-set winwidth=1
-exe 'vert 1resize ' . ((&columns * 89 + 89) / 179)
-exe 'vert 2resize ' . ((&columns * 89 + 89) / 179)
+edit pages/trade-hexa4xlm.js
 argglobal
-balt pages/trade-hexa4xlm.js
-setlocal autoindent
-setlocal backupcopy=
-setlocal nobinary
-setlocal nobreakindent
-setlocal breakindentopt=
-setlocal bufhidden=
-setlocal buflisted
-setlocal buftype=
-setlocal nocindent
-setlocal cinkeys=0{,0},0),0],:,0#,!^F,o,O,e
-setlocal cinoptions=
-setlocal cinscopedecls=public,protected,private
-setlocal cinwords=if,else,while,do,for,switch
-setlocal colorcolumn=
-setlocal comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,://
-setlocal commentstring=//%s
-setlocal complete=.,w,b,u,t,i
-setlocal completefunc=
-setlocal nocopyindent
-setlocal cryptmethod=
-setlocal nocursorbind
-setlocal nocursorcolumn
-setlocal nocursorline
-setlocal cursorlineopt=both
-setlocal define=\\(^\\s*(*async\\s\\+function\\|(*function\\)\\|^\\s*\\(\\*\\|static\\|async\\|get\\|set\\|\\i\\+\\.\\)\\|^\\s*\\(\\ze\\i\\+\\)\\(([^)]*).*{$\\|\\s*[:=,]\\)\\|^\\s*\\(export\\s\\+\\|export\\s\\+default\\s\\+\\)*\\(var\\|let\\|const\\|function\\|class\\)\\|\\<as\\>
-setlocal dictionary=
-setlocal nodiff
-setlocal equalprg=
-setlocal errorformat=
-setlocal expandtab
-if &filetype != 'javascript'
-setlocal filetype=javascript
-endif
-setlocal fillchars=
-setlocal fixendofline
-setlocal foldcolumn=0
-setlocal foldenable
-setlocal foldexpr=0
-setlocal foldignore=#
-setlocal foldlevel=0
-setlocal foldmarker={{{,}}}
-set foldmethod=marker
-setlocal foldmethod=marker
-setlocal foldminlines=1
-setlocal foldnestmax=20
-setlocal foldtext=foldtext()
-setlocal formatexpr=
-setlocal formatoptions=croql
-setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
-setlocal formatprg=
-setlocal grepprg=
-setlocal iminsert=0
-setlocal imsearch=-1
-setlocal include=
-setlocal includeexpr=
-setlocal indentexpr=GetJavascriptIndent()
-setlocal indentkeys=0{,0},0),0],:,0#,!^F,o,O,e,0],0)
-setlocal noinfercase
-setlocal iskeyword=@,48-57,_,192-255,$
-setlocal keywordprg=
-setlocal nolinebreak
-setlocal nolisp
-setlocal lispwords=
-setlocal nolist
-setlocal listchars=
-setlocal makeencoding=
-setlocal makeprg=
-setlocal matchpairs=(:),{:},[:]
-setlocal modeline
-setlocal modifiable
-setlocal nrformats=bin,octal,hex
-set number
-setlocal number
-setlocal numberwidth=4
-setlocal omnifunc=javascriptcomplete#CompleteJS
-setlocal path=.,,
-setlocal nopreserveindent
-setlocal nopreviewwindow
-setlocal quoteescape=\\
-setlocal readonly
-setlocal norelativenumber
-setlocal noscrollbind
-setlocal scrolloff=-1
-setlocal shiftwidth=2
-setlocal noshortname
-setlocal showbreak=
-setlocal sidescrolloff=-1
-setlocal signcolumn=auto
-setlocal nosmartindent
-setlocal softtabstop=0
-setlocal nospell
-setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
-setlocal spellfile=
-setlocal spelllang=en
-setlocal spelloptions=
-setlocal statusline=
-setlocal suffixesadd=.js,.jsx,.es,.es6,.cjs,.mjs,.jsm,.vue,.json
-setlocal swapfile
-setlocal synmaxcol=3000
-if &syntax != 'javascript'
-setlocal syntax=javascript
-endif
-setlocal tabstop=2
-setlocal tagcase=
-setlocal tagfunc=
-setlocal tags=
-setlocal termwinkey=
-setlocal termwinscroll=10000
-setlocal termwinsize=
-setlocal textwidth=0
-setlocal thesaurus=
-setlocal thesaurusfunc=
-setlocal noundofile
-setlocal undolevels=-123456
-setlocal virtualedit=
-setlocal wincolor=
-setlocal nowinfixheight
-setlocal nowinfixwidth
-setlocal wrap
-setlocal wrapmargin=0
-let s:l = 5 - ((4 * winheight(0) + 23) / 46)
-if s:l < 1 | let s:l = 1 | endif
-keepjumps exe s:l
-normal! zt
-keepjumps 5
-normal! 0
-wincmd w
-argglobal
-if bufexists(fnamemodify("pages/trade-hexa4xlm.js", ":p")) | buffer pages/trade-hexa4xlm.js | else | edit pages/trade-hexa4xlm.js | endif
 balt ~/people/didalik/aim/shex/bin/buyHEXA.mjs
 setlocal autoindent
 setlocal backupcopy=
@@ -2059,23 +1925,24 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-15
+13
 normal! zo
-16
+19
 normal! zo
-49
+20
 normal! zo
-77
+22
 normal! zo
-let s:l = 17 - ((16 * winheight(0) + 23) / 46)
+62
+normal! zo
+92
+normal! zo
+let s:l = 36 - ((25 * winheight(0) + 23) / 47)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 17
-normal! 03|
-wincmd w
-exe 'vert 1resize ' . ((&columns * 89 + 89) / 179)
-exe 'vert 2resize ' . ((&columns * 89 + 89) / 179)
+keepjumps 36
+normal! 06|
 tabnext
 edit test.log
 argglobal
@@ -2200,11 +2067,11 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-let s:l = 32 - ((31 * winheight(0) + 23) / 47)
+let s:l = 17 - ((16 * winheight(0) + 23) / 47)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 32
+keepjumps 17
 normal! 0
 tabnext
 edit foss/hex.mjs
@@ -2355,8 +2222,6 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-152
-normal! zo
 let s:l = 152 - ((151 * winheight(0) + 11) / 23)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
@@ -2619,23 +2484,29 @@ setlocal wrap
 setlocal wrapmargin=0
 3
 normal! zo
-65
+75
 normal! zo
-113
+82
 normal! zo
-let s:l = 65 - ((64 * winheight(0) + 23) / 46)
+86
+normal! zo
+188
+normal! zo
+188
+normal! zc
+let s:l = 83 - ((82 * winheight(0) + 23) / 46)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 65
-normal! 025|
+keepjumps 83
+normal! 059|
 wincmd w
 exe '1resize ' . ((&lines * 23 + 24) / 49)
 exe 'vert 1resize ' . ((&columns * 89 + 89) / 179)
 exe '2resize ' . ((&lines * 22 + 24) / 49)
 exe 'vert 2resize ' . ((&columns * 89 + 89) / 179)
 exe 'vert 3resize ' . ((&columns * 89 + 89) / 179)
-tabnext 3
+tabnext 5
 set stal=1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0
   silent exe 'bwipe ' . s:wipebuf
