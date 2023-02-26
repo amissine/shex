@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Script from 'next/script'
 import styles from './index.module.css'
 import { useEffect, useRef, useState } from 'react'
-import { FAPI_READY, NO_WALLET, SDK_READY, flag, setupNetwork, } from '../shex'
+import { FAPI_READY, NO_WALLET, SDK_READY, buyHEXA, flag, setupNetwork, } from '../shex'
 import { retrieveItem, storeItem, } from '../foss/utils.mjs'
 import { Account, } from '../foss/stellar-account.mjs'
 
@@ -41,7 +41,7 @@ export default function JoinTest() { // {{{1
     let a = window.StellarNetwork.hex.assets
     let user = await new Account({ keypair }).load()
     user.trust(a[0]).trust(a[1]).submit().then(txResultBody => { // {{{4
-      console.log(txResultBody)
+      //console.log(txResultBody)
       document.getElementById('txStarted').style.display = 'none'
       txCompletedTxt = `${txStartedTxt} This time it took ${Date.now() - txStartedMs} ms. Your account now ` +
         `<a href="${endpoint}" target="_blank">trusts our assets</a>.`
@@ -59,7 +59,6 @@ export default function JoinTest() { // {{{1
     document.getElementById('buttonContinue').scrollIntoView()
     document.getElementById('buttonContinue').disabled = true
   } // }}}3
-  const buyHEXA = _ => alert('work in progress')
   const watch = _ => alert('work in progress')
 
   return ( // {{{2

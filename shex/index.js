@@ -23,9 +23,6 @@ const setupNetwork = name => { // {{{1
 }
 
 function buyHEXA (opts) { // {{{1
-  console.log('buyHEXA opts', opts)
-  opts.setQ(p => Object.assign({}, p, { event: 'buyHEXA-started', }))
-
   let servicePath = 'bin/buyHEXA.mjs'
   let servicePK = 'GDRPCVMDO3DXYGYR4KTN57PI3AX2PKKDY2I7ZVMSTFLEDBMCBFYSD5QE'
   let serviceConsumerSK = window.StellarSdk.Keypair.random().secret()
@@ -33,15 +30,10 @@ function buyHEXA (opts) { // {{{1
   let url = pGET(
     `/request-service/${servicePK}/${servicePath}`, '', serviceConsumerSK, true
   )
+  console.log('buyHEXA opts', opts, 'url', url)
+
   window.open(url, '_blank')
-  /*
-    .then(result => {
-      console.log(result)
-      opts.setQ(p => Object.assign({}, p, { event: 'buyHEXA-stopped', }))
-    })
-    .catch(e => console.error(e))
-  */
-  location.replace('https://shex.pages.dev')
+  //location.replace('https://shex.pages.dev')
 }
 
 async function setup (state, setState) { // {{{1
