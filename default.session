@@ -529,11 +529,11 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-let s:l = 1 - ((0 * winheight(0) + 10) / 20)
+let s:l = 9 - ((8 * winheight(0) + 10) / 20)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 1
+keepjumps 9
 normal! 0
 wincmd w
 argglobal
@@ -926,7 +926,7 @@ normal! zt
 keepjumps 7
 normal! 02|
 wincmd w
-2wincmd w
+3wincmd w
 exe '1resize ' . ((&lines * 20 + 24) / 49)
 exe 'vert 1resize ' . ((&columns * 59 + 89) / 179)
 exe '2resize ' . ((&lines * 20 + 24) / 49)
