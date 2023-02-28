@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Script from 'next/script'
 import styles from './index.module.css'
 import { useEffect, useRef, useState } from 'react'
-import { Orderbook, offerCreated, } from '../foss/hex.mjs'
+import { OfferResults, Orderbook, offerCreated, } from '../foss/hex.mjs'
 import { FAPI_READY, NO_WALLET, SDK_READY, flag, setupNetwork, } from '../shex'
 import { Semaphore, retrieveItem, storeItem, timestamp, } from '../foss/utils.mjs'
 import { Account, } from '../foss/stellar-account.mjs'
@@ -41,7 +41,7 @@ export default function TradeHEXAforXLM() { // {{{1
         let order = 'deleting id ' + o.id + '...'
         document.getElementById('orders').value = order + '\n' + ov
         user.current.manageOffer(opts).submit().then(txResultBody => {
-          order += ' deleted'
+          order += new OfferResults(txResultBody).toString()
         }).catch(e => console.error(e))
         .finally(_ => {
           document.getElementById('orders').value = order + '\n' + ov
@@ -79,12 +79,10 @@ export default function TradeHEXAforXLM() { // {{{1
     document.getElementById('buttonPlace').disabled = true
     lock.acquire().then(_ => user.current.manageOffer(opts).submit())
     .then(txResultBody => {
-      order += ' created id ' + offerCreated(
-        txResultBody.result_xdr, 
-        buy ? 'manageBuyOfferResult' : 'manageSellOfferResult'
-      ).offer.id
+      order += new OfferResults(txResultBody).toString()
     }).catch(e => {
       order += ' ERROR: check console for details'
+      console.error('***', e)
     })
     .finally(_ => {
       document.getElementById('orders').value = order + '\n' + ov

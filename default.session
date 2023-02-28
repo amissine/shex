@@ -926,7 +926,6 @@ normal! zt
 keepjumps 7
 normal! 02|
 wincmd w
-3wincmd w
 exe '1resize ' . ((&lines * 20 + 24) / 49)
 exe 'vert 1resize ' . ((&columns * 59 + 89) / 179)
 exe '2resize ' . ((&lines * 20 + 24) / 49)
@@ -1931,26 +1930,18 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
+11
+normal! zo
 19
 normal! zo
-20
+65
 normal! zo
-22
-normal! zo
-57
-normal! zo
-133
-normal! zo
-161
-normal! zo
-133
-normal! zc
-let s:l = 29 - ((28 * winheight(0) + 23) / 47)
+let s:l = 82 - ((17 * winheight(0) + 23) / 47)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 29
-normal! 05|
+keepjumps 82
+normal! 042|
 tabnext
 edit test.log
 argglobal
@@ -2230,11 +2221,13 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-let s:l = 152 - ((151 * winheight(0) + 11) / 23)
+185
+normal! zo
+let s:l = 172 - ((11 * winheight(0) + 11) / 23)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 152
+keepjumps 172
 normal! 0
 wincmd w
 argglobal
@@ -2514,7 +2507,7 @@ exe 'vert 1resize ' . ((&columns * 89 + 89) / 179)
 exe '2resize ' . ((&lines * 22 + 24) / 49)
 exe 'vert 2resize ' . ((&columns * 89 + 89) / 179)
 exe 'vert 3resize ' . ((&columns * 89 + 89) / 179)
-tabnext 1
+tabnext 5
 set stal=1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0
   silent exe 'bwipe ' . s:wipebuf
@@ -2529,7 +2522,6 @@ if filereadable(s:sx)
   exe "source " . fnameescape(s:sx)
 endif
 let &g:so = s:so_save | let &g:siso = s:siso_save
-nohlsearch
 doautoall SessionLoadPost
 unlet SessionLoad
 " vim: set ft=vim :

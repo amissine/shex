@@ -1,23 +1,66 @@
-stop
-timeout
-stop
-timeout
-stop
-timeout
-stop
-timeout
-stop
-timeout
-stop
-timeout
-stop
-timeout
- 8@4.9 8@4.91 8@4.92 8@4.93 : 10@5 100@10 
- 8@4.9 8@4.91 8@4.92 8@4.93 : 10@5 100@10 
-
-Run qa for bin/buyHEXA.mjs on Sun Feb 26 08:04:16 EST 2023
-Run qa for bin/buyHEXA.mjs on Sun Feb 26 08:28:35 EST 2023
-Run qa for bin/buyHEXA.mjs on Sun Feb 26 08:55:44 EST 2023
-Run qa for bin/buyHEXA.mjs on Sun Feb 26 09:03:59 EST 2023
-Run qa for bin/buyHEXA.mjs on Sun Feb 26 10:29:55 EST 2023
-Run qa for bin/buyHEXA.mjs on Sun Feb 26 10:38:48 EST 2023
+14:47:10.971
+Array [ {…} ]
+​
+0: Object { effect: "manageOfferCreated", operationIndex: 0, amountBought: "0", … }
+​​
+amountBought: "0"
+​​
+amountSold: "0"
+​​
+currentOffer: Object { offerId: "311123", selling: {…}, amount: "39.2", … }
+​​
+effect: "manageOfferCreated"
+​​
+isFullyOpen: true
+​​
+offersClaimed: Array []
+​​
+operationIndex: 0
+​​
+wasImmediatelyDeleted: false
+​​
+wasImmediatelyFilled: false
+​​
+wasPartiallyFilled: false
+​​
+<prototype>: Object { … }
+​
+length: 1
+​
+<prototype>: Array []
+trade-hexa4xlm.js:82:14
+14:47:10.971
+*** ReferenceError: offerResults is not defined
+    buttonPlacePressed trade-hexa4xlm.js:83
+next-dev.js:20:25
+14:47:27.023
+Array [ {…} ]
+​
+0: Object { effect: "manageOfferDeleted", operationIndex: 0, amountBought: "8", … }
+​​
+amountBought: "8"
+​​
+amountSold: "40"
+​​
+currentOffer: undefined
+​​
+effect: "manageOfferDeleted"
+​​
+isFullyOpen: false
+​​
+offersClaimed: Array [ {…} ]
+​​
+operationIndex: 0
+​​
+wasImmediatelyDeleted: false
+​​
+wasImmediatelyFilled: true
+​​
+wasPartiallyFilled: false
+​​
+<prototype>: Object { … }
+​
+length: 1
+​
+<prototype>: Array []
+trade-hexa4xlm.js:82:14
