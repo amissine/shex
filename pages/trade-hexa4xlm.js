@@ -10,36 +10,63 @@ import { Account, } from '../foss/stellar-account.mjs'
 
 let timeoutMs = 60000, lock = new Semaphore(1) // {{{1
 
+OfferResults.prototype.toString = function offerResultsToString () { // {{{1
+  let or0 = this.offerResults[0]
+  switch (or0.effect) { // TODO: multiple results
+    case 'manageOfferCreated':
+      return ` created id ${or0.currentOffer.offerId}`;
+    case 'manageOfferDeleted':
+      return or0.wasImmediatelyFilled ? 
+        ` amountBought ${or0.amountBought}, amountSold ${or0.amountSold}`
+      : ' deleted';
+    default:
+      throw new Error(`TODO ${or0.effect}`);
+  }
+}
+
 function readOrderbook (orderbook) { // {{{1
   let ob = new Orderbook(orderbook)
   let lines = ob.line() + '\n' + document.getElementById('orderbook').value
   document.getElementById('orderbook').value = lines
 }
 
+function trade (t, orders) { // {{{1
+  let o = orders.filter(o => o.id == t.offer_id)[0]
+  if (!o) {
+    return;
+  }
+  console.log('trade', t)
+  let v = document.getElementById('orders').value
+  v = v.replace(o.id, o.id + ' bought_amount ' + t.bought_amount + ' sold_amount ' + t.sold_amount)
+  document.getElementById('orders').value = v
+}
+
 export default function TradeHEXAforXLM() { // {{{1
   const title = 'Trade HEXA@XLM', rows = 4, cols = 100, mysec = useRef({}) // {{{2
-  const orders = useRef([])
+  const orders = useRef([]), streams = useRef([])
   const timeoutFn = _ => lock.acquire().then(_ => { // {{{2
     let ov = document.getElementById('orderbook').value
     document.getElementById('orderbook').value = 'timeout' + '\n' + ov
     lock.release()
-    if (orders.current.length == 0) {
+    if (orders.current.length == 0) { // no offers to delete
       document.getElementById('buttonStop').click()
       return;
     }
     let HEXA = window.StellarNetwork.hex.assets[1]
     let native = new window.StellarSdk.Asset('XLM', null)
     let count = 0
-    for (let o of orders.current) {
+    for (let o of orders.current) { // delete open offers
       let buy = o.selling.asset_type == 'native'
       let opts = buy ? { 
-        selling: native, buying: HEXA, buyAmount: '0', price: { d: o.price_r.n, n: o.price_r.d }, offerId: o.id 
+        selling: native, buying: HEXA, buyAmount: '0', price: { d: o.price_r.n, n: o.price_r.d }, offerId: o.id
       }
       : { selling: HEXA, buying: native, amount: '0', price: o.price_r, offerId: o.id }
       lock.acquire().then(_ => {
+        let text = 'deleting id ' + o.id + '...'
+        let order = text
         let ov = document.getElementById('orders').value
-        let order = 'deleting id ' + o.id + '...'
         document.getElementById('orders').value = order + '\n' + ov
+        console.log(text)
         user.current.manageOffer(opts).submit().then(txResultBody => {
           order += new OfferResults(txResultBody).toString()
         }).catch(e => console.error(e))
@@ -79,7 +106,8 @@ export default function TradeHEXAforXLM() { // {{{1
     document.getElementById('buttonPlace').disabled = true
     lock.acquire().then(_ => user.current.manageOffer(opts).submit())
     .then(txResultBody => {
-      order += new OfferResults(txResultBody).toString()
+      let offerResultsWrap = new OfferResults(txResultBody)
+      order += offerResultsWrap.toString()
     }).catch(e => {
       order += ' ERROR: check console for details'
       console.error('***', e)
@@ -90,26 +118,32 @@ export default function TradeHEXAforXLM() { // {{{1
       lock.release()
     })
   }
-  const setupOb = async set => { // {{{2
-    console.log('- setupOb')
+  const setup = async set => { // {{{2
+    console.log('- setup')
     let server = window.StellarHorizonServer
     let HEXA = window.StellarNetwork.hex.assets[1]
     let native = new window.StellarSdk.Asset('XLM', null)
-    let closeOrderbook = server.orderbook(HEXA, native).stream({
+    streams.current.push(server.orderbook(HEXA, native).stream({
       onerror:   e => console.error(e),
       onmessage: b => readOrderbook(b)
-    })
+    }))
     mysec.current = retrieveItem('mysec') // FIXME, use wallet
     let keypair = window.StellarSdk.Keypair.fromSecret(mysec.current)
     user.current = await new Account({ keypair }).load()
-    let closeOffers = server.offers().forAccount(user.current.loaded.id).stream({
+    console.log('PK', user.current.loaded.id)
+    streams.current.push(server.offers().forAccount(user.current.loaded.id).stream({
       onerror:   e => console.error(e),
       onmessage: o => orders.current.push(o)
-    })
+    }))
+    streams.current.push(server.effects().forAccount(user.current.loaded.id).stream({
+      onerror:   e => console.error(e),
+      onmessage: e => e.type == 'trade' && trade(e, orders.current)
+    }))
     let close = _ => {
-      closeOffers()
-      closeOrderbook()
-      console.log('- setupOb, streams closed')
+      for (let close of streams.current) {
+        close()
+      }
+      console.log('- teardown,', streams.current.length, 'streams closed')
     }
     set(p => Object.assign({}, p, { close }))
     timeoutId.current = setTimeout(timeoutFn, timeoutMs)
@@ -124,7 +158,7 @@ export default function TradeHEXAforXLM() { // {{{1
         network = sXLM_bHEXA.network ?? 'TESTNET'
         sXLM_bHEXA.network || flag(flags, NO_WALLET) && setOb(_ => ({ network }))
       default:
-        network && !window.StellarNetwork && setupNetwork(network) && setupOb(setOb)
+        network && !window.StellarNetwork && setupNetwork(network) && setup(setOb)
         return _ => sXLM_bHEXA.close && sXLM_bHEXA.close();
     }
   }, [sXLM_bHEXA])
