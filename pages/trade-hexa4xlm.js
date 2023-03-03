@@ -8,7 +8,7 @@ import { FAPI_READY, NO_WALLET, SDK_READY, flag, setupNetwork, } from '../shex'
 import { Semaphore, retrieveItem, storeItem, timestamp, } from '../foss/utils.mjs'
 import { Account, } from '../foss/stellar-account.mjs'
 
-let timeoutMs = 60000, lock = new Semaphore(1) // {{{1
+let timeoutMs = 90000, lock = new Semaphore(1) // {{{1
 
 OfferResults.prototype.toString = function offerResultsToString () { // {{{1
   let or0 = this.offerResults[0]
