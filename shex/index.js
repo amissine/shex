@@ -66,18 +66,18 @@ function teardown (state, setState) { // {{{1
   console.log('teardown start', state)
 }
 
-function watchMakes (opts) { // {{{1
-  console.log('watchMakes opts', opts)
-  opts.setQ(p => Object.assign({}, p, { event: 'watchMakes-started', }))
-  pGET('/request-service/bin/watchMakes.mjs')
+function watchABC (opts) { // {{{1
+  console.log('watchABC opts', opts)
+  opts.setQ(p => Object.assign({}, p, { event: 'watchABC-started', }))
+  pGET('/request-service/bin/watchABC.mjs')
     .then(result => {
       console.log(result)
-      opts.setQ(p => Object.assign({}, p, { event: 'watchMakes-stopped', }))
+      opts.setQ(p => Object.assign({}, p, { event: 'watchABC-stopped', }))
     })
     .catch(e => console.error(e))
 }
 
 export { // {{{1
   FAPI_READY, NO_WALLET, SDK_READY, flag, setupNetwork,
-  buyHEXA, setup, teardown, watchMakes, 
+  buyHEXA, setup, teardown, watchABC, 
 }

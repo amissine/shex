@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Script from 'next/script'
 import styles from './index.module.css'
 import { useEffect, useRef, useState } from 'react'
-import { FAPI_READY, NO_WALLET, SDK_READY, buyHEXA, flag, setupNetwork, } from '../shex'
+import { FAPI_READY, NO_WALLET, SDK_READY, buyHEXA, flag, setupNetwork, watchABC, } from '../shex'
 import { retrieveItem, storeItem, } from '../foss/utils.mjs'
 import { Account, } from '../foss/stellar-account.mjs'
 
@@ -59,7 +59,6 @@ export default function JoinTest() { // {{{1
     document.getElementById('buttonContinue').scrollIntoView()
     document.getElementById('buttonContinue').disabled = true
   } // }}}3
-  const watch = _ => alert('work in progress')
 
   return ( // {{{2
   <>
@@ -120,7 +119,7 @@ Stellar account to make it trust our assets.
     <p id='txCompleted' style={{display:'none'}}>{txCompletedTxt}</p>
     <p id='pContinue' style={{display:'none'}}>
 Now that you trust our assets you may want to buy some HEXA. <button onClick={buyHEXA}>Buy HEXA</button>{' '}
-Or you can watch others making and taking help offers and help requests. <button onClick={watch}>Watch</button>{' '}
+Or you can watch others making and taking help offers and help requests. <button onClick={watchABC}>Watch</button>{' '}
 And welcome to Stellar Help Exchange!
     </p>
     <button id='buttonContinue' style={{display:'none'}} onClick={buttonContinuePressed}>Tx in progress...</button>
