@@ -22,18 +22,20 @@ const setupNetwork = name => { // {{{1
   return network;
 }
 
-function buyHEXA (opts) { // {{{1
+function buyHEXA () { // {{{1
   let servicePath = 'bin/buyHEXA.mjs'
   let servicePK = 'GDRPCVMDO3DXYGYR4KTN57PI3AX2PKKDY2I7ZVMSTFLEDBMCBFYSD5QE'
   let serviceConsumerSK = window.StellarSdk.Keypair.random().secret()
+  let rtURL = 'https://shex.pages.dev/trade-hexa4xlm' // qa
 
   let url = pGET(
-    `/request-service/${servicePK}/${servicePath}`, '', serviceConsumerSK, true
+    `/request-service/${servicePK}/${servicePath}`, 
+    `?REQUEST_TARGET_URL=${encodeURIComponent(rtURL)}`, 
+    serviceConsumerSK, true
   )
-  console.log('buyHEXA opts', opts, 'url', url)
+  console.log('buyHEXA url', url)
 
   window.open(url, '_blank')
-  //location.replace('https://shex.pages.dev')
 }
 
 async function setup (state, setState) { // {{{1
@@ -66,15 +68,7 @@ function teardown (state, setState) { // {{{1
   console.log('teardown start', state)
 }
 
-function watchABC (opts) { // {{{1
-  console.log('watchABC opts', opts)
-  opts.setQ(p => Object.assign({}, p, { event: 'watchABC-started', }))
-  pGET('/request-service/bin/watchABC.mjs')
-    .then(result => {
-      console.log(result)
-      opts.setQ(p => Object.assign({}, p, { event: 'watchABC-stopped', }))
-    })
-    .catch(e => console.error(e))
+function watchABC () { // {{{1
 }
 
 export { // {{{1
