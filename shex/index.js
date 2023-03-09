@@ -1,7 +1,7 @@
 import { stellarNetworks, } from '../foss/stellar-networks.mjs' // {{{1
 import { Account, } from '../foss/stellar-account.mjs'
 import { hexAssets, } from '../foss/hex.mjs'
-import { pGET, } from '../foss/utils.mjs'
+import { serviceRequest, } from '../foss/utils.mjs'
 
 const flag = (fRef, f) => { // {{{1
   fRef.current |= f
@@ -28,14 +28,7 @@ function buyHEXA () { // {{{1
   let serviceConsumerSK = window.StellarSdk.Keypair.random().secret()
   let rtURL = 'https://shex.pages.dev/trade-hexa4xlm' // qa
 
-  let url = pGET(
-    `/request-service/${servicePK}/${servicePath}`, 
-    `?REQUEST_TARGET_URL=${encodeURIComponent(rtURL)}`, 
-    serviceConsumerSK, true
-  )
-  console.log('buyHEXA url', url)
-
-  window.open(url, '_blank')
+  serviceRequest(servicePath, servicePK, serviceConsumerSK, rtURL)
 }
 
 async function setup (state, setState) { // {{{1
@@ -69,6 +62,12 @@ function teardown (state, setState) { // {{{1
 }
 
 function watchABC () { // {{{1
+  let servicePath = 'bin/watchABC.mjs'
+  let servicePK = 'GA3YLTLIGHD6WWZR6GFGWBSAJHY6ULIQHWJKFB67LHHVZVYUGIXL65KJ'
+  let serviceConsumerSK = window.StellarSdk.Keypair.random().secret()
+  let rtURL = 'https://shex.pages.dev/watch-abc' // qa
+
+  serviceRequest(servicePath, servicePK, serviceConsumerSK, rtURL)
 }
 
 export { // {{{1

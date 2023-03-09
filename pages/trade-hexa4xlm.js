@@ -1,5 +1,4 @@
 import Head from 'next/head' // {{{1
-import Link from 'next/link';
 import Script from 'next/script'
 import styles from './index.module.css'
 import { useEffect, useRef, useState } from 'react'
@@ -43,7 +42,7 @@ function trade (t, orders) { // {{{1
 
 export default function TradeHEXAforXLM() { // {{{1
   const title = 'Trade HEXA@XLM', rows = 4, cols = 100, mysec = useRef({}) // {{{2
-  const orders = useRef([]), streams = useRef([])
+  const orders = useRef([]), streams = useRef([]), timeoutId = useRef({}), user = useRef({})
   const timeoutFn = _ => lock.acquire().then(_ => { // {{{2
     let ov = document.getElementById('orderbook').value
     document.getElementById('orderbook').value = 'timeout' + '\n' + ov
@@ -79,7 +78,6 @@ export default function TradeHEXAforXLM() { // {{{1
       })
     }
   })
-  const timeoutId = useRef({}), user = useRef({})
   const [sXLM_bHEXA, setOb] = useState({}) // {{{2
   const stop = _ => { // {{{2
     sXLM_bHEXA.close()

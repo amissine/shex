@@ -1,0 +1,19 @@
+article.agent {
+  align-content: flex-end;
+  color: #a1a;
+  font-size: 12px;
+  font-family: Menlo, Monaco, Lucida Console, Liberation Mono, monospace;
+  justify-content: flex-end;
+}
+
+span.ann {
+  color: #f00;
+}
+
+span.ben {
+  color: #00f;
+}
+
+span.cyn {
+  color: #090;
+}
