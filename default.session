@@ -94,6 +94,7 @@ badd +134 ~/process/tmp/shed/cli/model/impl/aim/storage.js
 badd +353 ~/process/tmp/shed/cli/model/impl/aim/utils.mjs
 badd +5 bin/qa.sh
 badd +0 pages/watch-abc.js
+badd +0 pages/watch-abc.module.css
 argglobal
 %argdel
 $argadd package.json
@@ -1089,11 +1090,11 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-let s:l = 1 - ((0 * winheight(0) + 7) / 14)
+let s:l = 8 - ((7 * winheight(0) + 7) / 14)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 1
+keepjumps 8
 normal! 0
 wincmd w
 argglobal
@@ -1491,16 +1492,18 @@ normal! zo
 normal! zo
 25
 normal! zo
+28
+normal! zo
 63
 normal! zo
 91
 normal! zo
-let s:l = 122 - ((94 * winheight(0) + 23) / 47)
+let s:l = 35 - ((7 * winheight(0) + 23) / 47)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 122
-normal! 098|
+keepjumps 35
+normal! 05|
 tabnext
 edit shex/index.js
 let s:save_splitbelow = &splitbelow
@@ -1930,12 +1933,14 @@ setlocal wrap
 setlocal wrapmargin=0
 1
 normal! zo
-let s:l = 1 - ((0 * winheight(0) + 11) / 22)
+10
+normal! zo
+let s:l = 18 - ((17 * winheight(0) + 11) / 22)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 1
-normal! 0
+keepjumps 18
+normal! 011|
 wincmd w
 exe 'vert 1resize ' . ((&columns * 89 + 89) / 179)
 exe '2resize ' . ((&lines * 23 + 24) / 49)
@@ -1944,8 +1949,26 @@ exe '3resize ' . ((&lines * 22 + 24) / 49)
 exe 'vert 3resize ' . ((&columns * 89 + 89) / 179)
 tabnext
 edit pages/watch-abc.js
+let s:save_splitbelow = &splitbelow
+let s:save_splitright = &splitright
+set splitbelow splitright
+wincmd _ | wincmd |
+vsplit
+1wincmd h
+wincmd w
+let &splitbelow = s:save_splitbelow
+let &splitright = s:save_splitright
+wincmd t
+let s:save_winminheight = &winminheight
+let s:save_winminwidth = &winminwidth
+set winminheight=0
+set winheight=1
+set winminwidth=0
+set winwidth=1
+exe 'vert 1resize ' . ((&columns * 111 + 89) / 179)
+exe 'vert 2resize ' . ((&columns * 67 + 89) / 179)
 argglobal
-balt shex/index.js
+balt pages/watch-abc.module.css
 setlocal autoindent
 setlocal backupcopy=
 setlocal nobinary
@@ -2066,30 +2089,159 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-12
+25
 normal! zo
-17
+46
 normal! zo
-34
+58
 normal! zo
-35
+69
 normal! zo
-38
+105
 normal! zo
-39
+133
 normal! zo
-59
+145
 normal! zo
-71
-normal! zo
-99
-normal! zo
-let s:l = 77 - ((38 * winheight(0) + 23) / 47)
+let s:l = 153 - ((76 * winheight(0) + 23) / 46)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 77
+keepjumps 153
+normal! 06|
+wincmd w
+argglobal
+if bufexists(fnamemodify("pages/watch-abc.module.css", ":p")) | buffer pages/watch-abc.module.css | else | edit pages/watch-abc.module.css | endif
+balt pages/watch-abc.js
+setlocal noautoindent
+setlocal backupcopy=
+setlocal nobinary
+setlocal nobreakindent
+setlocal breakindentopt=
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal nocindent
+setlocal cinkeys=0{,0},0),0],:,0#,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinscopedecls=public,protected,private
+setlocal cinwords=if,else,while,do,for,switch
+setlocal colorcolumn=
+setlocal comments=s1:/*,mb:*,ex:*/
+setlocal commentstring=/*%s*/
+setlocal complete=.,w,b,u,t,i
+setlocal completefunc=
+setlocal nocopyindent
+setlocal cryptmethod=
+setlocal nocursorbind
+setlocal nocursorcolumn
+setlocal nocursorline
+setlocal cursorlineopt=both
+setlocal define=
+setlocal dictionary=
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal expandtab
+if &filetype != 'css'
+setlocal filetype=css
+endif
+setlocal fillchars=
+setlocal fixendofline
+setlocal foldcolumn=0
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+set foldmethod=marker
+setlocal foldmethod=marker
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatoptions=croql
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal formatprg=
+setlocal grepprg=
+setlocal iminsert=0
+setlocal imsearch=-1
+setlocal include=^\\s*@import\\s\\+\\%(url(\\)\\=
+setlocal includeexpr=
+setlocal indentexpr=GetCSSIndent()
+setlocal indentkeys=0{,0},!^F,o,O
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255,-
+setlocal keywordprg=
+setlocal nolinebreak
+setlocal nolisp
+setlocal lispwords=
+setlocal nolist
+setlocal listchars=
+setlocal makeencoding=
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal modeline
+setlocal modifiable
+setlocal nrformats=bin,octal,hex
+set number
+setlocal number
+setlocal numberwidth=4
+setlocal omnifunc=csscomplete#CompleteCSS
+setlocal path=
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+setlocal norelativenumber
+setlocal noscrollbind
+setlocal scrolloff=-1
+setlocal shiftwidth=2
+setlocal noshortname
+setlocal showbreak=
+setlocal sidescrolloff=-1
+setlocal signcolumn=auto
+setlocal nosmartindent
+setlocal softtabstop=0
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal spelloptions=
+setlocal statusline=
+setlocal suffixesadd=
+setlocal swapfile
+setlocal synmaxcol=3000
+if &syntax != 'css'
+setlocal syntax=css
+endif
+setlocal tabstop=2
+setlocal tagcase=
+setlocal tagfunc=
+setlocal tags=
+setlocal termwinkey=
+setlocal termwinscroll=10000
+setlocal termwinsize=
+setlocal textwidth=0
+setlocal thesaurus=
+setlocal thesaurusfunc=
+setlocal noundofile
+setlocal undolevels=-123456
+setlocal virtualedit=
+setlocal wincolor=
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+let s:l = 5 - ((4 * winheight(0) + 23) / 46)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 5
 normal! 0
+wincmd w
+exe 'vert 1resize ' . ((&columns * 111 + 89) / 179)
+exe 'vert 2resize ' . ((&columns * 67 + 89) / 179)
 tabnext
 edit pages/trade-hexa4xlm.js
 argglobal
@@ -2214,21 +2366,15 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-1
-normal! zo
-10
-normal! zo
 43
-normal! zo
-46
 normal! zo
 119
 normal! zo
-let s:l = 49 - ((48 * winheight(0) + 23) / 47)
+let s:l = 146 - ((145 * winheight(0) + 23) / 47)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 49
+keepjumps 146
 normal! 05|
 tabnext
 edit test.log
