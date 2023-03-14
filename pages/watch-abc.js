@@ -5,15 +5,10 @@ import abc from './watch-abc.module.css'
 import { Fragment, useEffect, useRef, useState } from 'react'
 import { OfferResults, Orderbook, offerCreated, } from '../foss/hex.mjs'
 import { FAPI_READY, NO_WALLET, SDK_READY, flag, setupNetwork, } from '../shex'
-import { Semaphore, retrieveItem, storeItem, timestamp, } from '../foss/utils.mjs'
+import { Semaphore, retrieveItem, storeItem, } from '../foss/utils.mjs'
 import { Account, } from '../foss/stellar-account.mjs'
 
-let timeoutMs = 4000, count = 0 //, lock = new Semaphore(1) // {{{1
-
-function delta (label) { // {{{1
-  let ts = timestamp(label)
-  return  ts > 1678226272982 ? '- ' + ts : '+ ' + ts;
-}
+let timeoutMs = 4000 //, lock = new Semaphore(1) // {{{1
 
 function effect4agent (e, set) { // {{{1
   if (e.type != 'account_debited' || e.asset_code != 'HEXA') {
@@ -23,36 +18,53 @@ function effect4agent (e, set) { // {{{1
 }
 
 function e4u (set, e, o) { // {{{1
-  let itemRemoved = false
-  let close = window.StellarHorizonServer.effects().forAccount(o.to).stream({
+  let close, itemRemoved = false, timeoutId = setTimeout(_ => itemRemoved || close(), 900)
+  close = window.StellarHorizonServer.effects().forAccount(o.to).stream({
     onerror:   r => console.error(r),
     onmessage: m => {
-      let item = { account_funded: o.to, amount_funded: e.amount, count: ++count }
-      userInfo(m, item) && set(p => Object.assign({}, p, { posts: p.posts.concat([item]) }))
-      item.removed && close()
+      let item = { 
+        created_at: m.created_at, id: m.id, pk: o.to, amount: e.amount, close, timeoutId,
+      }
+      userInfo(m, item, set)
+      item.removed && (close() || clearTimeout(timeoutId))
       itemRemoved = item.removed
     }
   })
-  setTimeout(_ => itemRemoved || close(), 900)
 }
 
-function userInfo (m, item) { // {{{1
-  if (!item.started && delta(m.account) > 1678372929432) {
-    item.started = true
-    return;
+function shrink (p, i) { // {{{1
+  let i2s = p.findIndex(o => o.greeting == i.greeting)
+  if (i2s > -1) {
+    let o = p[i2s]
+    o.close()
+    clearTimeout(o.timeoutId)
+    p.splice(i2s, 1)
+    let r2s = p.findIndex(r => r.pk == o.pk && r.removed)
+    r2s > -1 && p.splice(r2s, 1)
   }
-  item.created_at = m.created_at
+  return p.concat([i]);
+}
+
+function userInfo (m, item, set) { // {{{1
   switch (m.type) {
     case 'data_created':
-      item.id = m.id
       item[m.name] = Buffer.from(m.value, 'base64').toString()
-      return m.name == 'greeting';
-    //case 'trustline_removed':
+      switch (m.name) {
+        case 'greeting':
+          break;
+        default:
+          return;
+      }
+      break;
     case 'account_removed':
-      item.id = m.id
       item.removed = true
-      return true;
+      break;
+    default:
+      return;
   }
+  set(m.type == 'data_created' && m.name == 'greeting' ? p => Object.assign({}, p, { posts: shrink(p.posts, item) })
+  : p => Object.assign({}, p, { posts: p.posts.concat([item]) })
+  )
 }
 
 export default function WatchAnnBenCyn() { // {{{1
@@ -150,13 +162,12 @@ function Posts ({ list }) { // {{{1
     return;
   }
   return list.map(item => {
-    let pk = item.account_funded.slice(0, 4) + '...' + item.account_funded.slice(-4)
+    let pk = item.pk.slice(0, 4) + '...' + item.pk.slice(-4)
     let post = item.removed ? `${item.created_at}: account ${pk} removed`
     : `${item.created_at}: account for user ${item.greeting} funded`
-    post += ', count ' + item.count
     return (
     <Fragment key={item.id}>
-      <article className={abc.agent} title={item.account_funded} >{post}</article>
+      <article className={abc.agent} title={item.pk} >{post}</article>
     </Fragment>
     );
   });

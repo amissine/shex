@@ -1498,12 +1498,12 @@ normal! zo
 normal! zo
 91
 normal! zo
-let s:l = 35 - ((7 * winheight(0) + 23) / 47)
+let s:l = 39 - ((11 * winheight(0) + 23) / 47)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 35
-normal! 05|
+keepjumps 39
+normal! 0
 tabnext
 edit shex/index.js
 let s:save_splitbelow = &splitbelow
@@ -1797,15 +1797,15 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-246
+247
 normal! zo
-301
+302
 normal! zo
-let s:l = 245 - ((41 * winheight(0) + 11) / 23)
+let s:l = 246 - ((41 * winheight(0) + 11) / 23)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 245
+keepjumps 246
 normal! 0
 wincmd w
 argglobal
@@ -1965,8 +1965,8 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe 'vert 1resize ' . ((&columns * 111 + 89) / 179)
-exe 'vert 2resize ' . ((&columns * 67 + 89) / 179)
+exe 'vert 1resize ' . ((&columns * 129 + 89) / 179)
+exe 'vert 2resize ' . ((&columns * 49 + 89) / 179)
 argglobal
 balt pages/watch-abc.module.css
 setlocal autoindent
@@ -2089,26 +2089,24 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-25
+11
 normal! zo
-46
+13
 normal! zo
-58
+20
 normal! zo
-69
+33
 normal! zo
-105
+54
 normal! zo
-133
+144
 normal! zo
-145
-normal! zo
-let s:l = 153 - ((76 * winheight(0) + 23) / 46)
+let s:l = 25 - ((24 * winheight(0) + 23) / 46)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 153
-normal! 06|
+keepjumps 25
+normal! 045|
 wincmd w
 argglobal
 if bufexists(fnamemodify("pages/watch-abc.module.css", ":p")) | buffer pages/watch-abc.module.css | else | edit pages/watch-abc.module.css | endif
@@ -2240,8 +2238,8 @@ normal! zt
 keepjumps 5
 normal! 0
 wincmd w
-exe 'vert 1resize ' . ((&columns * 111 + 89) / 179)
-exe 'vert 2resize ' . ((&columns * 67 + 89) / 179)
+exe 'vert 1resize ' . ((&columns * 129 + 89) / 179)
+exe 'vert 2resize ' . ((&columns * 49 + 89) / 179)
 tabnext
 edit pages/trade-hexa4xlm.js
 argglobal
@@ -2655,10 +2653,6 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-3
-normal! zo
-229
-normal! zo
 let s:l = 7 - ((6 * winheight(0) + 11) / 23)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
@@ -2789,14 +2783,16 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-289
+3
 normal! zo
-let s:l = 289 - ((85 * winheight(0) + 11) / 22)
+62
+normal! zo
+let s:l = 67 - ((66 * winheight(0) + 11) / 22)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 289
-normal! 0
+keepjumps 67
+normal! 016|
 wincmd w
 argglobal
 if bufexists(fnamemodify("foss/stellar-account.mjs", ":p")) | buffer foss/stellar-account.mjs | else | edit foss/stellar-account.mjs | endif
@@ -2921,13 +2917,11 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-3
-normal! zo
-let s:l = 38 - ((37 * winheight(0) + 23) / 46)
+let s:l = 1 - ((0 * winheight(0) + 23) / 46)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 38
+keepjumps 1
 normal! 0
 wincmd w
 exe '1resize ' . ((&lines * 23 + 24) / 49)
