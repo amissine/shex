@@ -8,7 +8,7 @@ import { FAPI_READY, NO_WALLET, SDK_READY, flag, setupNetwork, } from '../shex'
 import { Semaphore, retrieveItem, storeItem, } from '../foss/utils.mjs'
 import { Account, } from '../foss/stellar-account.mjs'
 
-let timeoutMs = 4000 //, lock = new Semaphore(1) // {{{1
+let timeoutMs = 40000 //, lock = new Semaphore(1) // {{{1
 
 function effect4agent (e, set) { // {{{1
   if (e.type != 'account_debited' || e.asset_code != 'HEXA') {
@@ -18,34 +18,21 @@ function effect4agent (e, set) { // {{{1
 }
 
 function e4u (set, e, o) { // {{{1
-  let close, itemRemoved = false, timeoutId = setTimeout(_ => itemRemoved || close(), 900)
+  let close, itemRemoved = false, timeoutId = setTimeout(_ => itemRemoved || close(), timeoutMs)
   close = window.StellarHorizonServer.effects().forAccount(o.to).stream({
     onerror:   r => console.error(r),
     onmessage: m => {
       let item = { 
         created_at: m.created_at, id: m.id, pk: o.to, amount: e.amount, close, timeoutId,
       }
-      userInfo(m, item, set)
+      itemUpdate(m, item, set)
       item.removed && (close() || clearTimeout(timeoutId))
       itemRemoved = item.removed
     }
   })
 }
 
-function shrink (p, i) { // {{{1
-  let i2s = p.findIndex(o => o.greeting == i.greeting)
-  if (i2s > -1) {
-    let o = p[i2s]
-    o.close()
-    clearTimeout(o.timeoutId)
-    p.splice(i2s, 1)
-    let r2s = p.findIndex(r => r.pk == o.pk && r.removed)
-    r2s > -1 && p.splice(r2s, 1)
-  }
-  return p.concat([i]);
-}
-
-function userInfo (m, item, set) { // {{{1
+function itemUpdate (m, item, set) { // {{{1
   switch (m.type) {
     case 'data_created':
       item[m.name] = Buffer.from(m.value, 'base64').toString()
@@ -65,6 +52,19 @@ function userInfo (m, item, set) { // {{{1
   set(m.type == 'data_created' && m.name == 'greeting' ? p => Object.assign({}, p, { posts: shrink(p.posts, item) })
   : p => Object.assign({}, p, { posts: p.posts.concat([item]) })
   )
+}
+
+function shrink (p, i) { // {{{1
+  let i2s = p.findIndex(o => o.greeting == i.greeting)
+  if (i2s > -1) {
+    let o = p[i2s]
+    o.close()
+    clearTimeout(o.timeoutId)
+    p.splice(i2s, 1)
+    let r2s = p.findIndex(r => r.pk == o.pk && r.removed)
+    r2s > -1 && p.splice(r2s, 1)
+  }
+  return p.concat([i]);
 }
 
 export default function WatchAnnBenCyn() { // {{{1
