@@ -4,6 +4,24 @@ article.agent {
   font-family: Menlo, Monaco, Lucida Console, Liberation Mono, monospace;
 }
 
+article.ann {
+  color: #f00;
+  font-size: 12px;
+  font-family: Menlo, Monaco, Lucida Console, Liberation Mono, monospace;
+}
+
+article.ben {
+  color: #00f;
+  font-size: 12px;
+  font-family: Menlo, Monaco, Lucida Console, Liberation Mono, monospace;
+}
+
+article.cyn {
+  color: #090;
+  font-size: 12px;
+  font-family: Menlo, Monaco, Lucida Console, Liberation Mono, monospace;
+}
+
 span.ann {
   color: #f00;
 }
