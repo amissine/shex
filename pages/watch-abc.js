@@ -3,21 +3,54 @@ import Script from 'next/script'
 import styles from './index.module.css'
 import abc from './watch-abc.module.css'
 import { Fragment, useEffect, useRef, useState } from 'react'
-import { OfferResults, Orderbook, offerCreated, } from '../foss/hex.mjs'
+import { Make, OfferResults, Orderbook, User, description, offerCreated, } from '../foss/hex.mjs'
 import { FAPI_READY, NO_WALLET, SDK_READY, flag, setupNetwork, } from '../shex'
 import { /*Semaphore,*/ retrieveItem, storeItem, timestamp, } from '../foss/utils.mjs'
-import { Account, Make, description, } from '../foss/stellar-account.mjs'
+//import { Account, } from '../foss/stellar-account.mjs'
 
-let timeoutMs = 40000 //, lock = new Semaphore(1) // {{{1
-let realtime, realtimeTimeoutId, realtimeTimeoutMs = 1000
-const resetTimeout = set => {
-  clearTimeout(realtimeTimeoutId)
-  realtimeTimeoutId = setTimeout(_ => realtimeTimeoutFn(set), realtimeTimeoutMs)
-}
-let users = {}
+let timeoutMs = 60000 //, lock = new Semaphore(1) // {{{1
+let users = []
 
 function effect4agent (e, set) { // {{{1
-  realtime || resetTimeout(set)
+  if (e.type == 'account_credited' && e.asset_code == 'HEXA') { // user account removed
+    console.log('user account removed')
+    return;
+  }
+  let t
+  const use = tx => {
+    t = tx
+    return t.operations();
+  }
+  if (e.type == 'account_debited' && e.asset_code == 'HEXA') { // user account created
+    e.operation().then(o => o.transaction()).then(t => use(t)).then(s => {
+      let r = s.records.find(r => r.type == 'manage_data' && r.name == 'greeting' && r.value)
+      let name = Buffer.from(r.value, 'base64').toString()
+      let user = { name, pk: r.source_account, }
+      users.push(user)
+      let ts = timestamp()
+      let text = `${name}'s account created.`
+      set(p => Object.assign({}, p, { posts: p.posts.concat([{ id: e.id, name, pk: r.source_account, text, ts, }]) }))
+    }).catch(e => console.error(e))
+    return;
+  }
+  if (e.type != 'claimable_balance_claimant_created' || e.amount != Make.fee) {
+    return;
+  }
+  e.operation().then(o => o.transaction()).then(t => use(t)).then(s => { // Offer/Request made
+    let pk = s.records[0].source_account
+    let user = users.find(u => u.pk == pk)
+    if (!user) {
+      user = { name: t.memo.startsWith('Offer') ? 'Ben' : 'Ann', pk }
+      users.push(user)
+    }
+    let ts = timestamp()
+    let text = `${user.name == 'Ben' ? 'Offer' : 'Request'} from ${user.name}: ${description(s)}.`
+    set(p => Object.assign({}, p, { posts: p.posts.concat([{ id: e.id, name: user.name, pk, text, ts, }]) }))
+  }).catch(e => console.error(e))
+
+  if (true) {
+    return;
+  }
   if (e.asset_code != 'HEXA' || e.type != 'account_credited' && e.type != 'account_debited') {
     return;
   }
@@ -48,7 +81,6 @@ function effect4agent (e, set) { // {{{1
           }
         }
       }).catch(e => console.error(e))
-      return realtime && console.log(users);
     }
     if (e.type == 'account_debited') { // user account created {{{2
       o.transaction().then(t => t.operations()).then(s => {
@@ -56,7 +88,6 @@ function effect4agent (e, set) { // {{{1
         let name = Buffer.from(r.value, 'base64').toString()
         users[name] = { amount: e.amount, created_at: e.created_at, id: e.id, pk: o.to }
       }).catch(e => console.error(e))
-      return realtime && console.log(users);
     } // }}}2
   }).catch(e => console.error(e))
 }
@@ -67,9 +98,6 @@ function make (name, v, r, s, t, set) { // {{{1
   }
   let d = description(s)
   v.makes.push({ created_at: r.created_at, description: d, memo: t.memo })
-  if (!realtime) {
-    return;
-  }
   let ts = timestamp()
   let text = `${t.memo} made by ${name}: ${d}`
   set(p => Object.assign({}, p, { posts: p.posts.concat([{ id: r.id, name, pk: v.pk, text, ts, }]) }))
@@ -78,7 +106,7 @@ function make (name, v, r, s, t, set) { // {{{1
 function post (item) { // {{{1
   item.className = abc.agent
   if (item.id == '0') {
-    return 'Fast-forwarding Help Exchange history...';
+    return 'Setting up Stellar accounts for Ann, Ben, and Cyn...';
   }
   if (item.id == '1') {
     return `+${item.ts}ms Watching Ann, Ben, and Cyn in real time...`;
@@ -88,13 +116,6 @@ function post (item) { // {{{1
   }
   item.className = abc[item.name.toLowerCase()]
   return `+${item.ts}ms ${item.text}`;
-}
-
-function realtimeTimeoutFn (set) { // {{{1
-  realtime = true
-  console.log(users)
-  let ts = timestamp()
-  set(p => Object.assign({}, p, { posts: p.posts.concat([{ id: '1', ts, }]) }))
 }
 
 export default function WatchAnnBenCyn() { // {{{1
@@ -119,8 +140,7 @@ export default function WatchAnnBenCyn() { // {{{1
     timestamp()
     let server = window.StellarHorizonServer
     let agentPK = window.StellarNetwork.hex.agent
-    let keypair = window.StellarSdk.Keypair.fromPublicKey(agentPK)
-    streams.current.push({ close: server.effects().forAccount(agentPK).stream({
+    streams.current.push({ close: server.effects().forAccount(agentPK).cursor('now').stream({
       onerror:   e => console.error(e),
       onmessage: e => effect4agent(e, set) || resetTimeout()
     }) })
@@ -130,7 +150,6 @@ export default function WatchAnnBenCyn() { // {{{1
       }
       console.log('- teardown,', streams.current.length, 'streams closed')
     }
-    realtimeTimeoutId = setTimeout(_ => realtimeTimeoutFn(set), realtimeTimeoutMs)
     timeoutId.current = setTimeout(timeoutFn, timeoutMs)
     set(p => Object.assign({}, p, { posts: [{ id: '0', }] }))
   }
@@ -195,11 +214,6 @@ function Posts ({ list }) { // {{{1
     return;
   }
   return list.map(item => {
-    /*
-    let pk = item.pk.slice(0, 4) + '...' + item.pk.slice(-4)
-    let post = item.removed ? `${item.created_at}: account ${pk} removed`
-    : `${item.created_at}: account for user ${item.greeting} funded`
-    */
     return (
     <Fragment key={item.id}>
       <article className={item.className} title={item.pk} >{post(item)}</article>
