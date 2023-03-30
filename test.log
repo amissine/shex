@@ -1,72 +1,130 @@
-14:47:10.971
-Array [ {…} ]
+13:50:00.848
+Object { _links: {…}, id: "0001083903716642817-0000000002", paging_token: "1083903716642817-2", account: "GBRY67MCTJG6FBBPESKIWCWKLEQCP5MMM4RWPQBLHMKOGXWX4SGXV7KX", type: "claimable_balance_claimant_created", type_i: 51, created_at: "2023-03-30T17:49:56Z", asset: "ClawableHexa:GBK337NLODFRL5NGTOLQBFUNKANPU6GK2IX4DOPVXU4N4XEPJMIUMYIO", balance_id: "00000000e5b0689180548c01576f1698d02d9e3b47ebf64588bc992b354bdef0ac8379ae", amount: "0.0000100", … }
 ​
-0: Object { effect: "manageOfferCreated", operationIndex: 0, amountBought: "0", … }
-​​
-amountBought: "0"
-​​
-amountSold: "0"
-​​
-currentOffer: Object { offerId: "311123", selling: {…}, amount: "39.2", … }
-​​
-effect: "manageOfferCreated"
-​​
-isFullyOpen: true
-​​
-offersClaimed: Array []
-​​
-operationIndex: 0
-​​
-wasImmediatelyDeleted: false
-​​
-wasImmediatelyFilled: false
-​​
-wasPartiallyFilled: false
-​​
+_links: Object { operation: {…}, succeeds: {…}, precedes: {…} }
+​
+account: "GBRY67MCTJG6FBBPESKIWCWKLEQCP5MMM4RWPQBLHMKOGXWX4SGXV7KX"
+​
+amount: "0.0000100"
+​
+asset: "ClawableHexa:GBK337NLODFRL5NGTOLQBFUNKANPU6GK2IX4DOPVXU4N4XEPJMIUMYIO"
+​
+balance_id: "00000000e5b0689180548c01576f1698d02d9e3b47ebf64588bc992b354bdef0ac8379ae"
+​
+created_at: "2023-03-30T17:49:56Z"
+​
+id: "0001083903716642817-0000000002"
+​
+operation: function CallBuilder(opts)
+​
+paging_token: "1083903716642817-2"
+​
+precedes: function CallBuilder(opts)​
+predicate: Object { unconditional: true }
+​
+succeeds: function CallBuilder(opts)
+​
+type: "claimable_balance_claimant_created"
+​
+type_i: 51
+​
 <prototype>: Object { … }
+watch-abc.js:16:10
+13:50:05.449
+Object { _links: {…}, id: "0001083908011618305-0000000002", paging_token: "1083908011618305-2", account: "GCEXOT4V3GXD6G3O6QVQMG245JIAPPEPNCT5WYV2ZGJCRNFJNFGSJDAK", type: "claimable_balance_claimant_created", type_i: 51, created_at: "2023-03-30T17:50:01Z", asset: "ClawableHexa:GBK337NLODFRL5NGTOLQBFUNKANPU6GK2IX4DOPVXU4N4XEPJMIUMYIO", balance_id: "000000001226745447db6baa9f9999ede3d2e8928b1794807eefdd81a450731c4dfbf9a4", amount: "800.0000100", … }
 ​
-length: 1
+_links: Object { operation: {…}, succeeds: {…}, precedes: {…} }
 ​
-<prototype>: Array []
-trade-hexa4xlm.js:82:14
-14:47:10.971
-*** ReferenceError: offerResults is not defined
-    buttonPlacePressed trade-hexa4xlm.js:83
-next-dev.js:20:25
-14:47:27.023
-Array [ {…} ]
+account: "GCEXOT4V3GXD6G3O6QVQMG245JIAPPEPNCT5WYV2ZGJCRNFJNFGSJDAK"
 ​
-0: Object { effect: "manageOfferDeleted", operationIndex: 0, amountBought: "8", … }
-​​
-amountBought: "8"
-​​
-amountSold: "40"
-​​
-currentOffer: undefined
-​​
-effect: "manageOfferDeleted"
-​​
-isFullyOpen: false
-​​
-offersClaimed: Array [ {…} ]
-​​
-operationIndex: 0
-​​
-wasImmediatelyDeleted: false
-​​
-wasImmediatelyFilled: true
-​​
-wasPartiallyFilled: false
-​​
+amount: "800.0000100"
+​
+asset: "ClawableHexa:GBK337NLODFRL5NGTOLQBFUNKANPU6GK2IX4DOPVXU4N4XEPJMIUMYIO"
+​
+balance_id: "000000001226745447db6baa9f9999ede3d2e8928b1794807eefdd81a450731c4dfbf9a4"
+​
+created_at: "2023-03-30T17:50:01Z"
+​
+id: "0001083908011618305-0000000002"
+​
+operation: function CallBuilder(opts)
+​
+paging_token: "1083908011618305-2"
+​
+precedes: function CallBuilder(opts)​
+predicate: Object { unconditional: true }
+​
+succeeds: function CallBuilder(opts)
+​
+type: "claimable_balance_claimant_created"
+​
+type_i: 51
+​
 <prototype>: Object { … }
+watch-abc.js:16:10
+13:50:10.739
+Object { _links: {…}, id: "0001083912306565122-0000000001", paging_token: "1083912306565122-1", account: "GARE4JJQOTHVDLIMTTTGXUZDDLMXZ3AGUB5NPRSGPWEYDEME2HDZBAIU", type: "account_credited", type_i: 2, created_at: "2023-03-30T17:50:06Z", asset_type: "credit_alphanum12", asset_code: "ClawableHexa", asset_issuer: "GBK337NLODFRL5NGTOLQBFUNKANPU6GK2IX4DOPVXU4N4XEPJMIUMYIO", … }
 ​
-length: 1
+_links: Object { operation: {…}, succeeds: {…}, precedes: {…} }
 ​
-<prototype>: Array []
-trade-hexa4xlm.js:82:14
-Run qa for buyHEXA on Sat Mar  4 16:33:09 EST 2023
-Run qa for buyHEXA on Sat Mar  4 17:13:57 EST 2023
-Run qa for buyHEXA on Sat Mar  4 17:30:29 EST 2023
-Run qa for buyHEXA on Sun Mar  5 08:29:44 EST 2023
-Run qa for test/buyHEXA on Sun Mar  5 15:53:39 EST 2023
-Run qa for test/buyHEXA on Mon Mar  6 19:19:07 EST 2023
+account: "GARE4JJQOTHVDLIMTTTGXUZDDLMXZ3AGUB5NPRSGPWEYDEME2HDZBAIU"
+​
+amount: "1000.0000100"
+​
+asset_code: "ClawableHexa"
+​
+asset_issuer: "GBK337NLODFRL5NGTOLQBFUNKANPU6GK2IX4DOPVXU4N4XEPJMIUMYIO"
+​
+asset_type: "credit_alphanum12"
+​
+created_at: "2023-03-30T17:50:06Z"
+​
+id: "0001083912306565122-0000000001"
+​
+operation: function CallBuilder(opts)
+​
+paging_token: "1083912306565122-1"
+​
+precedes: function CallBuilder(opts)​
+succeeds: function CallBuilder(opts)
+​
+type: "account_credited"
+​
+type_i: 2
+​
+<prototype>: Object { … }
+watch-abc.js:22:10
+13:50:15.751
+Object { _links: {…}, id: "0001083916601548802-0000000001", paging_token: "1083916601548802-1", account: "GARE4JJQOTHVDLIMTTTGXUZDDLMXZ3AGUB5NPRSGPWEYDEME2HDZBAIU", type: "account_credited", type_i: 2, created_at: "2023-03-30T17:50:11Z", asset_type: "credit_alphanum12", asset_code: "ClawableHexa", asset_issuer: "GBK337NLODFRL5NGTOLQBFUNKANPU6GK2IX4DOPVXU4N4XEPJMIUMYIO", … }
+​
+_links: Object { operation: {…}, succeeds: {…}, precedes: {…} }
+​
+account: "GARE4JJQOTHVDLIMTTTGXUZDDLMXZ3AGUB5NPRSGPWEYDEME2HDZBAIU"
+​
+amount: "0.0000100"
+​
+asset_code: "ClawableHexa"
+​
+asset_issuer: "GBK337NLODFRL5NGTOLQBFUNKANPU6GK2IX4DOPVXU4N4XEPJMIUMYIO"
+​
+asset_type: "credit_alphanum12"
+​
+created_at: "2023-03-30T17:50:11Z"
+​
+id: "0001083916601548802-0000000001"
+​
+operation: function CallBuilder(opts)
+​
+paging_token: "1083916601548802-1"
+​
+precedes: function CallBuilder(opts)​
+succeeds: function CallBuilder(opts)
+​
+type: "account_credited"
+​
+type_i: 2
+​
+<prototype>: Object { … }
+watch-abc.js:22:10
+13:50:45.326 user account removed watch-abc.js:42:12
+13:50:50.370 user account removed 2 watch-abc.js:42:12

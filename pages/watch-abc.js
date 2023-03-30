@@ -8,99 +8,69 @@ import { FAPI_READY, NO_WALLET, SDK_READY, flag, setupNetwork, } from '../shex'
 import { /*Semaphore,*/ retrieveItem, storeItem, timestamp, } from '../foss/utils.mjs'
 //import { Account, } from '../foss/stellar-account.mjs'
 
-let timeoutMs = 60000 //, lock = new Semaphore(1) // {{{1
-let users = []
-
-function effect4agent (e, set) { // {{{1
-  if (e.type == 'account_credited' && e.asset_code == 'HEXA') { // user account removed
-    console.log('user account removed')
+let set, timeoutMs = 60000, streams = [], users = [] // {{{1
+const handler4Maker = (e, name) => {
+  if (e.type != 'claimable_balance_claimant_created' || e.asset.startsWith('HEXA')) {
     return;
   }
-  let t
+  let ts = timestamp()
+  let text = `Cyn is taking ${name}'s ${name == 'Ben' ? 'Offer' : 'Request'}...`
+  set(p => Object.assign({}, p, { posts: p.posts.concat([{ id: e.id, name: 'Cyn', pk: e.account, text, ts, }]) }))
+}
+const handler4 = {
+  Ann: e => handler4Maker(e, 'Ann'),
+  Ben: e => handler4Maker(e, 'Ben'),
+  Cyn: e => {
+    if (e.type != 'account_credited') {
+      return;
+    }
+    let ts = timestamp()
+    let text = `Cyn took ${e.amount == '0.0000100' ? "Ben's Offer" : "Ann's Request"}.`
+    set(p => Object.assign({}, p, { posts: p.posts.concat([{ id: e.id, name: 'Cyn', pk: e.account, text, ts, }]) }))
+  }
+}
+
+function add2streams (user, oneffect) { // {{{1
+  users.push(user)
+  new Make({ makerPK: user.pk }).checkTakes(streams, oneffect)
+}
+
+function effect4agent (e) { // {{{1
+  let t // {{{2
   const use = tx => {
     t = tx
     return t.operations();
   }
-  if (e.type == 'account_debited' && e.asset_code == 'HEXA') { // user account created
+  if (e.type == 'account_credited' && e.asset_code == 'HEXA') { // user account removed {{{2
+    console.log('user account removed')
+    return;
+  }
+  if (e.type == 'account_debited' && e.asset_code == 'HEXA') { // user account created {{{2
     e.operation().then(o => o.transaction()).then(t => use(t)).then(s => {
       let r = s.records.find(r => r.type == 'manage_data' && r.name == 'greeting' && r.value)
       let name = Buffer.from(r.value, 'base64').toString()
       let user = { name, pk: r.source_account, }
-      users.push(user)
+      add2streams(user, handler4[user.name])
       let ts = timestamp()
       let text = `${name}'s account created.`
       set(p => Object.assign({}, p, { posts: p.posts.concat([{ id: e.id, name, pk: r.source_account, text, ts, }]) }))
     }).catch(e => console.error(e))
     return;
   }
-  if (e.type != 'claimable_balance_claimant_created' || e.amount != Make.fee) {
+  if (e.type != 'claimable_balance_claimant_created' || e.amount != Make.fee) { // Offer/Request made {{{2
     return;
   }
-  e.operation().then(o => o.transaction()).then(t => use(t)).then(s => { // Offer/Request made
+  e.operation().then(o => o.transaction()).then(t => use(t)).then(s => {
     let pk = s.records[0].source_account
     let user = users.find(u => u.pk == pk)
     if (!user) {
       user = { name: t.memo.startsWith('Offer') ? 'Ben' : 'Ann', pk }
-      users.push(user)
+      add2streams(user, handler4[user.name])
     }
     let ts = timestamp()
     let text = `${user.name == 'Ben' ? 'Offer' : 'Request'} from ${user.name}: ${description(s)}.`
     set(p => Object.assign({}, p, { posts: p.posts.concat([{ id: e.id, name: user.name, pk, text, ts, }]) }))
-  }).catch(e => console.error(e))
-
-  if (true) {
-    return;
-  }
-  if (e.asset_code != 'HEXA' || e.type != 'account_credited' && e.type != 'account_debited') {
-    return;
-  }
-  e.operation().then(o => {
-    let t
-    if (o.amount == Make.fee) { // offer/request made ? {{{2
-      o.transaction().then(tX => {
-        t = tX
-        return (t.memo.startsWith('Offer') || t.memo.startsWith('Request')) && t.operations();
-      }).then(s => {
-        let r = s.records[0]
-        for (let [n, v] of Object.entries(users)) {
-          if (v.pk == r.source_account) {
-            make(n, v, r, s, t, set)
-            break
-          }
-        }
-      }).catch(e => console.error(e))
-      return;
-    }
-    if (e.type == 'account_credited') { // user account removed {{{2
-      o.transaction().then(t => t.operations()).then(s => {
-        let r = s.records.find(r => r.type == 'account_merge')
-        for (let [n, v] of Object.entries(users)) {
-          if (v.pk == r?.account) {
-            v.removed_at = r.created_at
-            break
-          }
-        }
-      }).catch(e => console.error(e))
-    }
-    if (e.type == 'account_debited') { // user account created {{{2
-      o.transaction().then(t => t.operations()).then(s => {
-        let r = s.records.find(r => r.type == 'manage_data' && r.name == 'greeting' && r.value)
-        let name = Buffer.from(r.value, 'base64').toString()
-        users[name] = { amount: e.amount, created_at: e.created_at, id: e.id, pk: o.to }
-      }).catch(e => console.error(e))
-    } // }}}2
-  }).catch(e => console.error(e))
-}
-
-function make (name, v, r, s, t, set) { // {{{1
-  if (!v.makes) {
-    v.makes = []
-  }
-  let d = description(s)
-  v.makes.push({ created_at: r.created_at, description: d, memo: t.memo })
-  let ts = timestamp()
-  let text = `${t.memo} made by ${name}: ${d}`
-  set(p => Object.assign({}, p, { posts: p.posts.concat([{ id: r.id, name, pk: v.pk, text, ts, }]) }))
+  }).catch(e => console.error(e)) // }}}2
 }
 
 function post (item) { // {{{1
@@ -122,7 +92,7 @@ export default function WatchAnnBenCyn() { // {{{1
   const [wABC, setQ] = useState({}) // {{{2
   const bottomRef = useRef(null) // thanks to https://bobbyhadz.com/blog/react-scroll-to-bottom
 
-  const streams = useRef([]), timeoutId = useRef({}), agent = useRef({}), close = useRef({})
+  const timeoutId = useRef({}), close = useRef({})
   const timeoutFn = _ => {
     close.current()
     let ts = timestamp()
@@ -132,23 +102,19 @@ export default function WatchAnnBenCyn() { // {{{1
     clearTimeout(timeoutId.current)
     timeoutId.current = setTimeout(timeoutFn, timeoutMs)
   }
-  const setup = async set => { // {{{2
+  const setup = async setQ => { // {{{2
     if (wABC.posts) {
       return;
     }
     console.log('- setup')
+    set = setQ
     timestamp()
-    let server = window.StellarHorizonServer
-    let agentPK = window.StellarNetwork.hex.agent
-    streams.current.push({ close: server.effects().forAccount(agentPK).cursor('now').stream({
-      onerror:   e => console.error(e),
-      onmessage: e => effect4agent(e, set) || resetTimeout()
-    }) })
+    new Make({ makerPK: window.StellarNetwork.hex.agent }).checkTakes(streams, e => effect4agent(e) || resetTimeout())
     close.current = _ => {
-      for (let stream of streams.current) {
+      for (let stream of streams) {
         stream.close()
       }
-      console.log('- teardown,', streams.current.length, 'streams closed')
+      console.log('- teardown,', streams.length, 'streams closed')
     }
     timeoutId.current = setTimeout(timeoutFn, timeoutMs)
     set(p => Object.assign({}, p, { posts: [{ id: '0', }] }))
