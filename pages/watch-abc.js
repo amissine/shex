@@ -9,7 +9,7 @@ import { /*Semaphore,*/ retrieveItem, storeItem, timestamp, } from '../foss/util
 //import { Account, } from '../foss/stellar-account.mjs'
 
 let set, timeoutMs = 60000, streams = [], users = [] // {{{1
-const handler4Maker = (e, name) => {
+const handle4Maker = (e, name) => {
   if (e.type != 'claimable_balance_claimant_created' || e.asset.startsWith('HEXA')) {
     return;
   }
@@ -17,9 +17,9 @@ const handler4Maker = (e, name) => {
   let text = `Cyn is taking ${name}'s ${name == 'Ben' ? 'Offer' : 'Request'}...`
   set(p => Object.assign({}, p, { posts: p.posts.concat([{ id: e.id, name: 'Cyn', pk: e.account, text, ts, }]) }))
 }
-const handler4 = {
-  Ann: e => handler4Maker(e, 'Ann'),
-  Ben: e => handler4Maker(e, 'Ben'),
+const handle4 = {
+  Ann: e => handle4Maker(e, 'Ann'),
+  Ben: e => handle4Maker(e, 'Ben'),
   Cyn: e => {
     if (e.type != 'account_credited') {
       return;
@@ -32,7 +32,7 @@ const handler4 = {
 
 function add2streams (user, oneffect) { // {{{1
   users.push(user)
-  new Make({ makerPK: user.pk }).checkTakes(streams, oneffect)
+  Make.stream(streams, user.pk, oneffect, console.error)
 }
 
 function effect4agent (e) { // {{{1
@@ -50,7 +50,7 @@ function effect4agent (e) { // {{{1
       let r = s.records.find(r => r.type == 'manage_data' && r.name == 'greeting' && r.value)
       let name = Buffer.from(r.value, 'base64').toString()
       let user = { name, pk: r.source_account, }
-      add2streams(user, handler4[user.name])
+      add2streams(user, handle4[user.name])
       let ts = timestamp()
       let text = `${name}'s account created.`
       set(p => Object.assign({}, p, { posts: p.posts.concat([{ id: e.id, name, pk: r.source_account, text, ts, }]) }))
@@ -65,7 +65,7 @@ function effect4agent (e) { // {{{1
     let user = users.find(u => u.pk == pk)
     if (!user) {
       user = { name: t.memo.startsWith('Offer') ? 'Ben' : 'Ann', pk }
-      add2streams(user, handler4[user.name])
+      add2streams(user, handle4[user.name])
     }
     let ts = timestamp()
     let text = `${user.name == 'Ben' ? 'Offer' : 'Request'} from ${user.name}: ${description(s)}.`
@@ -109,7 +109,9 @@ export default function WatchAnnBenCyn() { // {{{1
     console.log('- setup')
     set = setQ
     timestamp()
-    new Make({ makerPK: window.StellarNetwork.hex.agent }).checkTakes(streams, e => effect4agent(e) || resetTimeout())
+    Make.stream(streams, window.StellarNetwork.hex.agent,
+      e => effect4agent(e) || resetTimeout(), console.error
+    )
     close.current = _ => {
       for (let stream of streams) {
         stream.close()
