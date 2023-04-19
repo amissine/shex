@@ -1,23 +1,154 @@
-13:50:00.848
-Object { _links: {…}, id: "0001083903716642817-0000000002", paging_token: "1083903716642817-2", account: "GBRY67MCTJG6FBBPESKIWCWKLEQCP5MMM4RWPQBLHMKOGXWX4SGXV7KX", type: "claimable_balance_claimant_created", type_i: 51, created_at: "2023-03-30T17:49:56Z", asset: "ClawableHexa:GBK337NLODFRL5NGTOLQBFUNKANPU6GK2IX4DOPVXU4N4XEPJMIUMYIO", balance_id: "00000000e5b0689180548c01576f1698d02d9e3b47ebf64588bc992b354bdef0ac8379ae", amount: "0.0000100", … }
+07:47:29.393 - setup watch-abc.js:117:12
+07:47:29.396 wABC 
+Object { network: "TESTNET", posts: (1) […] }
+ flags 
+Object { current: 3 }
+watch-abc.js:138:12
+07:47:40.086 wABC 
+Object { network: "TESTNET", posts: (2) […] }
+ flags 
+Object { current: 3 }
+watch-abc.js:138:12
+07:47:44.937 wABC 
+Object { network: "TESTNET", posts: (3) […] }
+ flags 
+Object { current: 3 }
+watch-abc.js:138:12
+07:47:50.102 wABC 
+Object { network: "TESTNET", posts: (4) […] }
+ flags 
+Object { current: 3 }
+watch-abc.js:138:12
+07:48:00.172 wABC 
+Object { network: "TESTNET", posts: (5) […] }
+ flags 
+Object { current: 3 }
+watch-abc.js:138:12
+07:48:00.314 wABC 
+Object { network: "TESTNET", posts: (6) […] }
+ flags 
+Object { current: 3 }
+watch-abc.js:138:12
+07:48:15.159
+Object { _links: {…}, id: "0002478677166153729-0000000002", paging_token: "2478677166153729-2", account: "GCEQ5A4XPUD5UGHHF6LIYLBFICZEDSGLF2TEVRG77NWX4ZTBHYSDTKWR", type: "account_credited", type_i: 2, created_at: "2023-04-19T11:48:10Z", asset_type: "credit_alphanum12", asset_code: "ClawableHexa", asset_issuer: "GBK337NLODFRL5NGTOLQBFUNKANPU6GK2IX4DOPVXU4N4XEPJMIUMYIO", … }
+watch-abc.js:14:12
+07:48:15.168 wABC 
+Object { network: "TESTNET", posts: (7) […] }
+ flags 
+Object { current: 3 }
+watch-abc.js:138:12
+07:48:30.401
+Object { _links: {…}, id: "0002478690051059714-0000000001", paging_token: "2478690051059714-1", account: "GCEQ5A4XPUD5UGHHF6LIYLBFICZEDSGLF2TEVRG77NWX4ZTBHYSDTKWR", type: "account_credited", type_i: 2, created_at: "2023-04-19T11:48:27Z", asset_type: "credit_alphanum12", asset_code: "ClawableHexa", asset_issuer: "GBK337NLODFRL5NGTOLQBFUNKANPU6GK2IX4DOPVXU4N4XEPJMIUMYIO", … }
+watch-abc.js:14:12
+07:48:45.591
+Object { _links: {…}, id: "0002478702935937025-0000000002", paging_token: "2478702935937025-2", account: "GCEQ5A4XPUD5UGHHF6LIYLBFICZEDSGLF2TEVRG77NWX4ZTBHYSDTKWR", type: "account_credited", type_i: 2, created_at: "2023-04-19T11:48:43Z", asset_type: "credit_alphanum4", asset_code: "HEXA", asset_issuer: "GBLICEQU2TUSCRMS6KZZ4Z6YJRLATTUVVQ5TU6KQ25TLQD5GWQPYGYZU", … }
+watch-abc.js:14:12
+07:48:59.696 - teardown, 4 streams closed watch-abc.js:128:14
+07:48:59.710 wABC 
+Object { network: "TESTNET", posts: (8) […] }
+ flags 
+Object { current: 3 }
+watch-abc.js:138:12
+===
+07:48:15.159
+Object { _links: {…}, id: "0002478677166153729-0000000002", paging_token: "2478677166153729-2", account: "GCEQ5A4XPUD5UGHHF6LIYLBFICZEDSGLF2TEVRG77NWX4ZTBHYSDTKWR", type: "account_credited", type_i: 2, created_at: "2023-04-19T11:48:10Z", asset_type: "credit_alphanum12", asset_code: "ClawableHexa", asset_issuer: "GBK337NLODFRL5NGTOLQBFUNKANPU6GK2IX4DOPVXU4N4XEPJMIUMYIO", … }
 ​
 _links: Object { operation: {…}, succeeds: {…}, precedes: {…} }
 ​
-account: "GBRY67MCTJG6FBBPESKIWCWKLEQCP5MMM4RWPQBLHMKOGXWX4SGXV7KX"
+account: "GCEQ5A4XPUD5UGHHF6LIYLBFICZEDSGLF2TEVRG77NWX4ZTBHYSDTKWR"
 ​
 amount: "0.0000100"
 ​
-asset: "ClawableHexa:GBK337NLODFRL5NGTOLQBFUNKANPU6GK2IX4DOPVXU4N4XEPJMIUMYIO"
+asset_code: "ClawableHexa"
 ​
-balance_id: "00000000e5b0689180548c01576f1698d02d9e3b47ebf64588bc992b354bdef0ac8379ae"
+asset_issuer: "GBK337NLODFRL5NGTOLQBFUNKANPU6GK2IX4DOPVXU4N4XEPJMIUMYIO"
 ​
-created_at: "2023-03-30T17:49:56Z"
+asset_type: "credit_alphanum12"
 ​
-id: "0001083903716642817-0000000002"
+created_at: "2023-04-19T11:48:10Z"
+​
+id: "0002478677166153729-0000000002"
 ​
 operation: function CallBuilder(opts)
 ​
-paging_token: "1083903716642817-2"
+paging_token: "2478677166153729-2"
+​
+precedes: function CallBuilder(opts)​
+succeeds: function CallBuilder(opts)
+​
+type: "account_credited"
+​
+type_i: 2
+​
+<prototype>: Object { … }
+watch-abc.js:14:12
+07:48:15.168 wABC 
+Object { network: "TESTNET", posts: (7) […] }
+ flags 
+Object { current: 3 }
+watch-abc.js:138:12
+07:48:30.401
+Object { _links: {…}, id: "0002478690051059714-0000000001", paging_token: "2478690051059714-1", account: "GCEQ5A4XPUD5UGHHF6LIYLBFICZEDSGLF2TEVRG77NWX4ZTBHYSDTKWR", type: "account_credited", type_i: 2, created_at: "2023-04-19T11:48:27Z", asset_type: "credit_alphanum12", asset_code: "ClawableHexa", asset_issuer: "GBK337NLODFRL5NGTOLQBFUNKANPU6GK2IX4DOPVXU4N4XEPJMIUMYIO", … }
+​
+_links: Object { operation: {…}, succeeds: {…}, precedes: {…} }
+​
+account: "GCEQ5A4XPUD5UGHHF6LIYLBFICZEDSGLF2TEVRG77NWX4ZTBHYSDTKWR"
+​
+amount: "1000.0000000"
+​
+asset_code: "ClawableHexa"
+​
+asset_issuer: "GBK337NLODFRL5NGTOLQBFUNKANPU6GK2IX4DOPVXU4N4XEPJMIUMYIO"
+​
+asset_type: "credit_alphanum12"
+​
+created_at: "2023-04-19T11:48:27Z"
+​
+id: "0002478690051059714-0000000001"
+​
+operation: function CallBuilder(opts)
+​
+paging_token: "2478690051059714-1"
+​
+precedes: function CallBuilder(opts)​
+succeeds: function CallBuilder(opts)
+​
+type: "account_credited"
+​
+type_i: 2
+​
+<prototype>: Object { … }
+watch-abc.js:14:12
+07:48:45.591
+Object { _links: {…}, id: "0002478702935937025-0000000002", paging_token: "2478702935937025-2", account: "GCEQ5A4XPUD5UGHHF6LIYLBFICZEDSGLF2TEVRG77NWX4ZTBHYSDTKWR", type: "account_credited", type_i: 2, created_at: "2023-04-19T11:48:43Z", asset_type: "credit_alphanum4", asset_code: "HEXA", asset_issuer: "GBLICEQU2TUSCRMS6KZZ4Z6YJRLATTUVVQ5TU6KQ25TLQD5GWQPYGYZU", … }
+watch-abc.js:14:12
+07:48:59.696 - teardown, 4 streams closed watch-abc.js:128:14
+===
+08:20:29.082 wABC 
+Object { network: "TESTNET", posts: (7) […] }
+ flags 
+Object { current: 3 }
+watch-abc.js:142:12
+08:20:38.326
+Object { _links: {…}, id: "0002480270599016449-0000000002", paging_token: "2480270599016449-2", account: "GBK337NLODFRL5NGTOLQBFUNKANPU6GK2IX4DOPVXU4N4XEPJMIUMYIO", type: "claimable_balance_claimant_created", type_i: 51, created_at: "2023-04-19T12:20:36Z", asset: "HEXA:GBLICEQU2TUSCRMS6KZZ4Z6YJRLATTUVVQ5TU6KQ25TLQD5GWQPYGYZU", balance_id: "00000000bd50b96a53a5932f3c63a77f469838dad10f80ea3643f4931654f8d5d5c56ba1", amount: "0.0000100", … }
+​
+_links: Object { operation: {…}, succeeds: {…}, precedes: {…} }
+​
+account: "GBK337NLODFRL5NGTOLQBFUNKANPU6GK2IX4DOPVXU4N4XEPJMIUMYIO"
+​
+amount: "0.0000100"
+​
+asset: "HEXA:GBLICEQU2TUSCRMS6KZZ4Z6YJRLATTUVVQ5TU6KQ25TLQD5GWQPYGYZU"
+​
+balance_id: "00000000bd50b96a53a5932f3c63a77f469838dad10f80ea3643f4931654f8d5d5c56ba1"
+​
+created_at: "2023-04-19T12:20:36Z"
+​
+id: "0002480270599016449-0000000002"
+​
+operation: function CallBuilder(opts)
+​
+paging_token: "2480270599016449-2"
 ​
 precedes: function CallBuilder(opts)​
 predicate: Object { unconditional: true }
@@ -29,47 +160,15 @@ type: "claimable_balance_claimant_created"
 type_i: 51
 ​
 <prototype>: Object { … }
-watch-abc.js:16:10
-13:50:05.449
-Object { _links: {…}, id: "0001083908011618305-0000000002", paging_token: "1083908011618305-2", account: "GCEXOT4V3GXD6G3O6QVQMG245JIAPPEPNCT5WYV2ZGJCRNFJNFGSJDAK", type: "claimable_balance_claimant_created", type_i: 51, created_at: "2023-03-30T17:50:01Z", asset: "ClawableHexa:GBK337NLODFRL5NGTOLQBFUNKANPU6GK2IX4DOPVXU4N4XEPJMIUMYIO", balance_id: "000000001226745447db6baa9f9999ede3d2e8928b1794807eefdd81a450731c4dfbf9a4", amount: "800.0000100", … }
+watch-abc.js:85:10
+08:20:43.334
+Object { _links: {…}, id: "0002480274893975553-0000000001", paging_token: "2480274893975553-1", account: "GBK337NLODFRL5NGTOLQBFUNKANPU6GK2IX4DOPVXU4N4XEPJMIUMYIO", type: "account_credited", type_i: 2, created_at: "2023-04-19T12:20:41Z", asset_type: "credit_alphanum12", asset_code: "ClawableHexa", asset_issuer: "GBK337NLODFRL5NGTOLQBFUNKANPU6GK2IX4DOPVXU4N4XEPJMIUMYIO", … }
 ​
 _links: Object { operation: {…}, succeeds: {…}, precedes: {…} }
 ​
-account: "GCEXOT4V3GXD6G3O6QVQMG245JIAPPEPNCT5WYV2ZGJCRNFJNFGSJDAK"
+account: "GBK337NLODFRL5NGTOLQBFUNKANPU6GK2IX4DOPVXU4N4XEPJMIUMYIO"
 ​
-amount: "800.0000100"
-​
-asset: "ClawableHexa:GBK337NLODFRL5NGTOLQBFUNKANPU6GK2IX4DOPVXU4N4XEPJMIUMYIO"
-​
-balance_id: "000000001226745447db6baa9f9999ede3d2e8928b1794807eefdd81a450731c4dfbf9a4"
-​
-created_at: "2023-03-30T17:50:01Z"
-​
-id: "0001083908011618305-0000000002"
-​
-operation: function CallBuilder(opts)
-​
-paging_token: "1083908011618305-2"
-​
-precedes: function CallBuilder(opts)​
-predicate: Object { unconditional: true }
-​
-succeeds: function CallBuilder(opts)
-​
-type: "claimable_balance_claimant_created"
-​
-type_i: 51
-​
-<prototype>: Object { … }
-watch-abc.js:16:10
-13:50:10.739
-Object { _links: {…}, id: "0001083912306565122-0000000001", paging_token: "1083912306565122-1", account: "GARE4JJQOTHVDLIMTTTGXUZDDLMXZ3AGUB5NPRSGPWEYDEME2HDZBAIU", type: "account_credited", type_i: 2, created_at: "2023-03-30T17:50:06Z", asset_type: "credit_alphanum12", asset_code: "ClawableHexa", asset_issuer: "GBK337NLODFRL5NGTOLQBFUNKANPU6GK2IX4DOPVXU4N4XEPJMIUMYIO", … }
-​
-_links: Object { operation: {…}, succeeds: {…}, precedes: {…} }
-​
-account: "GARE4JJQOTHVDLIMTTTGXUZDDLMXZ3AGUB5NPRSGPWEYDEME2HDZBAIU"
-​
-amount: "1000.0000100"
+amount: "1000.0000000"
 ​
 asset_code: "ClawableHexa"
 ​
@@ -77,13 +176,13 @@ asset_issuer: "GBK337NLODFRL5NGTOLQBFUNKANPU6GK2IX4DOPVXU4N4XEPJMIUMYIO"
 ​
 asset_type: "credit_alphanum12"
 ​
-created_at: "2023-03-30T17:50:06Z"
+created_at: "2023-04-19T12:20:41Z"
 ​
-id: "0001083912306565122-0000000001"
+id: "0002480274893975553-0000000001"
 ​
 operation: function CallBuilder(opts)
 ​
-paging_token: "1083912306565122-1"
+paging_token: "2480274893975553-1"
 ​
 precedes: function CallBuilder(opts)​
 succeeds: function CallBuilder(opts)
@@ -93,40 +192,8 @@ type: "account_credited"
 type_i: 2
 ​
 <prototype>: Object { … }
-watch-abc.js:22:10
-13:50:15.751
-Object { _links: {…}, id: "0001083916601548802-0000000001", paging_token: "1083916601548802-1", account: "GARE4JJQOTHVDLIMTTTGXUZDDLMXZ3AGUB5NPRSGPWEYDEME2HDZBAIU", type: "account_credited", type_i: 2, created_at: "2023-03-30T17:50:11Z", asset_type: "credit_alphanum12", asset_code: "ClawableHexa", asset_issuer: "GBK337NLODFRL5NGTOLQBFUNKANPU6GK2IX4DOPVXU4N4XEPJMIUMYIO", … }
-​
-_links: Object { operation: {…}, succeeds: {…}, precedes: {…} }
-​
-account: "GARE4JJQOTHVDLIMTTTGXUZDDLMXZ3AGUB5NPRSGPWEYDEME2HDZBAIU"
-​
-amount: "0.0000100"
-​
-asset_code: "ClawableHexa"
-​
-asset_issuer: "GBK337NLODFRL5NGTOLQBFUNKANPU6GK2IX4DOPVXU4N4XEPJMIUMYIO"
-​
-asset_type: "credit_alphanum12"
-​
-created_at: "2023-03-30T17:50:11Z"
-​
-id: "0001083916601548802-0000000001"
-​
-operation: function CallBuilder(opts)
-​
-paging_token: "1083916601548802-1"
-​
-precedes: function CallBuilder(opts)​
-succeeds: function CallBuilder(opts)
-​
-type: "account_credited"
-​
-type_i: 2
-​
-<prototype>: Object { … }
-watch-abc.js:22:10
-13:50:45.326 user account removed watch-abc.js:42:12
-13:50:50.370 user account removed 2 watch-abc.js:42:12
-Run qa for test/watchABC on Thu Apr 13 17:31:20 EDT 2023
-Run qa for test/watchABC on Thu Apr 13 17:41:06 EDT 2023
+watch-abc.js:85:10
+08:20:43.335
+Object { _links: {…}, id: "0002480274893975554-0000000002", paging_token: "2480274893975554-2", account: "GBK337NLODFRL5NGTOLQBFUNKANPU6GK2IX4DOPVXU4N4XEPJMIUMYIO", type: "account_debited", type_i: 3, created_at: "2023-04-19T12:20:41Z", asset_type: "credit_alphanum12", asset_code: "ClawableHexa", asset_issuer: "GBK337NLODFRL5NGTOLQBFUNKANPU6GK2IX4DOPVXU4N4XEPJMIUMYIO", … }
+watch-abc.js:85:10
+

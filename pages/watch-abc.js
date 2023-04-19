@@ -10,6 +10,14 @@ import { /*Semaphore,*/ retrieveItem, storeItem, timestamp, } from '../foss/util
 
 let set, timeoutMs = 60000, streams = [], users = [] // {{{1
 const handle4Maker = (e, name) => {
+  if (name == 'Ann' && e.type == 'account_credited') {
+    if (e.amount == '1000.0000000') {
+      let ts = timestamp()
+      let text = 'Ann has been repaid HEXA 1000.'
+      set(p => Object.assign({}, p, { posts: p.posts.concat([{ id: e.id, name: 'Ann', pk: e.account, text, ts, }]) }))
+    }
+    return;
+  }
   if (e.type != 'claimable_balance_claimant_created' || e.asset.startsWith('HEXA')) {
     return;
   }
@@ -73,6 +81,15 @@ function effect4agent (e) { // {{{1
   }).catch(e => console.error(e)) // }}}2
 }
 
+function effect4ich (e) { // {{{1
+  if (e.type != 'claimable_balance_claimant_created') {
+    return;
+  }
+  let ts = timestamp()
+  let text = 'Ann requested repay HEXA 1000.'
+  set(p => Object.assign({}, p, { posts: p.posts.concat([{ id: e.id, name: 'Ann', pk: e.account, text, ts, }]) }))
+}
+
 function post (item) { // {{{1
   item.className = abc.agent
   if (item.id == '0') {
@@ -112,6 +129,7 @@ export default function WatchAnnBenCyn() { // {{{1
     Make.stream(streams, window.StellarNetwork.hex.agent,
       e => effect4agent(e) || resetTimeout(), console.error
     )
+    Make.stream(streams, window.StellarNetwork.hex.issuerClawableHexa, effect4ich, console.error)
     close.current = _ => {
       for (let stream of streams) {
         stream.close()
