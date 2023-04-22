@@ -9,23 +9,27 @@ import { /*Semaphore,*/ retrieveItem, storeItem, timestamp, } from '../foss/util
 //import { Account, } from '../foss/stellar-account.mjs'
 
 let set, timeoutMs = 60000, streams = [], users = [] // {{{1
-const handle4Maker = (e, name) => {
+const handle4Maker = (e, name) => { // {{{2
+  let ts = timestamp()
+  if (name == 'Ben' && e.type == 'account_credited' && e.amount == '800.0000000' && e.asset_code == 'HEXA') {
+    let text = 'Ben received HEXA 800.'
+    set(p => Object.assign({}, p, { posts: p.posts.concat([{ id: e.id, name: 'Ben', pk: e.account, text, ts, }]) }))
+    return;
+  }
   if (name == 'Ann' && e.type == 'account_credited') {
     if (e.amount == '1000.0000000') {
-      let ts = timestamp()
-      let text = 'Ann has been repaid HEXA 1000.'
+      let text = 'Ann has been repaid ClawableHexa 1000.'
       set(p => Object.assign({}, p, { posts: p.posts.concat([{ id: e.id, name: 'Ann', pk: e.account, text, ts, }]) }))
     }
     return;
   }
-  if (e.type != 'claimable_balance_claimant_created' || e.asset.startsWith('HEXA')) {
+  if (e.type != 'claimable_balance_claimant_created' || e.asset.startsWith('HEXA') || e.amount == '800.0000000') {
     return;
   }
-  let ts = timestamp()
   let text = `Cyn is taking ${name}'s ${name == 'Ben' ? 'Offer' : 'Request'}...`
   set(p => Object.assign({}, p, { posts: p.posts.concat([{ id: e.id, name: 'Cyn', pk: e.account, text, ts, }]) }))
 }
-const handle4 = {
+const handle4 = { // {{{2
   Ann: e => handle4Maker(e, 'Ann'),
   Ben: e => handle4Maker(e, 'Ben'),
   Cyn: e => {
@@ -36,7 +40,7 @@ const handle4 = {
     let text = `Cyn took ${e.amount == '0.0000100' ? "Ben's Offer" : "Ann's Request"}.`
     set(p => Object.assign({}, p, { posts: p.posts.concat([{ id: e.id, name: 'Cyn', pk: e.account, text, ts, }]) }))
   }
-}
+} // }}}2
 
 function add2streams (user, oneffect) { // {{{1
   users.push(user)
@@ -53,7 +57,7 @@ function effect4agent (e) { // {{{1
     console.log('user account removed')
     return;
   }
-  if (e.type == 'account_debited' && e.asset_code == 'HEXA') { // user account created {{{2
+  if (e.type == 'account_debited' && e.asset_code == 'HEXA' && e.amount != '800.0000000') { // user account created {{{2
     e.operation().then(o => o.transaction()).then(t => use(t)).then(s => {
       let r = s.records.find(r => r.type == 'manage_data' && r.name == 'greeting' && r.value)
       let name = Buffer.from(r.value, 'base64').toString()
@@ -65,10 +69,16 @@ function effect4agent (e) { // {{{1
     }).catch(e => console.error(e))
     return;
   }
-  if (e.type != 'claimable_balance_claimant_created' || e.amount != Make.fee) { // Offer/Request made {{{2
+  if (e.type != 'claimable_balance_claimant_created' || e.amount != Make.fee) { // {{{2
+    if (e.asset?.startsWith('ClawableHexa') && e.type == 'claimable_balance_claimant_created') {
+      let pk = users.find(u => u.name == 'Ben').pk
+      let ts = timestamp()
+      let text = `Ben is converting ClawableHexa ${e.amount} to HEXA...`
+      set(p => Object.assign({}, p, { posts: p.posts.concat([{ id: e.id, name: 'Ben', pk, text, ts, }]) }))
+    }
     return;
   }
-  e.operation().then(o => o.transaction()).then(t => use(t)).then(s => {
+  e.operation().then(o => o.transaction()).then(t => use(t)).then(s => { // Offer/Request made {{{2
     let pk = s.records[0].source_account
     let user = users.find(u => u.pk == pk)
     if (!user) {
@@ -86,7 +96,7 @@ function effect4ich (e) { // {{{1
     return;
   }
   let ts = timestamp()
-  let text = 'Ann requested repay HEXA 1000.'
+  let text = 'Ann requested repay ClawableHexa 1000.'
   set(p => Object.assign({}, p, { posts: p.posts.concat([{ id: e.id, name: 'Ann', pk: e.account, text, ts, }]) }))
 }
 

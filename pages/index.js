@@ -19,7 +19,7 @@ export default function Home() {
         </p>
         <div className={styles.grid}>
           <a 
-            href="https://github.com/amissine/shex/blob/main/README.md" 
+            href="https://github.com/amissine/shex/blob/main/README.md#presentation"
             className={styles.card}
           >
             <h3>What Is It? &rarr;</h3>
