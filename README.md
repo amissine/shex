@@ -64,7 +64,7 @@ Here is the relevant part of the PoC Demo log data:
 + 0 ms: teardown removed Cyn's account
 ```
 
-The source code that's produced this data can be found [here](https://github.com/amissine/shex/shared-services/watchABC.mjs).
+The source code that's produced this data can be found [here](https://github.com/amissine/shex/blob/main/shared-services/watchABC.mjs).
 
 ## How It Works
 
