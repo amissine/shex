@@ -1,16 +1,36 @@
 # Stellar Help Exchange
 
-This is work in progress.
+Hi there, I'm [Дід Alik](https://youtube.com/shorts/ebELEhQPLnc). The Stellar HEX is my hobby project aimed at creating an equitable distributed marketplace on [Stellar](https://stellar.org) network - if you do not get the help you paid for, you get your payment back.
+
+This is work in progress. As of April 22, 2023, I have completed and shared the project's presentation (Google slideshow) and the proof-of-concept demo.
 
 ## Presentation
 
+To introduce Stellar HEX to you, I recorded an example covering its basic features in the form of the Google slideshow.
+
 ### [YouTube Video](https://youtu.be/y4TELgx28D4)
+
+In this recording, I am trying to show and explain the Stellar HEX basics, such as:
+
+- an offer and a request (a make);
+
+- a take;
+
+- a repay (when no help is received);
+
+- conversion from clawable to unclawable HEXA (HEX Asset).
 
 ### [Google Slideshow](https://docs.google.com/presentation/d/1Gq_d3q19xkDIenS_KM-PEKy7r3rBkAyOMJJWVPPb2Us)
 
+This is the underlying Google Document. You can leave your questions and comments here.
+
 ## Proof-of-Concept Demo
 
+This PoC demo contains all the technical details.
+
 ### [YouTube Video](https://youtu.be/QShlI8aNDgs)
+
+This silent recording demonstrates a shared service running the example outlined in the presentation. The service provider starts the service, and opens a tab in the browser for the service consumer to run. When the service provider and service consumer bind, the service starts and its results are being shown in another browser tab, along with the service provider's log data.
 
 ### Log Data
 
@@ -64,7 +84,8 @@ Here is the relevant part of the PoC Demo log data:
 + 0 ms: teardown removed Cyn's account
 ```
 
-The source code that's produced this data can be found [here](https://github.com/amissine/shex/blob/main/shared-services/watchABC.mjs).
+Use [Stellar Laboratory](https://laboratory.stellar.org/#explorer?resource=transactions&endpoint=single&network=test) to check the transactions outlined in the log. The source code that's produced this data can be found [here](https://github.com/amissine/shex/blob/main/shared-services/watchABC.mjs).
 
 ## How It Works
 
+Work in progress.

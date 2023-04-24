@@ -1069,12 +1069,12 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-let s:l = 17 - ((16 * winheight(0) + 23) / 47)
+let s:l = 87 - ((42 * winheight(0) + 23) / 47)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 17
-normal! 036|
+keepjumps 87
+normal! 0116|
 tabnext
 edit pages/shex-join.module.css
 let s:save_splitbelow = &splitbelow
@@ -1632,12 +1632,12 @@ normal! zo
 normal! zo
 91
 normal! zo
-let s:l = 1 - ((0 * winheight(0) + 23) / 47)
+let s:l = 102 - ((94 * winheight(0) + 23) / 47)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 1
-normal! 0
+keepjumps 102
+normal! 019|
 tabnext
 edit shex/index.js
 let s:save_splitbelow = &splitbelow
