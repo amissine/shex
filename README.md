@@ -34,7 +34,7 @@ This silent recording demonstrates a shared service running the example outlined
 
 ### Log Data
 
-Here is the relevant part of the PoC Demo log data:
+Here is the relevant part of the service provider's log data:
 
 ```
 - Fri Apr 21 2023 22:45:20 GMT+0000 (Coordinated Universal Time), /home/ubuntu/people/didalik/aim/shex/shared-services-support-repos/shex/bin/watchABC.mjs started: network test
