@@ -1,0 +1,43 @@
+article.agent {
+  color: #a1a;
+  font-size: 16px;
+  font-family: Menlo, Monaco, Lucida Console, Liberation Mono, monospace;
+}
+
+article.ann {
+  color: #f00;
+  font-size: 12px;
+  font-family: Menlo, Monaco, Lucida Console, Liberation Mono, monospace;
+}
+
+article.ben {
+  color: #00f;
+  font-size: 12px;
+  font-family: Menlo, Monaco, Lucida Console, Liberation Mono, monospace;
+}
+
+article.cyn {
+  color: #090;
+  font-size: 12px;
+  font-family: Menlo, Monaco, Lucida Console, Liberation Mono, monospace;
+}
+
+span.repay {
+  color: #e1e; /* light purple */
+}
+
+span.request {
+  color: #f00; /* red */
+}
+
+span.take {
+  color: #00f; /* blue */
+}
+
+span.offer {
+  color: #090; /* green */
+}
+
+span.assetConversion {
+  color: #a1a; /* purple */
+}

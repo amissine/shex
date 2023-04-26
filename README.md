@@ -89,3 +89,24 @@ Use [Stellar Laboratory](https://laboratory.stellar.org/#explorer?resource=trans
 ## How It Works
 
 Work in progress.
+
+## Shared Services
+
+A shared service binds its globally distributed providers and consumers. The PoC Demo above is an example of a shared service. I offer shared services support to your business. Here are some definitions. 
+
+A **Service Maintainer** adds and updates in the **registry** the following information about a service:
+
+- `REPO_URL`;
+- `COMMIT_ID`;
+- `SERVICE_PATH`.
+
+This information is stored in the registry under the public key `SERVICE_PK`. The Service Maintainer owns the secret key `SERVICE_SK`.
+
+A **Service Provider** clones the service repository from `REPO_URL`. The service offer information she submits - `SERVICE_PK`, `COMMIT_ID`, `SERVICE_PATH`, and `REPO_URL` - must match the information stored in the registry under the public key `SERVICE_PK`. When the registry accepts the offer, the Service Provider - identified by its `serviceProviderPK` - opens a WebSocket connection with the registry to bind the offer to one or more service requests. The service offer `(SERVICE_PK, serviceProviderPK)` binds when the pair `(SERVICE_PK, serviceConsumerPK)` is received over this newly opened connection. When the service is bound, it starts. When it's unbound, it stops.
+
+A **Service Consumer** requests the service by its `SERVICE_PK`. The Service Consumer must know the `SERVICE_PK` for the `SERVICE_PATH` being requested. To request the service, the Service Consumer opens a WebSocket connection with the registry and sends the pair `(SERVICE_PK, serviceConsumerPK)` to bind the request to an offer.
+
+### Request/Offer Binding
+
+The registry caches service requests/offers and tries to bind them together whenever two WebSocket connections - one with a Service Provider, one with a Service Consumer - are found at the same time. The Service Provider gets unbound when the registry finds no Service Consumer connections associated with the bind. In this case, the registry sends the `unbound` signal to the Service Provider. The Service Consumer gets unbound when the registry finds no Service Provider connections associated with the bind. In this case, the registry sends the `unbound` signal to the Service Consumer.
+
