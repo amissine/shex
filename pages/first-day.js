@@ -1,8 +1,9 @@
 import Head from 'next/head' // {{{1
 import Script from 'next/script'
+import { Fragment, useEffect, useRef, useState } from 'react'
+import parse from 'html-react-parser'
 import styles from './index.module.css'
 import stylesDay1 from './first-day.module.css'
-import { Fragment, useEffect, useRef, useState } from 'react'
 import { Make, OfferResults, Orderbook, User, description, offerCreated, } from '../foss/hex.mjs'
 import { FAPI_READY, NO_WALLET, SDK_READY, flag, setupNetwork, } from '../shex'
 import { /*Semaphore,*/ retrieveItem, storeItem, timestamp, } from '../foss/utils.mjs'
@@ -47,6 +48,10 @@ function add2streams (user, oneffect) { // {{{1
   Make.stream(streams, user.pk, oneffect, console.error)
 }
 
+function article(p, item) { // {{{1
+  return `<article className=${item.className} title=${item.pk} >${p(item)}</article>`;
+}
+
 function effect4agent (e) { // {{{1
   let t // {{{2
   const use = tx => {
@@ -82,12 +87,13 @@ function effect4agent (e) { // {{{1
     let pk = s.records[0].source_account
     let user = users.find(u => u.pk == pk)
     if (!user) {
-      user = { name: t.memo.startsWith('Offer') ? 'Ben' : 'Ann', pk }
+      user = { name: t.memo.startsWith('Offer') ? 'Дід Alik' : 'Ann', pk }
       add2streams(user, handle4[user.name])
     }
+    let name = t.memo.split(' ')[0]
     let ts = timestamp()
-    let text = `${user.name == 'Ben' ? 'Offer' : 'Request'} from ${user.name}: ${description(s)}.`
-    set(p => Object.assign({}, p, { posts: p.posts.concat([{ id: e.id, name: user.name, pk, text, ts, }]) }))
+    let text = `${user.name}'s ${name}: ${description(s)}.`
+    set(p => Object.assign({}, p, { posts: p.posts.concat([{ id: e.id, name, pk, text, ts, }]) }))
   }).catch(e => console.error(e)) // }}}2
 }
 
@@ -103,7 +109,7 @@ function effect4ich (e) { // {{{1
 function post (item) { // {{{1
   item.className = stylesDay1.agent
   if (item.id == '0') {
-    return 'Observing...';
+    return 'Started.';
   }
   if (item.id == '1') {
     return `+${item.ts}ms Watching Ann, Ben, and Cyn in real time...`;
@@ -192,7 +198,7 @@ export default function ObserveDay1Txs() { // {{{1
 
     <div className={styles.container}> {/* {{{3 */}
       <h1 className={styles.description}>
-Day 1: observing first <span className={stylesDay1.offer}>offers</span>
+Day 1: observing <span className={stylesDay1.offer}>offers</span>
 , <span className={stylesDay1.request}>requests</span>
 , <span className={stylesDay1.take}>takes</span>, <span className={stylesDay1.repay}>repays</span>
 {' '}and  <span className={stylesDay1.assetConversion}>asset conversions</span>
@@ -212,8 +218,12 @@ function Posts ({ list }) { // {{{1
   return list.map(item => {
     return (
     <Fragment key={item.id}>
-      <article className={item.className} title={item.pk} >{post(item)}</article>
+      {parse(article(post, item))} {/* thanks to: https://www.learnbestcoding.com/post/84/string-to-html-in-react-js */}
     </Fragment>
     );
   });
 }
+/*
+      <article className={item.className} title={item.pk} dangerouslySetInnerHTML={{__html: post(item)}}></article>
+      <article className={item.className} title={item.pk} >{post(item)}</article>
+*/
