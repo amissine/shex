@@ -110,3 +110,11 @@ A **Service Consumer** requests the service by its `SERVICE_PK`. The Service Con
 
 The registry caches service requests/offers and tries to bind them together whenever two WebSocket connections - one with a Service Provider, one with a Service Consumer - are found at the same time. The Service Provider gets unbound when the registry finds no Service Consumer connections associated with the bind. In this case, the registry sends the `unbound` signal to the Service Provider. The Service Consumer gets unbound when the registry finds no Service Provider connections associated with the bind. In this case, the registry sends the `unbound` signal to the Service Consumer.
 
+## Associates Wanted
+
+Work in progress.
+
+## Partners Wanted
+
+Work in progress.
+

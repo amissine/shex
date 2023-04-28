@@ -27,19 +27,21 @@ const handle4Maker = (e, name) => { // {{{2
   if (e.type != 'claimable_balance_claimant_created' || e.asset.startsWith('HEXA') || e.amount == '800.0000000') {
     return;
   }
-  let text = `Cyn is taking ${name}'s ${name == 'Ben' ? 'Offer' : 'Request'}...`
-  set(p => Object.assign({}, p, { posts: p.posts.concat([{ id: e.id, name: 'Cyn', pk: e.account, text, ts, }]) }))
+  console.log(e)
+
+  let text = `Дід Сашко is taking ${name}'s ${name == 'Дід Alik' ? 'Offer' : 'Request'}...`
+  set(p => Object.assign({}, p, { posts: p.posts.concat([{ id: e.id, name: 'take', pk: e.account, text, ts, }]) }))
 }
 const handle4 = { // {{{2
   Ann: e => handle4Maker(e, 'Ann'),
-  Ben: e => handle4Maker(e, 'Ben'),
-  Cyn: e => {
+  'Дід Alik': e => handle4Maker(e, 'Дід Alik'),
+  'Дід Сашко': e => {
     if (e.type != 'account_credited') {
       return;
     }
     let ts = timestamp()
-    let text = `Cyn took ${e.amount == '0.0000100' ? "Ben's Offer" : "Ann's Request"}.`
-    set(p => Object.assign({}, p, { posts: p.posts.concat([{ id: e.id, name: 'Cyn', pk: e.account, text, ts, }]) }))
+    let text = `Дід Сашко took ${e.amount == '0.0000100' ? "Дід Alik's Offer" : "Дід Alik's Request"}.`
+    set(p => Object.assign({}, p, { posts: p.posts.concat([{ id: e.id, name: 'take', pk: e.account, text, ts, }]) }))
   }
 } // }}}2
 
@@ -66,7 +68,7 @@ function effect4agent (e) { // {{{1
     e.operation().then(o => o.transaction()).then(t => use(t)).then(s => {
       let r = s.records.find(r => r.type == 'manage_data' && r.name == 'greeting' && r.value)
       let name = Buffer.from(r.value, 'base64').toString()
-      let user = { name, pk: r.source_account, }
+      let user = { name, pk: r.source_account, offersCount: 0, requestsCount: 0, }
       add2streams(user, handle4[user.name])
       let ts = timestamp()
       let text = `${name}'s account created.`
@@ -87,12 +89,13 @@ function effect4agent (e) { // {{{1
     let pk = s.records[0].source_account
     let user = users.find(u => u.pk == pk)
     if (!user) {
-      user = { name: t.memo.startsWith('Offer') ? 'Дід Alik' : 'Ann', pk }
+      user = { name: t.memo.startsWith('Offer') ? 'Дід Alik' : 'Ann', pk, offersCount: 0, requestsCount: 0, }
       add2streams(user, handle4[user.name])
     }
     let name = t.memo.split(' ')[0]
+    let count = name == 'Offer' ? ++user.offersCount : ++user.requestsCount
     let ts = timestamp()
-    let text = `${user.name}'s ${name}: ${description(s)}.`
+    let text = `${user.name}'s ${name} ${count}: ${description(s)}.`
     set(p => Object.assign({}, p, { posts: p.posts.concat([{ id: e.id, name, pk, text, ts, }]) }))
   }).catch(e => console.error(e)) // }}}2
 }
