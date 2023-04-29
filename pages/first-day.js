@@ -27,20 +27,17 @@ const handle4Maker = (e, name) => { // {{{2
   if (e.type != 'claimable_balance_claimant_created' || e.asset.startsWith('HEXA') || e.amount == '800.0000000') {
     return;
   }
-  console.log(e)
-
-  let text = `Дід Сашко is taking ${name}'s ${name == 'Дід Alik' ? 'Offer' : 'Request'}...`
+  let text = `Дід Сашко is taking ${name}'s ${e.amount != Make.fee ? 'Offer' : 'Request'}...`
   set(p => Object.assign({}, p, { posts: p.posts.concat([{ id: e.id, name: 'take', pk: e.account, text, ts, }]) }))
 }
 const handle4 = { // {{{2
-  Ann: e => handle4Maker(e, 'Ann'),
   'Дід Alik': e => handle4Maker(e, 'Дід Alik'),
   'Дід Сашко': e => {
     if (e.type != 'account_credited') {
       return;
     }
     let ts = timestamp()
-    let text = `Дід Сашко took ${e.amount == '0.0000100' ? "Дід Alik's Offer" : "Дід Alik's Request"}.`
+    let text = `Дід Сашко took ${e.amount == Make.fee ? "Дід Alik's Offer" : "Дід Alik's Request"}.`
     set(p => Object.assign({}, p, { posts: p.posts.concat([{ id: e.id, name: 'take', pk: e.account, text, ts, }]) }))
   }
 } // }}}2

@@ -32,6 +32,8 @@ set shiftwidth=2
 set suffixes=.bak,~,.o,.h,.info,.swp,.obj,.snap
 set tabstop=2
 set window=2882725973982183424
+set winminheight=0
+set winminwidth=0
 let s:so_save = &g:so | let s:siso_save = &g:siso | setg so=0 siso=0 | setl so=-1 siso=-1
 let v:this_session=expand("<sfile>:p")
 silent only
@@ -49,7 +51,7 @@ badd +1 pages/first-day.js
 badd +1 pages/first-day.module.css
 badd +1 package.json
 badd +1 pages/index.module.css
-badd +0 README.md
+badd +1 README.md
 argglobal
 %argdel
 $argadd pages/first-day.js
@@ -485,12 +487,12 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-let s:l = 43 - ((0 * winheight(0) + 2) / 5)
+let s:l = 11 - ((2 * winheight(0) + 2) / 5)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 43
-normal! 0
+keepjumps 11
+normal! 03|
 wincmd w
 argglobal
 if bufexists(fnamemodify("pages/first-day.module.css", ":p")) | buffer pages/first-day.module.css | else | edit pages/first-day.module.css | endif
@@ -615,12 +617,12 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-let s:l = 29 - ((28 * winheight(0) + 20) / 40)
+let s:l = 17 - ((16 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 29
-normal! 017|
+keepjumps 17
+normal! 015|
 wincmd w
 argglobal
 if bufexists(fnamemodify("pages/first-day.js", ":p")) | buffer pages/first-day.js | else | edit pages/first-day.js | endif
@@ -749,14 +751,22 @@ setlocal wrapmargin=0
 normal! zo
 13
 normal! zo
-35
+33
 normal! zo
-let s:l = 31 - ((30 * winheight(0) + 23) / 46)
+54
+normal! zo
+64
+normal! zo
+76
+normal! zo
+85
+normal! zo
+let s:l = 39 - ((38 * winheight(0) + 23) / 46)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 31
-normal! 0
+keepjumps 39
+normal! 05|
 wincmd w
 3wincmd w
 exe '1resize ' . ((&lines * 5 + 24) / 49)

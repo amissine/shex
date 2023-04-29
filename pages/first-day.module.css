@@ -8,10 +8,14 @@ article.agent a {
   text-decoration: underline;
 }
 
-article.ann {
+article.request {
   color: #f00;
   font-size: 12px;
   font-family: Menlo, Monaco, Lucida Console, Liberation Mono, monospace;
+}
+
+article.request a {
+  text-decoration: wavy underline;
 }
 
 article.offer {
