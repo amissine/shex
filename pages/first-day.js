@@ -11,24 +11,25 @@ import { /*Semaphore,*/ retrieveItem, storeItem, timestamp, } from '../foss/util
 
 let set, timeoutMs = 60000, streams = [], users = [] // {{{1
 const handle4Maker = (e, name) => { // {{{2
-  let ts = timestamp()
-  if (name == 'Ben' && e.type == 'account_credited' && e.amount == '800.0000000' && e.asset_code == 'HEXA') {
-    let text = 'Ben received HEXA 800.'
-    set(p => Object.assign({}, p, { posts: p.posts.concat([{ id: e.id, name: 'Ben', pk: e.account, text, ts, }]) }))
+  if (e.type != 'claimable_balance_claimant_created' || e.asset.startsWith('HEXA')) {
     return;
   }
-  if (name == 'Ann' && e.type == 'account_credited') {
-    if (e.amount == '1000.0000000') {
-      let text = 'Ann has been repaid ClawableHexa 1000.'
-      set(p => Object.assign({}, p, { posts: p.posts.concat([{ id: e.id, name: 'Ann', pk: e.account, text, ts, }]) }))
-    }
-    return;
+  let t, user = users.find(u => u.name == name) 
+  const use = tx => { // {{{3
+    t = tx
+    return t.operations();
   }
-  if (e.type != 'claimable_balance_claimant_created' || e.asset.startsWith('HEXA') || e.amount == '800.0000000') {
-    return;
-  }
-  let text = `Дід Сашко is taking ${name}'s ${e.amount != Make.fee ? 'Offer' : 'Request'}...`
-  set(p => Object.assign({}, p, { posts: p.posts.concat([{ id: e.id, name: 'take', pk: e.account, text, ts, }]) }))
+  e.operation().then(o => o.transaction()).then(t => use(t)).then(s => { // taking a make {{{3
+    let ts = timestamp()
+    let descriptionHTML = description(s)
+    let makeTxId = new window.StellarSdk.Memo(
+      t.memo_type, // 'hash'
+      Buffer.from(t.memo, 'base64')
+    ).value.toString('hex')
+    let make = user.makes.find(m => m.makeTxId == makeTxId)
+    let text = `Дід Сашко is taking ${name}'s ${make.kind} ${make.count}`
+    set(p => Object.assign({}, p, { posts: p.posts.concat([{ id: e.id, name: 'take', pk: e.account, text, ts, }]) }))
+  }).catch(console.error) // }}}3
 }
 const handle4 = { // {{{2
   'Дід Alik': e => handle4Maker(e, 'Дід Alik'),
@@ -41,6 +42,15 @@ const handle4 = { // {{{2
     set(p => Object.assign({}, p, { posts: p.posts.concat([{ id: e.id, name: 'take', pk: e.account, text, ts, }]) }))
   }
 } // }}}2
+
+function addMake (user, makeTxId, kind) { // {{{1
+  user.makes ??= []
+  user.offersCount ??= 0
+  user.requestsCount ??= 0
+  let count = kind == 'Offer' ? ++user.offersCount : ++user.requestsCount
+  user.makes.push({ kind, count, makeTxId })
+  return count;
+}
 
 function add2streams (user, oneffect) { // {{{1
   users.push(user)
@@ -61,16 +71,16 @@ function effect4agent (e) { // {{{1
     console.log('user account removed')
     return;
   }
-  if (e.type == 'account_debited' && e.asset_code == 'HEXA' && e.amount != '800.0000000') { // user account created {{{2
+  if (e.type == 'account_debited' && e.asset_code == 'HEXA') { // user account created {{{2
     e.operation().then(o => o.transaction()).then(t => use(t)).then(s => {
       let r = s.records.find(r => r.type == 'manage_data' && r.name == 'greeting' && r.value)
       let name = Buffer.from(r.value, 'base64').toString()
-      let user = { name, pk: r.source_account, offersCount: 0, requestsCount: 0, }
+      let user = { name, pk: r.source_account }
       add2streams(user, handle4[user.name])
       let ts = timestamp()
       let text = `${name}'s account created.`
       set(p => Object.assign({}, p, { posts: p.posts.concat([{ id: e.id, name: 'Agent', pk: r.source_account, text, ts, }]) }))
-    }).catch(e => console.error(e))
+    }).catch(console.error)
     return;
   }
   if (e.type != 'claimable_balance_claimant_created' || e.amount != Make.fee) { // {{{2
@@ -86,15 +96,16 @@ function effect4agent (e) { // {{{1
     let pk = s.records[0].source_account
     let user = users.find(u => u.pk == pk)
     if (!user) {
-      user = { name: t.memo.startsWith('Offer') ? 'Дід Alik' : 'Ann', pk, offersCount: 0, requestsCount: 0, }
+      user = { name: t.memo.startsWith('Offer') ? 'Дід Alik' : 'Дід Сашко', pk, }
       add2streams(user, handle4[user.name])
     }
     let name = t.memo.split(' ')[0]
-    let count = name == 'Offer' ? ++user.offersCount : ++user.requestsCount
+    let count = addMake(user, t.id, name)
+    let descriptionHTML = description(s)
     let ts = timestamp()
-    let text = `${user.name}'s ${name} ${count}: ${description(s)}.`
+    let text = `${user.name}'s ${name} ${count}: ${descriptionHTML}.`
     set(p => Object.assign({}, p, { posts: p.posts.concat([{ id: e.id, name, pk, text, ts, }]) }))
-  }).catch(e => console.error(e)) // }}}2
+  }).catch(console.error) // }}}2
 }
 
 function effect4ich (e) { // {{{1
