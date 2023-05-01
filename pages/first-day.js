@@ -6,27 +6,25 @@ import styles from './index.module.css'
 import stylesDay1 from './first-day.module.css'
 import { Make, OfferResults, Orderbook, User, description, offerCreated, } from '../foss/hex.mjs'
 import { FAPI_READY, NO_WALLET, SDK_READY, flag, setupNetwork, } from '../shex'
-import { /*Semaphore,*/ retrieveItem, storeItem, timestamp, } from '../foss/utils.mjs'
-//import { Account, } from '../foss/stellar-account.mjs'
+import { retrieveItem, storeItem, timestamp, txRef } from '../foss/utils.mjs'
 
 let set, timeoutMs = 60000, streams = [], users = [] // {{{1
 const handle4Maker = (e, name) => { // {{{2
-  if (e.type != 'claimable_balance_claimant_created' || e.asset.startsWith('HEXA')) {
+  if (e.type != 'claimable_balance_claimant_created' || e.asset.startsWith('HEXA')) { // {{{3
     return;
   }
-  let t, user = users.find(u => u.name == name) 
-  const use = tx => { // {{{3
+  let t, user = users.find(u => u.name == name) // the user is maker {{{3
+  const use = tx => {
     t = tx
     return t.operations();
   }
   e.operation().then(o => o.transaction()).then(t => use(t)).then(s => { // taking a make {{{3
     let ts = timestamp()
     let descriptionHTML = description(s)
-    let makeTxId = new window.StellarSdk.Memo(
-      t.memo_type, // 'hash'
-      Buffer.from(t.memo, 'base64')
-    ).value.toString('hex')
+    let makeTxId = txRef(t)
     let make = user.makes.find(m => m.makeTxId == makeTxId)
+    make.takes ??= []
+    make.takes.push({ takeTxId: t.id })
     let text = `Дід Сашко is taking ${name}'s ${make.kind} ${make.count}`
     set(p => Object.assign({}, p, { posts: p.posts.concat([{ id: e.id, name: 'take', pk: e.account, text, ts, }]) }))
   }).catch(console.error) // }}}3
@@ -34,12 +32,27 @@ const handle4Maker = (e, name) => { // {{{2
 const handle4 = { // {{{2
   'Дід Alik': e => handle4Maker(e, 'Дід Alik'),
   'Дід Сашко': e => {
-    if (e.type != 'account_credited') {
+    if (e.type != 'account_credited') { // {{{3
       return;
     }
-    let ts = timestamp()
-    let text = `Дід Сашко took ${e.amount == Make.fee ? "Дід Alik's Offer" : "Дід Alik's Request"}.`
-    set(p => Object.assign({}, p, { posts: p.posts.concat([{ id: e.id, name: 'take', pk: e.account, text, ts, }]) }))
+    let t, user = users.find(u => u.name == 'Дід Alik') // the user is maker {{{3
+    const use = tx => {
+      t = tx
+      return t.operations();
+    }
+    e.operation().then(o => o.transaction()).then(t => use(t)).then(s => { // the make is taken {{{3
+      let ts = timestamp()
+      let descriptionHTML = description(s)
+      let takeTxId = txRef(t)
+      let take
+      const use = t => {
+        take = t
+        return t;
+      }
+      let make = user.makes.find(m => use(m.takes.find(t => t.takeTxId == takeTxId)))
+      let text = `Дід Сашко took Дід Alik's ${make.kind} ${make.count}.`
+      set(p => Object.assign({}, p, { posts: p.posts.concat([{ id: e.id, name: 'take', pk: e.account, text, ts, }]) }))
+    }).catch(console.error) // }}}3
   }
 } // }}}2
 
