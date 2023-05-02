@@ -618,12 +618,12 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-let s:l = 17 - ((16 * winheight(0) + 20) / 40)
+let s:l = 37 - ((19 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 17
-normal! 015|
+keepjumps 37
+normal! 012|
 wincmd w
 argglobal
 if bufexists(fnamemodify("pages/first-day.js", ":p")) | buffer pages/first-day.js | else | edit pages/first-day.js | endif
@@ -758,22 +758,18 @@ normal! zo
 normal! zo
 43
 normal! zo
-59
+79
 normal! zo
-77
+110
 normal! zo
-108
-normal! zo
-77
-normal! zc
-let s:l = 1 - ((0 * winheight(0) + 23) / 46)
+let s:l = 61 - ((60 * winheight(0) + 23) / 46)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 1
-normal! 0
+keepjumps 61
+normal! 01|
 wincmd w
-3wincmd w
+2wincmd w
 exe '1resize ' . ((&lines * 5 + 24) / 49)
 exe 'vert 1resize ' . ((&columns * 50 + 89) / 179)
 exe '2resize ' . ((&lines * 40 + 24) / 49)
@@ -794,7 +790,6 @@ if filereadable(s:sx)
   exe "source " . fnameescape(s:sx)
 endif
 let &g:so = s:so_save | let &g:siso = s:siso_save
-nohlsearch
 doautoall SessionLoadPost
 unlet SessionLoad
 " vim: set ft=vim :

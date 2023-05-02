@@ -20,12 +20,12 @@ const handle4Maker = (e, name) => { // {{{2
   }
   e.operation().then(o => o.transaction()).then(t => use(t)).then(s => { // taking a make {{{3
     let ts = timestamp()
-    let descriptionHTML = description(s)
+    let dHTML = description(s)
     let makeTxId = txRef(t)
     let make = user.makes.find(m => m.makeTxId == makeTxId)
     make.takes ??= []
     make.takes.push({ takeTxId: t.id })
-    let text = `Дід Сашко is taking ${name}'s ${make.kind} ${make.count}`
+    let text = `Дід Сашко is taking ${name}'s ${make.kind} ${make.count}${ dHTML ? ': ' + dHTML : ''}`
     set(p => Object.assign({}, p, { posts: p.posts.concat([{ id: e.id, name: 'take', pk: e.account, text, ts, }]) }))
   }).catch(console.error) // }}}3
 }
@@ -43,6 +43,8 @@ const handle4 = { // {{{2
     e.operation().then(o => o.transaction()).then(t => use(t)).then(s => { // the make is taken {{{3
       let ts = timestamp()
       let descriptionHTML = description(s)
+    console.log('handle4 descriptionHTML', descriptionHTML)
+
       let takeTxId = txRef(t)
       let take
       const use = t => {
