@@ -8,6 +8,12 @@ article.agent a {
   text-decoration: underline;
 }
 
+article.conversion {
+  color: #a1a;
+  font-size: 12px;
+  font-family: Menlo, Monaco, Lucida Console, Liberation Mono, monospace;
+}
+
 article.request {
   color: #f00;
   font-size: 12px;
@@ -54,6 +60,6 @@ span.offer {
   color: #090; /* green */
 }
 
-span.assetConversion {
+span.conversion {
   color: #a1a; /* purple */
 }

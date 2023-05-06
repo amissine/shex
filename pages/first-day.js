@@ -35,6 +35,12 @@ const handle4 = { // {{{2
     if (e.type != 'account_credited') { // {{{3
       return;
     }
+    if (e.asset_code == 'HEXA') {
+      let ts = timestamp()
+      let text = `Дід Сашко's account is credited with HEXA ${e.amount}`
+      set(p => Object.assign({}, p, { posts: p.posts.concat([{ id: e.id, name: 'conversion', pk: e.account, text, ts, }]) }))
+      return;
+    }
     let t, user = users.find(u => u.name == 'Дід Alik') // the user is maker {{{3
     const use = tx => {
       t = tx
@@ -43,8 +49,6 @@ const handle4 = { // {{{2
     e.operation().then(o => o.transaction()).then(t => use(t)).then(s => { // the make is taken {{{3
       let ts = timestamp()
       let descriptionHTML = description(s)
-    console.log('handle4 descriptionHTML', descriptionHTML)
-
       let takeTxId = txRef(t)
       let take
       const use = t => {
@@ -89,6 +93,9 @@ function effect4agent (e) { // {{{1
   if (e.type == 'account_debited' && e.asset_code == 'HEXA') { // user account created {{{2
     e.operation().then(o => o.transaction()).then(t => use(t)).then(s => {
       let r = s.records.find(r => r.type == 'manage_data' && r.name == 'greeting' && r.value)
+      if (!r) { // asset conversion
+        return;
+      }
       let name = Buffer.from(r.value, 'base64').toString()
       let user = { name, pk: r.source_account }
       add2streams(user, handle4[user.name])
@@ -100,10 +107,10 @@ function effect4agent (e) { // {{{1
   }
   if (e.type != 'claimable_balance_claimant_created' || e.amount != Make.fee) { // {{{2
     if (e.asset?.startsWith('ClawableHexa') && e.type == 'claimable_balance_claimant_created') {
-      let pk = users.find(u => u.name == 'Ben').pk
+      let pk = users.find(u => u.name == 'Дід Сашко').pk
       let ts = timestamp()
-      let text = `Ben is converting ClawableHexa ${e.amount} to HEXA...`
-      set(p => Object.assign({}, p, { posts: p.posts.concat([{ id: e.id, name: 'Ben', pk, text, ts, }]) }))
+      let text = `Дід Сашко is converting ClawableHexa ${e.amount} to HEXA...`
+      set(p => Object.assign({}, p, { posts: p.posts.concat([{ id: e.id, name: 'conversion', pk, text, ts, }]) }))
     }
     return;
   }
@@ -227,7 +234,7 @@ export default function ObserveDay1Txs() { // {{{1
 Day 1: observing <span className={stylesDay1.offer}>offers</span>
 , <span className={stylesDay1.request}>requests</span>
 , <span className={stylesDay1.take}>takes</span>, <span className={stylesDay1.repay}>repays</span>
-{' '}and  <span className={stylesDay1.assetConversion}>asset conversions</span>
+{' '}and  <span className={stylesDay1.conversion}>asset conversions</span>
 {` on Stellar ${fDay.network}`}
       </h1>
       <Posts list={fDay.posts} />
