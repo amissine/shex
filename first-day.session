@@ -53,7 +53,7 @@ badd +1 package.json
 badd +1 pages/index.module.css
 badd +1 README.md
 badd +320 ~/people/didalik/aim/shex/bin/firstDay.mjs
-badd +0 .gitmodules
+badd +1 .gitmodules
 argglobal
 %argdel
 $argadd pages/first-day.js
@@ -759,12 +759,12 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-let s:l = 11 - ((0 * winheight(0) + 20) / 40)
+let s:l = 38 - ((10 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 11
-normal! 0
+keepjumps 38
+normal! 013|
 wincmd w
 argglobal
 if bufexists(fnamemodify("pages/first-day.js", ":p")) | buffer pages/first-day.js | else | edit pages/first-day.js | endif
@@ -889,12 +889,24 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-let s:l = 1 - ((0 * winheight(0) + 23) / 46)
+11
+normal! zo
+12
+normal! zo
+13
+normal! zo
+38
+normal! zo
+139
+normal! zo
+163
+normal! zo
+let s:l = 13 - ((12 * winheight(0) + 23) / 46)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 1
-normal! 0
+keepjumps 13
+normal! 046|
 wincmd w
 3wincmd w
 exe '1resize ' . ((&lines * 5 + 24) / 49)

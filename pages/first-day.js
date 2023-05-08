@@ -10,10 +10,16 @@ import { retrieveItem, storeItem, timestamp, txRef } from '../foss/utils.mjs'
 
 let set, timeoutMs = 60000, streams = [], users = [] // {{{1
 const handle4Maker = (e, name) => { // {{{2
+  if (e.type == 'account_credited' && e.asset?.startsWith('ClawableHexa')) { // repay {{{3
+    let ts = timestamp()
+    let text = 'Дід Alik is repaid ClawableHexa 3200'
+    set(p => Object.assign({}, p, { posts: p.posts.concat([{ id: e.id, name: 'repay', pk: e.account, text, ts, }]) }))
+    return;
+  }
   if (e.type != 'claimable_balance_claimant_created' || e.asset.startsWith('HEXA')) { // {{{3
     return;
   }
-  let t, user = users.find(u => u.name == name) // the user is maker {{{3
+  let t, user = users.find(u => u.name == name) // {{{3
   const use = tx => {
     t = tx
     return t.operations();
@@ -135,8 +141,8 @@ function effect4ich (e) { // {{{1
     return;
   }
   let ts = timestamp()
-  let text = 'Ann requested repay ClawableHexa 1000.'
-  set(p => Object.assign({}, p, { posts: p.posts.concat([{ id: e.id, name: 'Ann', pk: e.account, text, ts, }]) }))
+  let text = 'Дід Alik is asking for repay ClawableHexa 3200'
+  set(p => Object.assign({}, p, { posts: p.posts.concat([{ id: e.id, name: 'repay', pk: e.account, text, ts, }]) }))
 }
 
 function post (item) { // {{{1
@@ -154,7 +160,7 @@ function post (item) { // {{{1
   return `+${item.ts}ms ${item.text}`;
 }
 
-export default function ObserveDay1Txs() { // {{{1
+export default function ObserveDay1Transactions() { // {{{1
   const [fDay, setQ] = useState({}) // {{{2
   const bottomRef = useRef(null) // thanks to https://bobbyhadz.com/blog/react-scroll-to-bottom
 

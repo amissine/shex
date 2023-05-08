@@ -34,6 +34,12 @@ article.offer a {
   text-decoration: wavy underline;
 }
 
+article.repay {
+  color: #e1e;
+  font-size: 12px;
+  font-family: Menlo, Monaco, Lucida Console, Liberation Mono, monospace;
+}
+
 article.take {
   color: #00f;
   font-size: 12px;
